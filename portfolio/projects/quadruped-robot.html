@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadruped Robot | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Quadruped Robot</h1>
+                <p class="project-subtitle">A robot dog!</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <h3 >An Absolutely True Story</h3>
+                <p>This project started late one summer night, when just before drifting off to sleep I realized I had left my hot glue gun plugged in, (what an oversight!). Groggily, I got out of bed and made the trek to my desk, where the tool lay somewhat terrifyingly kafkaesque. As I went to grab the plug, I felt a sudden twinge of guilt that stopped me in my tracks and wiped the smile off my mug. Having already used so many a kilowatt-hour, just unplugging the gun would be a huge waste of power!</p>
+                <p>So holding sleep at bay and with eyes half shut, I reached around in the darkness of night, admittedly in a rut. I tired to find something, anything, of prominence, that I could squirt the glue onto and finally ease my conscience. </p>
+                <p>The first thing my searching hands grasped, in this blackest of nights, was a large zip-lock bag full of what felt like a dozen small animals, maybe mice! "What a peculiar thing to find on my desk," I remember thinking, "and why do all these mice feel so hard and plastic-y and square—that's pretty grotesque! Perhaps they're just sleeping."</p>
+                <p>The second thing I grabbed, in the absence of light, was a bundle of popsicles, a tasty delight. "What an odd thing to have on my desk," I thought once again. "Orange and purple and red, so striking (statuesque!) Perhaps I'll feed them to my mice—they won't complain"</p>
+                <p>I pushed aside all doubts and set to work instead, wanting nothing more than to head back to bed. I glued popsicle to mouse and mouse to popsicle and prayed no one would walk in to see such a spectacle! Feverishly I worked till the glue gun was cold, arranging and affixing under night's blindfold. Hours passed for all I can remember, but with the deed finally done, I could return to my slumber.</p>
+                <p>The next morning I woke with a frightful realization, of the barbarity and atrocity of last night's creation. But lo! What a sight! What a revelation! What lay on my desk deserved only celebration. Those black square creatures hadn't been mice at all, but 12 standard servos that used a PWM protocol! Melted away, was the state of each popsicle, an unfolding of events nothing short of a miracle. Only the sticks were left, now with a different operation, they and the servos formed a quadrupedal formation! With hip, knee, and ankle (and a styrofoam shoe)! it had twelve degrees of freedom—sacré bleu!</p>
+                <p>Though its crappy glue joints and its balsa wood foundation didn't exactly call for any exultation. But there was something about this rickety little guy, a small feeling of pride I simply could not deny. He was a child of my own creation—my heart he did affect, and so I took him in, as another summer project.</p>
+                <p></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tO0PT2Y.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NhDvWAk.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0rPFYCO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0H7haXG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1UoD5UB.jpg" alt="">
+                </div>
+
+                <p>As I mentioned above in that completely true story, the main structural elements of the frame here are wide popsicle sticks and the servos bodies themselves. Now these popsicle sticks are only about 0.05" thick so as you can imagine the frame is a little bit flimsy. Moreover, I found that whatever plastic the servos are made out of (feels like glass fiber reinforced nylon or something similar) really hate bonding to hot glue. This was a pretty big problem since hot glue was the only thing holding everything together.</p>
+                <p>To fix the flexing issue and stiffen up the body a little, I first doubled up and cross-hatched the popsicle sticks on the top platform for extra thickness rigidity. I also added a couple of popsicle stick cross bars that were stood up vertically. These also help increase the stiffness of the structure by adding material thickness in the direction that counts the most for bending loads. Since the area moment of inertia increases with the <em>cube </em>of the thickness of the platform in this direction, these cross bars should help significantly to keep the frame from flexing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HwDMOqg.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/m6ohNh5.jpg" alt="">
+                </div>
+
+                <p>To hold all of the electronics, I glued on this little double decker acrylic frame that originally was part of an Arduino robot car kit from one of my classes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/g1Pu85O.jpg" alt="">
+                </div>
+
+                <h3 >The Electronics</h3>
+                <p>The electronics at this stage were relatively simple. The main controller would be a Teensy 3.5, which was only chosen because it ended up being the first thing I grabbed when I reached for a microcontroller for the project. The power system would consist of a 3S Li-Po battery (12V) and a couple of step down buck converters to drop the voltage to appropriate levels for the microcontroller (3.3V) and the servos (6V). Finally I also used a couple of breadboards to quickly hook everything up.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DAMkMpj.jpg" alt="">
+                </div>
+
+                <p>Since there were so many servo wires coming in, I opted to make this quick power distribution board rather than use a breadboard because it would keep everything a bit more neat and secure. </p>
+                <p>You can see that there are two buck converters being used to power all of the servos. These buck converters share an input of 12V straight from the battery and each of them supply the 6V for 6 servos. Each of the buck converters can handle just under 3A, which actually means that this setup is pretty underpowered for driving all the servos, some of which can draw 3A each! The best case scenario for this lack of current is just the servos will be able to output less than their rated torque. The worst case scenario (and of course the one that ended up happening later on) is a brownout, where the buck converter fails to keep up with the current demand of the servos, overheats, and shuts off/drops its voltage to protect itself. This results in the servos' logic circuits not getting their minimum voltage and causes the servos to behave erratically or not move at all. I didn't realize this at the time of course, so  I kept this version of the power distribution board (PDB).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MNlKT1g.jpg" alt="">
+                </div>
+
+                <p>The signal wires of all 12 servos feed into the teensy, which is powered by its own voltage regulator set at 3.3V. In the picture below, I had to extend the micro-usb port using a breakout board just to make it accessible.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fWMcmNy.jpg" alt="">
+                </div>
+
+                <p>And here'e PopsicleBot with all of the electronics wired up and attached to the chassis. In the following two videos, you can also see performing some programmed movements. </p>
+                <h3 >Programming Movement</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EcjfzHR.jpg" alt="">
+                </div>
+
+                <p> In this first video, PopsicleBot is doing some basic squats. This maneuver involves simultaneous movement of all four hip and ankle actuators and non-moving hip joints. </p>
+                <p>These simultaneous movements actually require a little bit of extra work on the code end (all of which i'll include at the end of the page). The standard arduino Servo library does not handle simultaneous motion of multiple servos, and as far as I know, there are no servo libraries that do. What this means is that if we just command a position to all 12 servos in the code, there's no guarantee that they will all get there at the same time, especially if they have to move different amounts. Each servo would just move at its stop speed to get to its target location, regardless of the status of the other moving servos. This, combined with the fact that many of the servos are different models (and thus have different speeds) means that synchronous and coordinated movements are not readily possible, and no synchronous movement basically means no robot.</p>
+                <p>The way I solved this is by interpolating the target positions commanded to the servos. The following pseudo-code demonstrates what is going on here.     </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Os6wSls.png" alt="">
+                </div>
+
+                <p>For example, suppose Servo A and B both start at a position of 0. Now we set the target for Servo A to 10 and the target for Servo B to 20. Since the difference between Servo B's target and current positions is larger than that of Servo A, 20 becomes our Maximum Difference. This makes the Servo A Step = 0.5 and Servo B Step = 1. In the while loop, we add the step amount to each servo's current position and send that value to the servo. Using our previously calculated values, this loop will repeat 20 times, and in each iteration, Servo A will move by half the amount that Servo B does. In reality, the Servo library will only work with integer values and thus floors the value passed into servo.write, so each servo will actually only move once the current position becomes a whole number. Regardless, this ensures that both servos reach their target values at the same time. Moreover, the movement delay (on the order of milliseconds) can be set to smoothly speed up or slow down the synchronize movements.</p>
+                <p>The above basic algorithm is then easily scaled up to accommodate the 12 servos on the robot, and as you can see with the squat, works quite well.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/AbSWbRkz8R8" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>This second video shows PopsicleBot trying to walk. Obviously the gait is pretty poorly choreographed but it did reveal a few things. The first thing is that the popsicle stick frame is definitely way too flimsy. The lack of rigidity in the joints and support structures makes it very difficult to get any repeatable movements out of the robot without it flexing and bending and falling over. </p>
+                <p>The second thing is a little easier to notice in the video. You can see that after the robot falls over, some of the limbs begin shaking. This happens on all four of the knee servos and has to do partially with the PID gains inside the Servo controller itself. The knee servo is actually responsible for most of the length of the leg. Since this segment is long and has a lot of inertia, the servo tends to overshoot its mark when swinging the leg. It then tries to correct the error, overshoots again, and thus creates this oscillation. This error build up is pretty annoying because if there's even a small vibration on one of the legs, it gets amplified by the controller and also transmitted to all the other knee servos. When there's a load on the leg however, like when it is supporting the robot's weight, the servo cannot overshoot and there are no oscillations. As a result, and luckily for me, these oscillations are only really present when a leg is off the ground for a while, which is not the normal use case. Unfortunately, there's not much I can do to fix this problem since the servo control circuitry is what's responsible. </p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/ePru6aiJ0HU" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <h3 >Getting an Upgrade</h3>
+                <p>Around this time, I actually ended up finishing construction of a small FDM <a href="./ecocycle-cube-re-recycle.html">3D printer</a> for my house (you can read more about that project <a href="./ecocycle-cube-re-recycle.html">here</a>). The timing of this was actually pretty fortunate- with an easy way to fabricate structures of complex 3D geometries (or at least too complex to make with popsicle sticks), I could give PopsicleBot's frame a much needed structural upgrade. </p>
+                <p>There's a fairly popular project going on around the internet known as Spot Micro, which as the name suggests, is a small version of Boston Dynamics' quadrupedal robot Spot. Unlike the original, this version of Spot is designed around using standard sized servos to control the movements of its limbs. I decided to use this as the new frame for PopsicleBot. To get started, I found a STEP file of the Spot Micro assembly that I could modify.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gCr9P1O.png" alt="">
+                </div>
+
+                <p>There were a couple of modifications I had to make to the original model in order to accommodate the hardware I had on hand. The first of these changes was because one of the 12 servos I was using was a VS11. This particular servo is almost twice as big as any of the other standard sized servos, so I had to edit its mount and some of the surrounding structures to accommodate for its large size. As you can see in the below image, I chose to place the VS11 as one of the hip servos, where its size would not greatly affect any normal functions. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/STBi4FQ.png" alt="">
+                </div>
+
+                <p>The second modification I made was to the bearing mounts for all the joints. The original design called for small flanged ball bearings, which could be press fit onto the leg pieces, concentric to the rotational axis of each servo to provide support. This is actually the part of the SpotMicro design that I was the most excited about. Having these bearings would prevent  the servo shafts and horns from being cantilevered like they were on my PopsicleBot, which meant there was less unnecessary torque on the servos and that things wouldn't break apart all the time. Unfortunately, I did not have any of the called-for flanged bearings on hand, but I did have a heap of old 22mm skateboard bearings. As a result, I made the required adjustments to the bearing mounts to accommodate these instead.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JR4bmTU.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MJirkCi.png" alt="">
+                </div>
+
+                <p>The last modification was a pretty small one. The original hip joints required these circular servo horns, which I did not have enough of. So I replaced these features to instead use the X shaped servo horn instead. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/j3NwOB6.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xYlf3WD.png" alt="">
+                </div>
+
+                <p>Printing every thing actually took quite a long time (almost 30 hours of total print time!). This long print time was probably due largely to the fact that most of the parts required a lot of support material in order to print. The geometry of most of the pieces made it so this was unavoidable. Despite the long print time and cleanup work, all the parts came out quite nice. Most importantly, everything (including all the modifications I made!) actually fit together where it was supposed. The following series of pictures show how the various parts of the front hip joint are assembled. </p>
+                <h3 >Printing and Assembly</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/j0SB5lv.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eIS1CWG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IGgl1IJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CI5Uqg3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ghrzvYZ.jpg" alt="">
+                </div>
+
+                <p>For the new robot assembly, I also upgraded the Power Distribution Board. It now has 4 buck converters, each powering one legs worth of servos (3 servos). This is still a bit under-powered as it equates to 1A per servo, but it was the best I could do with what I had on hand.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Arx6UAK.jpg" alt="">
+                </div>
+
+                <p> The following video is a demo of the new robot frame, with coordinated motion involving all 12 servos. You can also see that I've opted to not print the original Spot Micro body pieces, and have instead just used two pieces of wood to hold the two hips together. The amount of plastic and time it would require to print these pieces was just not worth the aesthetic bonus that they offered. Plus, having all these wires and circuits hanging out made him feel like a scruffy old stray dog, and I kind of liked the look.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/5-sPT9B05cE" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>The following is a look at the new layout of the control electronics. All the way to the left, on the breadboard is an MPU6050 IMU. I am not currently using that in the code, but it will come in handy for dynamically balancing the robot and adapting to sloped or uneven terrain. The board in the center is an Arduino Mega, which is replacing the Teensy from the first version of the board (I somehow burned it out). This is a much slower (16MHz for the Mega vs 120MHZ for the Teensy) and lower precision (8bit vs 32bit) but it would work fine for the way I was currently controlling the robot, which was not too calculation-heavy. The green board on the right is only there because it has a buck converter on board, which I'm using to power the arduino and any of the other 5V electronics on the robot. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sySABoc.jpg" alt="">
+                </div>
+
+                <p>Speaking of high power draw 5V electronics, I also glued this panel of WS2812B individually adressable LEDS to the front of the robot. I originally made this panel for a different, retired robot which you can read about <a href="./mas-lab-autonomous-robot.html">here</a>, and it found a new home here, where I can use it to have the robot make faces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jcfea8R.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Q8OsxvT.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/imjbUzc.jpg" alt="">
+                </div>
+
+                <p>The following video shows another attempt at walking with the new 3D printed body. I tried this time to match the gait pattern to that used by a lot of the other quadruped robots like Spot or the MIT Cheetah. I probably didn't get it exactly right, but you can also see in the video that it is having trouble supporting its own weight. When I remove my hand, which I'm using to relieve some of the weight on the servos, the robot collapses to the floor. </p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/UPoflq4WRaw" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>The culprits here are these plastic gear servos. At the end of the video you can hear one of the servos, having been over torqued, actually grind out the teeth on its gears and spin freely. I've disassembled the offending servo, and its plain to see the damage on the gears.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4Via6Y4.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JPaYkx3.jpg" alt="">
+                </div>
+
+                <p>I replaced the plastic gear servos with metal gear ones and reattempted the walk with a faster gait. Yo can see that while it is certainly more successful at mobility, it isn't a very smooth controlled movement. This would require a little trial and error adjusting the gait pattern to nail down.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/q6aVXT0KKTg" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                </figure>
+                <p>Before this I felt it was time to improve the feet. Until this point I had been using round bits of syrofoam but these were getting so squished and deformed that it was beginning to affect the movement of the robot.</p>
+                <h3 >Making New Feet</h3>
+                <p>The feet modeled in the original Spot Micro were meant to be printed out of a flexible filament, which could maintain its structure and still provide grip for the robot. Unfortunately I didn't have any flexible filament and even if I did, my printer wasn't capable of printing with it. Instead, I printed the feet out of rigid PLA, and hotglued pieces from the tires on some servo wheels to the edged. These servo tires are actually pretty thick, and grippy while still being quite flexible and squishy so this ended up working quite well.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cJ7LdhP.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TZrm201.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BuMrqxS.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/heNtRLe.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3sihKub.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uaWyjUm.jpg" alt="">
+                </div>
+
+                <p>Project still in progress! Come back later for more...</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

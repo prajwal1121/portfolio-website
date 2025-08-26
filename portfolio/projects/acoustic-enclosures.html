@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acoustic Enclosures | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Acoustic Enclosures</h1>
+                <p class="project-subtitle">A bit of fun with sound and structures</p>
+            </header>
+
+            <section class="project-section">
+                <p>One of the assignments in my design studio class this semester was to develop a single-person-scale enclosure of some sort. I've been kinda interested in sound ever since I started that portable synth projects, so I decided to pursue something in that area. </p>
+                <h3 >Background and Concept</h3>
+                <p>The acoustic properties of a structure—the way different materials in different geometries can absorb, dampen, resonate, and reflect vibrations—have always been an important design consideration in architecture and even mechanical engineering. For example, in designing machines, resonance andthe dynamic characteristics of a system are often an important consideration for performance. Sound is also a really powerful influence for the way we experience spaces. The frequency response of a room and the way it reverberates has the ability to make small spaces seem large and large spaces seem claustrophobic and confining. It can make a setting seem cold and clinical or cozy and inviting. As many of us have experienced, the frequency content of the sounds too can make a big difference. Noises with more energy in the higher frequency end of the spectrum can often feel harsh, constricting, or anxiety inducing while lower-frequency sounds and sub-audible vibrations can have the opposite effect.</p>
+                <p>I was particularly interested in an enclosure that could allow a person to explore these ranges of acoustic effects (to some limited degree) purely through changes in the geometry of the enclosure. </p>
+                <p>So what am I actually building? I have no clue yet. Let's google around for good ideas we can copy (I'm kidding...kind of).</p>
+                <h3 >Inspiration</h3>
+                <p>In addition to being obscure, mediocre meme templates, the images below depict real listening devices that were developed and used by various countries from mid-WW1 to WW2. Before radar became the popular option, instruments like these were used to acoustically locate and defend against enemy aircrafts. The idea was that large horns or reflectors spaced far apart would improve the directionality and gain of a human operator's hearing. </p>
+                <p>Our brain can figure out the direction a sound is coming from by measuring and analyzing the slightly different time it takes the sound to arrive at each ear. By spacing the receptors far apart, this time difference is accentuated allowing for more accuracy when figuring out where an aircraft is approaching from. More interestingly, because of the way our localization works, we are much better at locating sounds side to side than up and down. Some of the devices you see below took this into account and offset the receivers vertically (or used a second pair of vertical receivers) on account of people driving planes up and down in addition to side to side.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9Fv5Tqb.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kpp9Bxf.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wLw9HIg.jpg" alt="">
+                </div>
+
+                <p>As mentioned, these were developed in a couple of different countries and it's pretty fascinating to see all the various forms that they took. I liked the idea of these as passive devices that augment your sense of hearing purely via geometric form, and I wanted to apply the idea to something more relevant to our lives today. With a little more searching, I found this great series by architecture firm Studio Weave, called <a href="https://www.studioweave.com/projects/hear-heres/">"The Hear Heres"</a>. These were a set of fiberglass trumpet-like horns placed in various locations with the purpose of picking up and amplifying sounds related to their locations. I thought the one below was particularly intriguing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/j1WOaMG.jpg" alt="">
+                </div>
+
+                <p>So just based on these, my initial concept draft was something of an acoustic observation chamber where the user could enter to isolate themselves from the environment while choosing to let in whatever was picked up by two large acoustic horns. The sound would be colored by the frequency response of the horn geometry and the small chamber while the visual component would be an unobstructed view of the sound source(s) through a large transparent front window. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4MeWvEa.png" alt="">
+                </div>
+
+                <h3 >Horns!</h3>
+                <p>Obviously this is not at all practical, but it was a starting point. In particular I wasn't in love with this proposed structure being static in terms of user experience, meaning the experience was pretty much fixed after the structure was built. It would be much more interesting if there was some kind of dynamic frequency or amplitude adjustment that could be done autonomously or by the user. Moreover it would be nice if the shape was dictated by function in some way. The egg above was chosen arbitrarily and didn't really have any influence on the workings of the enclosure. To begin scratching the surface of some of this acoustic engineering, I got to work on modeling some horn geometries. I found some equations that dictate the shape of a typical exponential horn and relate the area of its openings to the cutoff frequency. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kmR0Uxg.jpg" alt="">
+                </div>
+
+                <p>I plugged these into Grasshopper and lofted a bunch of circles to create a nice little parametric horn. The code below is not the best looking but it gave me a nice jumping off point to start learning Rhino and Grasshopper.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4k0bFXF.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/whCehEF.png" alt="">
+                </div>
+
+                <h3 >Reflections</h3>
+                <p>I was thinking more about function dictating form and I got into the idea of reflections and reverberations. As anyone who has tried to set up a living room home theater or a recording booth could tell you, reflections contribute a lot to an acoustic experience, and they are influenced significantly by room geometry and the materials the room is made with. This is why a closet full of lots of soft clothes and no hard geometric faces makes for a particularly good improvised vocal recording studio.</p>
+                <p>For the largest difference between states, I imagined a system that would sweep between high reflectivity and low reflectivity configurations. One way to accomplish this was to create surfaces in the the enclosure that could transition from concave or retroreflector geometries to convex geometries. The former would direct sound waves back to the source whereas the latter would bounce them out. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9gzDOu5.jpg" alt="">
+                </div>
+
+                <p>By surrounding the observer with these shape-reconfigurable surfaces and controlling the input of sound into the system, we could create a space that was both visually stimulating and would allow the user to experience changes to the soundscape through grounded, physical changes in their surroundings  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ahLAKWs.png" alt="">
+                </div>
+
+                <p>The gif below is from a quick-and-dirty path tracing script made in Grasshopper 3D - the actual code for which is long lost to time. This shows rays (representing sound waves) emanating from two hemispherical outputs on either side of a central sphere (representing the observer). As the structure transitions from its open convex shape to its closed retroreflective state, you can observe the density of rays, and thus reflections, within the enclosure changing as they interact with the changing angles and number of surfaces upon which they impinge. While this is obviously audio waves do not propagate as single, unidirectional rays, this model illustrates that the acoustic properties of such a chamber do undergo a change and that an observer is likely to be able to hear the difference.</p>
+                <figure class="wp-block-embed is-type-rich is-provider-imgur wp-block-embed-imgur">
+                <div class="wp-block-embed__wrapper">
+
+                https://i.imgur.com/zJf3qkY.gifv
+
+                </div>
+                </figure>
+                <p>The following images show one potential realization of the above conceptual enclosure. Prominently featured are two acoustic horns of the type designed earlier in Grasshopper. These horns are horizontally offset from oneanother in a binaural configuration, and face out of the enclosure to pick up sounds from the environment. These sounds are then to be delivered within the enclosure in place of the hemispherical placeholders in the above model. The structure itself is made of a ire frame with transparent panels that rotate to form the retroreflective and anti-retroreflective shapes that were modeled.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sUNjsyU.jpg" alt="">
+                </div>
+
+                <p>Clearly I ran into some technical issues in turning this into a practical design. One big mistake here is impedance matching the output of the horns (in the enclosure) to the listener and the chamber at large. The idea here was to have the sound picked up by the horns to be emanated from very specific locations within the enclosure. This way, the observer would receive some of the sound directly while the rest passed over the observer and entered the reflective thunderdome of the enclosure. Maybe it would have helped to flare out the ends of the horns into another smaller horn to better match the outputs to the chamber, but I hadn't considered this at the time.</p>
+                <p>The other major flaw was that the panels had to be made fairly small to avoid interference with one another during movement. This meant a lot of outside sound could enter the enclosure regardless of what state it was in.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RRgwpNa.png" alt="">
+                </div>
+
+                <h3 >Small Scale Proof of Concept</h3>
+                <p>Because of a lack of funds and a justifiable lack of confidence I built a 15% scale model to test the concept. The horn was easily exported and 3D printed. The frame was built with steel wire cut to appropriate lengths and soldered together. I slipped close fitting heatshrink tubing over some of the struts, which would serve to act as hinges for the lasercut acrylic panels. The panels and the horns were attached to the structure with E6000 adhesive.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/buhnnVK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2ExfX5M.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HvphVsK.jpg" alt="">
+                </div>
+
+                <h3 >Measurement</h3>
+                <p>With the panels held in either configuration with a bit of tape, I placed a microphone in roughly the observer's location and captured some audio. In both circumstances, audio was captured in an indoor location with a very consistent and broad-spectrum ambient white noise from a ventilation system.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RnIJ9hq.jpg" alt="">
+                </div>
+
+                <p>The following Audacity screenshot shows spectrogram (frequency domain) views of audio recorded in the closed retroreflective state (top) and open scatter state (bottom). Comparing both, we can see that there is indeed a difference in sound picked up in either state. Listening to the two audio clips confirms this. What we can observe from the brighter areas in the frequency maps is that the closed retroreflective state  resulted in higher energy in the 1kHz-3.5kHz region compared to the open state, where the acoustic energy was more spread out. With a larger structure, we'd expect the amplification region to move to include lower frequencies.</p>
+                <p>I should note that this is only really a qualitative measurement, as the microphone itself does not have a flat frequency  response over this range, and no normalization was done prior to capturing this data.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Y1iNofy.png" alt="">
+                </div>
+
+                <h3 >Something Else Entirely</h3>
+                <p>Around this point, I discovered vinyl listneing booths. Supposedly, record shops would have personal audio booths for patrons to sample records they were considering purchasing. I liked the idea of combining the sort of ambient listening experience from the concept above with the involvement of music. Particularly, I thought it would be interesting to digitally sample, manipulate, and sequence the playback of ambient sounds.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5k2SqFz.jpg" alt="">
+                </div>
+
+                <p>Admittedly I got a little carried away at this point, but I was thinking that in addition to sounds simply passively entering the enclosure, we can digitally measure, synthesize, and inject sounds into enclosure on top of ambient sound. We can give the user control over the sound playback with the catch that the “palette” of sounds is restricted to only what is available in their immediate environment. This would keep the user still acoustically tied to what was happening around them in the moment, but give them a layer of control that would add to the interactive experience but not take away from the groundedness of it all. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/028QtuK.png" alt="">
+                </div>
+
+                <p>In keeping the horn-iness (is that the right word?) of the previous version, my idea was to have a rotating receiver like what is illustrated in the following gif. The rotation of the horn is driven by a stepper motor with a pulley so that once initialized, the computer can keep track of the rotation rate and direction of the horn. Underneath this horn would be placed a microphone, to receive any noise picked up. The intention behind this setup was to specifically specifically pick up sounds in discrete locations from around the observer.</p>
+                
+                <div class="project-video">
+                    <video controls>
+                        <source src="https://i.imgur.com/5H8CloM.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <h3 >Synthesizer + Rotary Sequencer</h3>
+                <p>The sound picked up by the microphone would be fed into this hot mess of a Max/MSP sketch. </p>
+                <p>On the right hand side of the window is a pitch detector and a subtractive synthesizer. A sound or collection of sounds picked up by the microphone first heads into the pitch detector, where the dominant or fundamental frequency is identified. </p>
+                <p>This fundamental frequency is fed into the subtractactive synthesizer, where a combination of 4 configurable oscillators, an envelope generator, and a low pass filter work to convert that frequency number into a musical tone. </p>
+                <p>On the left hand side of this window is a circular step sequencer. The number of blocks or steps available can be customized, and represent discrete divisions of the space around the observer. The rotation of the yellow square is synced to the rotation of the receiver horn and illustrates the direction the horn is pointing. The user can choose to speed up or slow down the rotation of the receiver and the change will be reflected on the sequencer visualization. These are locked together. </p>
+                <p>By default, the user hears nothing but the ambient sounds entering the chamber. If they chose, the user can select any or all of the sequencer boxes to activate them. Whenever the yellow marker passes over an activated box (indicating that the receiver is pointing in that particular direction) the synthesizer output is enabled and the user hears the note corresponding to the ambient sound received from this location.</p>
+                <p>In a real-life outdoor environment, ambient sounds are dynamic and originate from many different directions. A passing car or a conversation hade different frequencies that move through the environment over time. A user's interaction with and experience of this system depends not just on location but also on user’s control of tempo, mixing, and selecting/sequencing to explore the changing soundscape around them.</p>
+                
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oZ3mX6V.gif" alt="Max/MSP Synthesizer Interface">
+                </div>
+
+                <p>In practice, users would likely just get control over the tempo (the rotation rate of the receiver/sequencer) and the sequencer itself.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vPSAuNL.png" alt="">
+                </div>
+
+                <h3 >Full-Scale Proof of Concept</h3>
+                <p>The inhabitable enclosure itself was not too important, but I wanted to retain a few elements from the previous design. I kept the transparent panels because observations and understanding the sources of what one is hearing was a big part of this. I also kept the reconfigurable retroreflectors but limited them to one per side and had them simply open up rather than fully inverting.</p>
+                <p>It's obviously quite a bit smaller than the previous one, but that's because I actually had to build this one for cheap. I made some of the paneling wood because I liked the aesthetic of the record listneing booths and wanted to keep some of that around. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2UpuSDH.png" alt="">
+                </div>
+
+                <p>Construction was fairly straightforward. The wood and acrylic panels were laser cut and 3D printed hardware was attached with wood glue or acrylic cement. I engraved markings on all panels to outline where the hardware needed to go.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bVoDXfo.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WAv2gpE.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QpGYKZa.jpg" alt="">
+                </div>
+
+                <p>The hinges that allowed the retroreflector panels to open up were partially 3D printed and rotated around a 1/4" steel dowel pin press fit onto one side</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Kul5rur.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OmVO3DH.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6WmqCJn.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yBxTE5Y.jpg" alt="">
+                </div>
+
+                <p>I found some trashed speaker kits which I repurposed for this project. These were attached to each center panel and wired to their amplifiers, which mounted out of sight in the back.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WcpfbBW.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UmoDUZX.jpg" alt="">
+                </div>
+
+                <p>Two sets of these side assembles were made and then assembled with the central enclosure panels ( which I have no pictures of oops).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UAqguGL.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9JkuYpa.jpg" alt="">
+                </div>
+
+                <p>The reciever also turned out quite well. The frame was constructed from black laser cut acrylic and the horn was 3D printed as before. The slewing ring bearing (lazy-suzan type structure) is made of a stackup of acrylic siding and 3d printed races. The rolling elements are four common 22mm ball bearings like those used in skateboards.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EJ7oKUZ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IA6WVmH.jpg" alt="">
+                </div>
+
+                <p>The Nema 17 stepper motor is controlled via an Arduino that speaks to Max/MSP via serial to synchronize the rotation with the sequencer. Prior to finding a proper flat belt, I assembled some hair ties into an improvised belt during testing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jj3PMBu.jpg" alt="">
+                </div>
+
+                <p>I failed to document this project beyond theis point, but you'll have to take my word that the aseembly came together as planned and played well with the Max/MSP synthesizer/sequencer. While everything worked as intended, I can't say I was too happy with the sound experience that came from this. I think maybe a better construction, placement in a more dynamic environment (I only got to test this indoors), and some more nuance with the measurement and synthesis could yield better results.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

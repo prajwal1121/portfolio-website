@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNC Router | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>CNC Router</h1>
+                <p class="project-subtitle">This one's really janky</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <p>At some point I took up an interest in CNC type machines.  Since I had a rotary tool lying around in my shed, I figured the one that I was most prepared to build was a little desktop CNC router.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3DOT6lq.jpeg" alt="">
+                </div>
+
+                <p>I didn't really want to spend a lot of money on this, so I tried to use mostly the cheapest materials I could find at my local hardware store. The frame was made out of 1" steel pipe and fittings, and all the linear motion was done with acrylic sliding on aluminum u-channel sandwiched between skateboard bearings. I upgraded later to cheap 8mm linear rods on the x and z axis, but left the y axis as was. The lead screws are 1/4" threaded rods and drove each of the axes through bolted-on coupling nuts. The plates were all made of  old 1/4 in acrylic sheets or MDF, and I hand drilled all the fastener holes since I didn't have access to a drill press. The rotary tool was strapped in with a thin piece of steel and I just eyeballed the alignment on everything until I was satisfied.</p>
+                <p>To run the machine, I used an arduino running GRBL and DRV8825 drivers for each of the 3 stepper motors. I greated GCode files on my laptop by using Fusion 360 or CamBam, and sent them to the machine using the Universal GCode Sender application.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YLV11N4.jpeg" alt="">
+                </div>
+
+                <p>Surprisingly, it actually worked! I used a little 1/8" 4 flute carbide endmill to cut lots of different things out of wood and MDF (granted at low feeds and really shallow depth of cut). Here's a brief video of it working on one of the body panels for my tricopter</p>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/_8PDkPf928A" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>Rigitidy was not really concern for me when I was building this. Obviously, trying to cut harder material or running at more agressive feeds and speeds was not really a possibility with this machine, but for what I was using it for, it did get the job done. It was a useful tool to have in the garage and I learned a lot about CAD, CAM, and CNC machining through using and improving upon this project.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

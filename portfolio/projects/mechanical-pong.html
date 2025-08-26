@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanical Pong | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Mechanical Pong</h1>
+                <p class="project-subtitle">Buckle up, this is a big one</p>
+            </header>
+
+            <section class="project-section"> 
+                <p>You've probably heard of the video game PONG</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eVcZEPA.jpg" alt="">
+                </div>
+
+                <p>If you haven't noticed from my other projects, I'm a big fan of CNC-type machines. Naturally, I thought it would be pretty cool to make a CNC version of this video game classic. </p>
+                <p>I imagined it like this: two players will have one wireless controller each. With these, they would be able to move 'paddles' up and down, which in reality would be belt driven carriages lit by individually addressable LEDs. The 'ball' would be another LED-lit belt driven carriage, but in this case it would move in 2 dimensions in the plane of the paddles. The collisions of the ball with the walls and the paddles along with the trajectory of the ball is calculated in software and visual feedback of the collision would be shown to the players using a border of more individually addressable LEDs. That is, there would be no actual bouncing of the ball off the walls and paddles but LED animations  would make it appear that way to players. </p>
+                <p>Essentially, this would be a electro-mechanical version of the original game, with hopefully similar mechanics and playability.</p>
+                <h2>Player Controllers</h2>
+                <p>I decided to start with the easiest part of the build- the two wireless player controllers.</p>
+                <h4>Hardware Construction</h4>
+                <p>Rather than design the handheld controllers completely from scratch, I opted to use Nintendo Wii Nunchucks. This has been my go-to controller for several other projects, and it was perfect for this application. Since it featured a 2-axis joystick and two buttons,  it provided plenty of control surfaces for the player to move their paddles, choose game modes, and change paddle colors. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/frq11qk.jpg" alt="">
+                </div>
+
+                <p>These were some cheap clone Nunchucks I found on Amazon so the first step was to take them apart and see what I had to work with.</p>
+                <p>Immediately, I could see that there was some "structural rework" I needed to do. I had to fit a lot of electronics in here, and the original controller casing didn't have room for much other than the original circuit board and cable. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9Drfefz.jpg" alt="">
+                </div>
+
+                <p>I removed some of the support ribs and the screw standoffs from the bottom half of the controller using a rotary tool with a little carbide burr. This cleared up a good bit of space without compromising the structural integrity of the controller too much. Since the screw standoff was now missing, I had to find a different way to secure the two halves of the controller when I put it back together later.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/07f5RAj.jpg" alt="">
+                </div>
+
+                <p>Then there were the nunchuck electronics. Inside the body of the controller lives this little circuit board, which carries two buttons, the joystick, and a potted IC that I guess does some processing onboard. The wire harness that connects to the board leads out of the controller and to the wii remote connector.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SbFZVCq.jpg" alt="">
+                </div>
+
+                <p>Fortunately for me, the designer of this board was very informative with their silk-screening, and I was happy to find out that the nuchucks transmit their data over I2C (as indicated by the words 'SDA' and 'SCL' printed on the board). This meant I can potentially read the joystick and button values with only two pins on my Arduino. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UOYFG7g.jpg" alt="">
+                </div>
+
+                <p>Of course there already existed several arduino libraries for reading I2C data from a nunchuck, so I just picked a random one which I've linked <a href="https://github.com/coopermaa/Wiichuck">here</a>. From the readme page, I found out that the Wii nunchucks also apparently featured a 3 axis accelerometer (if you remember playing Boxing on Wii Sports, this is what allowed you to throw punches with your nunchuck hand) but this data wasn't really useful for my application.</p>
+                <p>I cut a piece of the original cable and used its wires to break out VCC, SDA,SCL, and GND from this board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8loXmAk.jpg" alt="">
+                </div>
+
+                <p>Now that I had a source of data, I needed a way to read it and send it wirelessly to do the main PONG controller.  To accomplish the former, I used this tiny minimal arduino board, which features the same microcontroller as the Leonardo/Micro (the ATMEGA32u4) and a 3.3v regulator and not much else.</p>
+                <p>Fun fact- the ATMEGA32u4 has the unique feature of being able to act as a USB HID device, so people often use these boards for custom keyboards, Launchpad-type music devices, and other USB peripherals. These boards in particular, with the USB built right into the PCB, are meant for use as portable (read covert) keystroke injectors. Always a little spooky plugging these into your computer! but they're definitely perfectly sized for my application.</p>
+                <p>The latter operation (sending the data wirelessly) would be handled by the popular nrf24l01+ radio module. It uses the 2.4GHZ band and allows communication between more than two modules. I don't expect anyone to be using these controllers more than 10 feet away from the actual reciever so transmitting range wasn't a big concern. </p>
+                <p>I desoldered the header pins so it would take up less room.</p>
+                <p><em><strong>Future Praj Update:</strong>  So the nrf24l01+ modules kinda suck. A lot of the ones you'll find on Amazon/elsewhere are clones and the quality control is questionable at best. Plus, they need ultra-clean power supplies or the pairing/communication/range becomes extremely unreliable. See my MinESK8 page for more info on that. Save yourself the headache and just use ESP32s. Espressif has protocol perfect for this type of application called ESP-NOW,  which allows multiple ESP32 devices to communicate with one another directly with low latency, low power usage, and no router/AP. Again, check out the MinESK8 page for more on this. Plus ESP32 dev boards come in really tiny form factors and you get a general purpose microcontroller in the same package. I've wasted many hours trying to troubleshoot these cheap radios and I hope this serves as a warning to save yourself the headache and just spend a few more dollars for an ESP32 :) </em></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ggOrOmO.jpg" alt="">
+                </div>
+
+                <p>With this sorted, I had to deal with powering the whole controller. Power systems are always the last thing anyone thinks about but usually end up being the biggest hassle. This time was no exception.</p>
+                <p>I chose these little 300mAh li-po batteries for energy storage. These are designed to power little quadcopters (tiny whoops to be specific- don't get me started on those) so they had a lot of energy in a tiny, lightweight package. I removed the original connector and soldered on my own wires. </p>
+                <p>Note that these, unlike "typical" single cell lipos you can buy, don't come with a little BMS board to protect the battery. May be a weight saving or cost saving measure, but either way they definitely need some protection in a device like this.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/T0hMETs.jpg" alt="">
+                </div>
+
+                <p>Since I intended the controllers to be in long-term use, there needed to be a way to easily charge the battery, step up its voltage from 3.7V to a regulated 5V to power the arduino, and protect it from over-discharge and over-current. While the main concern here is to prolong the life of the battery, it can also help prevent inconveniences like fiery explosions in a player's hands. </p>
+                <p>This may seem like quite a task at first, but inside a device that you probably own (and inside many you have probably thrown away or put in a drawer somewhere and forgotten about), there exists a little circuit board that performs all of these tasks. USB power banks employ all of these techniques to provide a safe, reusable, 5V charging source for your phone with lithium batteries as their primary energy storage. Importantly for us, some can do all this in a very small form factor.</p>
+                <p>As such, I got a bunch of these power banks controller boards for very cheap. I desoldered the large USB-A connector—since we won't be needing it—as well as the micro-usb connector that is used for charging—since we'll be using it for a lot more than just charging. Let me explain:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/p06fQn9.jpg" alt="">
+                </div>
+
+                <p>The USB port on the Arduino will be inaccessible once the controller is put together. This means in order to make changes to the program, I would have to find a different way to connect a USB cable to it.</p>
+                <p>Cue the desoldered female micro-usb from earlier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qWVXarD.jpg" alt="">
+                </div>
+
+                <p>If I place this outside the controller, connect its DATA+ and DATA- pins to the Arduino's corresponding data pins, and connect its 5V and GND pins to the power bank controller's charge pins, I can use just one micro USB cable to program the Arduino and charge the battery. The boosted 5V output of the power bank controllers would power everything when not connected to USB. It would just take some very, very careful soldering.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8InAW1I.jpg" alt="">
+                </div>
+
+                <p>I secured the delicate connection with some hot glue (a miraculous substance) and super-glued the connector on the base of the controller through the hole where a screw originally resided, out of the way of the players' grip. I'm obviously gonna need to find a better way to mechanically support this connector, but this'll do for now.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/b6yRr15.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/82oUY00.jpg" alt="">
+                </div>
+
+                <p>I added a little toggle switch in the hole where the cable originally came through and wired up the rest of the power system as I described earlier for both controllers.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rtop2TO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DAWQe0o.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9WthrTL.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DzzHQAG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UdwiVdv.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0nrzPEd.jpg" alt="">
+                </div>
+
+                <p>I then hooked up wires to the nrf24l01+ modules, connected them to the arduino's SPI pins, and used the 3.3V regulator on board the arduino (one of the biggest reasons I chose this particular board) to power them. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/S2TMlVY.jpg" alt="">
+                </div>
+
+                <p>Once I finished connecting the nunchuck board to the power and I2C pins on the arduino, the construction of the wireless controllers was complete.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BU7sHu3.jpg" alt="">
+                </div>
+
+                <p>These turned out quite nice, all things considered. Power and Low Battery indicator LEDs would be very helpful—and I'll consider adding them sometime in the future—but for now I had to move on.</p>
+                <h4>Controller Software</h4>
+                <p>Next up was the software. The Arduino had to read the joystick and button values over I2C and broadcast them out to the receiver on the main control board.  This was relatively straightforward, and I've attached the code here. There are two separate sketches, one for each controller. This is because each controller needs to transmit with different node addresses so that  the main receiver can tell them apart.</p>
+                <p>You can find the code for both controllers on Github here:</p>
+
+                <a href="https://github.com/prajwal1121/Mechanical-Pong" class="project-button">Wireless Controller Code</a>
+
+                <h2>Main Controller</h2>
+                <p>Next up was the main control board that would receive player input and move the machine accordingly.</p>
+                <p>There are 4 stepper motors that will be responsible for all movement on the device, each of which need dedicated drivers. I started with the Pololu A4988 drivers and stuck them in a RAMPS 1.4 board—of DIY 3D printing fame. I didn't need a lot of the features that this board offered but it is a convenient and compact way to attach these drivers and any additional peripherals to an Arduino Mega board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/axp5CVo.jpg" alt="">
+                </div>
+
+                <p>To recieve data from the controllers, I used another nrf24l01+ module from which I again removed all the pins. The SPI pins of the Arduino Mega were broken out in the AUX-3 pins of the RAMPS board. To make the connections I used a ribbon cable I had laying around and soldered it to the appropriate holes on the radio. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XqhcCwm.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YTWTCEn.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vNTcR07.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/V6c25u5.jpg" alt="">
+                </div>
+
+                <p>I wired the 3.3V power from the Arduino to the NC (not connected) pin of the AUX-3 header in order to power the radio. I also cut the trace to Arduino pin 53 and instead replaced it with a connection from Arduino pin 32. That latter change might not be necessary but I was having problems receiving any data while using pin 53 and it just seemed to work better after making the switch. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A7s24Ru.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aaEOx7w.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sBy121Q.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qYLZ8uB.jpg" alt="">
+                </div>
+
+                <p>Since the power connector on the RAMPS board only carried high voltage (24v) motor power, I added a second barel jack to the Arduino through which I could feed auxiliary 5V and 3.3V.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4nFnXdt.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wZRFCmw.jpg" alt="">
+                </div>
+
+                <p>With this complete, I was able to start testing the receiving of data and the movement of the stepper motors I was going to use for the machine. </p>
+                <p>To control the motors, I started off with the <a href="https://www.airspayce.com/mikem/arduino/AccelStepper/">AccelStepper </a>library for Arduino. I quickly ran into a problem however, when I tried to do synchronized motion of two steppers, which was going to be necessary when moving the ball around the frame. While accelstepper would be able to move the motors to their targets synchronously, it could only do so at constant speed—i.e without any sort of acceleration. This was bad for two reasons: </p>
+                <p></p>
+                <p></p>
+                <p>1. To move the ball and paddles quickly around the frame, I would need to step the motors at a high rate. Stepper motors are synchronous 2-phase brushless motors, which essentially means they move at the rate that you step them at. Because of the forces on the motors' pulleys and the inertia of the rotor itself, stepper motors will have range of stepping rates at which they can "cold start"—or in other words, begin spinning synchronously from a standstill. If we command too many steps per second without ramping up to it, the rotor will just sit in place unable to catch up with our step pulses.</p>
+                <p>  2. The motors were going to be moving around a sizable mass at a considerable speed. Even if  they were somehow able to start and stop at these speeds without ramping up or gradually slowing down, the movement of these masses would end up being pretty violent. We're talking potential damage to the pulleys, the belt system, or the entire machine frame.   </p>
+                <p>Consequently, I began looking for other libraries that could solve this problem. This is when I found <a href="https://luni64.github.io/TeensyStep/">TeensyStep</a>, a high speed synchronous stepping library for Teensy boards that was capable of accelerated synchronous movements.  They could achieve this higher complexity control scheme and higher stepping speeds because the Teensy series had the advantage of being 32-bit boards with way higher clock rates than the standard Arduino boards</p>
+                <p>Sounded great. The only problem is that it required a Teensy, and a entirely new control board.</p>
+                <p>I got my hands on a Teensy 3.2 and soldered pins onto it, including to the pads on the bottom, since I was going to need pretty much every IO pin I could get.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dxKpqev.jpg" alt="">
+                </div>
+
+                <p>The RAMPS shield is built to interface with an Arduino Mega, so this meant I had to wire the Teensy up to it manually.  I did this by soldering both to a piece of protoboard and connecting the two boards pin to pin.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4WzdAoM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xiOHBIk.jpg" alt="">
+                </div>
+
+                <p>After I spent a couple hours putting everything together, I immediately destroyed the Teensy by plugging in one of the stepper drivers backwards. </p>
+                <p>I took everything back apart, and this time, rather than a protoboard, I soldered the new Teensy onto an Arduino Mega prototype shield. This allowed me to keep the wiring neat and stack the two boards directly on top of each other in a space efficient configuration. The connections were made so that I could control each of the 4 motors, the radio, and have a few extra input/output ports on the RAMPS board to connect additional devices and sensors. Using the pin information on the RAMPS website and just manually probing the board with a continuity meter, I created the pin to pin mapping below which would allow me to have all the inputs and outputs I needed. A barrel jack connector then brings in 3.3V to power the Teensy and the radio module.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/e4kFwLo.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/q0CqmBx.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mw1ptEw.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o2AcQzd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/l9p3kjB.jpg" alt="">
+                </div>
+
+                <p>And with that, the main controller was complete!</p>
+                <h2>The Frame</h2>
+                <p>I didn't have a plan for the actual design or construction of the frame and I sort of just made everything up as I went. </p>
+                <p>The frame is constructed using <a href="https://8020.net/1515-uls-black.html">8020's 15 series black anodized t-slot extrusion</a>. This means it has a width of 1.5" and I chose that because I felt it would be more than rigid enough to support the weight of the structure and all the movement forces. That's right—who needs 10 minutes to do some basic structural mechanics calcs when you can just use the tried and true "eh-it-looks-about-right" analysis technique.</p>
+                <p>The following lengths were used:</p>
+                <p>2 x 48"</p>
+                <p>2 x 60"</p>
+                <p>2 x 37"</p>
+                <p>The ball carrying arm is regular <a href="https://8020.net/25-2525-black-fb.html">2525 black anodized extrusion</a> (i.e. 1" witdh extrusion) cut to 53" to span the inside of the frame with a little wiggle room. This piece of extrusion is a little smaller and lighter than the outer frame pieces to reduce the amount of weight the motors are going to have to move around.</p>
+                <p>The outer frame (made up of the 1515 extrusion) is bolted together in the following configuration using angle brackets. The ball arm is attached using the linear slides discussed below.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/e7NLiIQ.jpg" alt="">
+                </div>
+
+                <h4>Linear Slides</h4>
+                <p>The frame should support essentially two different kinds of motion. One dimensional linear motion of the paddles (up and down), as well as two dimensional motion of the ball (up and down and side to side). To be able to do any of this I needed to design a way to attach the moving parts of the frame to the stationary parts in a frictionless way, so that their planned motion would not be impeded but they would also not fall apart when I held the whole assembly upright.</p>
+                <p>To start with, I drew up some linear slides in Fusion 360. These structures consist of 4 plastic sleeved bearings that will ride in the t-slot of the extrusion and they are used to carry the moving parts of the device. By "hugging " the extrusion, they permit smooth and unrestrained motion in one dimension only (in the direction of the extrusion) and prevent any movement otherwise. Additionally using the frame itself as the axes of the sliders meant I could maintain a low profile and avoid expensive linear rails and bearings.</p>
+                <p><em><strong>Future Praj Update:</strong>  In hindsight this was maybe not the most optimal design for every roller in the system. As you can imagine with such a short bearing spacing, this thing can't resist twisting loads very well (about the axis parallel to the bearing standoffs). This is not a huge concern for this particular system — there aren't a lot of moment being generated because of the way the belts are arranged <em>— </em>but regardless I should have made these a bit wider to improve the rigidity of the machine.</em></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3Sjho2e.jpg" alt="">
+                </div>
+
+                <p>I then printed them out using regular PLA and assembled them using the bearings and some M5 hardware. Usually, sliders like this require high tolerance to get a nice clean fit between the bearings and the aluminum to avoid wobbling (if loose) or high friction (if too tight) . One way to get around this is to use eccentric mounts for the bearings, so that they could be adjusted to the appropriate fit. Since I had neither the hardware for an eccentric setup not the means to manufacture a high tolerance part, I had to go with option two: compliance. I took advantage of the flexibility of PLA plastic and made the part slightly too tight so that when I slid it onto the extrusion, the back plate would deform ever so slightly and push the bearings against the extrusion with the right amount of force.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lhePpxF.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/knJPw32.jpg" alt="">
+                </div>
+
+                <p>I made for of these, one for each of the paddles, and two for the up/down axis of the ball movement. With a little bit of testing however, I found out that while these plastic slides work well for the paddles, which are carrying very little weight, they flex too much when used for the ball axis. To remedy this, I decided to remake the same parts in aluminum. I cut the same shape out of a 1/4" aluminum plate, and drilled and tapped all the holes on the mill.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZvhU74l.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1KOG6bM.jpg" alt="">
+                </div>
+
+                <p><em><strong>Future Praj Update:</strong> I should have just made them all out of aluminum. I'm slowly getting convinced that 3D printed parts like this have no place in anything structural long-term. PLA is fine for prototyping, but it's super hygroscopic and its material properties degrade as it sits for weeks absorbing moisture. Creep is also something to wach out for. These parts weren't under too much stress, but other 3D printed parts—as I'll mention later in the page—definitely plastically deformed over long periods of time.</em></p>
+                <p><em>With the aluminum parts, we're more so relying on the slight compliance of the bearing standoff towers rather than the compliance of this backplate. I'm sure if you spent more than 5 minutes designing these, there's a much more clever way to build in compliance and preload into these rollers.</em></p>
+                <h4>The Paddles</h4>
+                <p>With the linear slides done, I could get started on the machine movements. I started with the easiest first: the paddles.</p>
+                <p>The paddles were going to be moved up and down with belts. More specifically, the plan was to use a 60 tooth timing pulley on a stepper motor to drive a GT2 timing belt. </p>
+                <p>The stepper motors were mounted at the bottom of the frame, on either side. I did this by drilling holes along the center of a couple of stepper mounting brackets, which I could use to bolt the mounts to the extrusion. These started as NEMA 17 motors and brackets, but I later upgraded both to NEMA 23s, when I found that the 17s didn't have sufficient torque to effectively move the paddles.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tE5EIJs.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XP9Sehp.jpg" alt="">
+                </div>
+
+                <p> For the other end, I designed  and printed a little mount that holds two little idler pulleys using M3 bolts. This bolts on to the extrusion on the other side of the frame, directly opposite to the stepper motors. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GaBXP23.jpg" alt="">
+                </div>
+
+                <p>The GT2 belt is formed into a loop, running down the paddle axis and around the stepper and idler pulleys. To actually move the paddle, we need to attach this belt to the paddle slider, and tension it so it won't slip. I printed a thin belt pattern which I glued to the linear slide with CA glue, and designed a clamp plate that would squeeze the belt against the pattern. this way, I could pull the belt to give it sufficient tension and clamp it down to form the loop. The clamping plate also had 4 captive M3 nuts retained with a bit of CA glue so that the actual paddle LEDs could attach to it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pUD9rYK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XXBHZs1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/u1LrfpU.jpg" alt="">
+                </div>
+
+                <p>The paddle LEDs were created with an array of Ws2812B LEDs. For each paddle, I created a 9x3 array by sticking segments of the LED strip on to a piece of balsa wood, and wiring it appropriately. The perpendicular lines on the strip itself can be used to align the adjacent strips and care is taken to make sure the data arrows on adjacent pins point in opposite directions.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tVtnFBE.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/d7xplwd.jpg" alt="">
+                </div>
+
+                <p>We want to hold the LEDs as close to the inner frame as possible, since the paddle needs to look like it's making contact with the ball. To get some distance between the paddle sliders and these LEDs, a length of balsa wood attaches perpendicularly to the LEDs which bolts to the slider on the other end using the four captive nuts we put in earlier. The appropriate holes are drilled in the balsa wood extension using a template which I made by just printing the first few layers of the clamp plate from earlier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/amGYnzz.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xG2Z6U5.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5RZzoJB.jpg" alt="">
+                </div>
+
+                <p>The process is repeated to create the second paddle.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/N43hRcp.jpg" alt="">
+                </div>
+
+                <p>Finally, I painted the balsa wood with some black acrylic paint and bolted everything together.</p>
+                <p><em><strong>Future Praj Update:</strong> </em> <em>If the significant drop in quality did not make it clear, I was running out of time by this point to finish this project. It would be cool if this whole paddle/extender structure was a single PCB with LEDs soldered to it.</em></p>
+                <h4>The Ball</h4>
+                <p>The ball LEDs were made in a similar war, but instead of balsa, I used a thin sheet of acrylic, which I cut to shape using the score and snap method.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gg5yUhH.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vmMgUpd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PMX19F1.jpg" alt="">
+                </div>
+
+                <p>LEDs were laid onto this in the same way as the paddles and everything was wired together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ds0xB33.jpg" alt="">
+                </div>
+
+                <p><em> <strong>Future Praj Update:</strong>  Again, just a single PCB here would be a lot cleaner</em></p>
+                <p>The carriage for he ball was a little more complicated and it took a coulpe of iterations to end up at the current design. The Core XY arrangement of the belts meant that there would be two loops, both at different heights and both starting and ending at the ball carriage. The carriage itself would be another linear roller but on a smaller width extrusion.</p>
+                <p>This is what I came up with. It features a similar roller to the paddles<em>—</em>albeit scaled down<em>—</em>and pillars that to clamp and hold the belts at the correct heights. The part below will be facing the back of the machine, where the belts will be running.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iSxuyb2.png" alt="">
+                </div>
+
+                <p><em><strong>Future Praj Update:</strong> Oh boy if there was one thing I could change about this project it would be this. As I mentioned earlier, 3D printed PLA is not an ideal choice for this kind of part. Between susceptibility to creep, being loaded in far-from-optimal directions, and just general material degradation with absorbed moisture, this part lasted all of 3 weeks before failing. </em></p>
+                <p><em>This geometry is obviously not ideal for machining either, so it's difficult to take this exact design and make it out of aluminum for example. I chose 3D printing initially because it would make the design process a lot quicker—clearly that came back to bite me almost immediately. I think spending a little bit of time redesigning this and making it out of a real material will be essential.</em></p>
+                <p>I printed it out, added a couple of spaces to bring the ball to the same plane as the paddles and then glued on the acrylic piece with the LEDs.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VrW8pl5.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kY5PWbU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PskxUFi.jpg" alt="">
+                </div>
+
+                <h4>CoreXY Belt Arrangement</h4>
+                <p>Since the paddles were just 1D motion, I could get away with a simple belt loop. To move the ball however, we need a slightly more complicated belt setup. </p>
+                <p>There are many different methods to achieve 2D motion, but there was only one that would work in this situation. The main hurdles to overcome here was the fact that the movement had to happen over a very large area, the fact that the motors would have to be working against the weight of the ball-crossbar (and anything on it) , and that the whole thing would have to remain low-profile enough to be able to mount it on a wall. </p>
+                <p>One option was traditional cartesian motion, as is found on many 3D printers and CNC machines. This means each motor (or set of motors) controlling only one axis of movement. In my case, I would need two motors on either side of the bar to hoist it up and down and one motor on the bar itself to move the ball side to side. Not only would the motor on the bar add considerable weight, the motors lifting the bar up and down would be loaded unequally depending on where the side-to-side motor was on the bar. So that option was out.</p>
+                <p>One way to avoid having a motor on the cross-bar itself is to use an H-Bot or CoreXY arrangement. These arrangements are very similar<em>—</em>they only use two motors which remain stationary (that with some clever tricks can be placed anywhere on the frame) and are capable of moving the gantry in two dimension. While the H-Bot arrangement is somewhat easier to set up, it has one flaw: because of how the belts are hooked up to the gantry, they apply a significant moment, or twisting force, to the gantry. If the gantry is not small and rigid (mine is everything but) this will cause the gantry to twist and bind every time it moved. In CoreXY however, the forces produced during movement are equal and opposite or point in the same direction, theoretically producing zero twisting force on the crossbar. Perfect!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Zga9Yqi.png" alt="">
+                </div>
+
+                <p>I stated first by mounting the motors. The motors I used were a couple of big NEMA 23 stepper motors. They might have been overkill, but I had them lying around and I would rather have extra torque available than too little. I made mounts for them by slotting the angled stepper brackets and then bolting them onto the top of the frame, one on either side. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/953KCux.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DtTRCZQ.jpg" alt="">
+                </div>
+
+                <p><em><strong>Future Praj Update:</strong> There was a clear struggle making these slots. Maybe the old adage "measure twice, cut once" has some merit to it.</em></p>
+                <p>CoreXY really involves two belt loops, shown as red and blue in the diagram above, with all four ends attached rigidly to the center moving piece. Also, near the top of the diagram, you'll notice that the loops actually cross each other. To avoid the belts touching and rubbing against one another, the belt loops ate placed on two separate levels, with one loop being higher than the other.</p>
+                <p>The center piece that holds the belts in my case is the ball. In the earlier section, you saw that this ball piece had four towers, two tall and two short, with a tooth pattern inside to clamp the belts. With everything attached, you can see that this holds the two belt loops on two different planes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VrW8pl5.jpg" alt="">
+                </div>
+
+                <p>The pulleys on the gantry are mounted on the slide for the gantry. Onto the aluminum sliders from earlier, I mounted these laser cut acrylic pieces. These serve two purposes: bolting onto the ball cross-bar to couple it to the movement of the sliders and holding the two 4 moving pulleys.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/E4B4IVq.jpg" alt="">
+                </div>
+
+                <p><em><strong>Future Praj Update:</strong></em> <em>Acrylic is probably fine here. The loads these parts will experience are mainly in the left-right direction in the picture above and there's enough meat there to handle that. If I were to remake these, I would ease the transition between the wide and narrow sections to eliminate stress concentrations and crazing at those sharp corners. </em></p>
+                <p>The pulleys themselves are ball-bearing idler pulleys, commonly sold for DIY 3D printers and timing belts and they are mounted using M3 bolts. Snce the belt loops are each running at a different height, one pulley is lifted with an aluminum standoff </p>
+                <p><em><strong>Future Praj Update:</strong></em> <em>Pretty large moment here caused by belt tension pulling on the tall idler. Beefier standoffs may be in order so the load can be better managed.</em> </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oJr1Idk.jpg" alt="">
+                </div>
+
+                <p>The outer, stationary pulleys are made in a similar way. On the bottom is a 3D printed spacer and a piece of laser cut acrylic, which bring these pulleys to the same level as the others and allow them to be bolted to the frame. Again, the height of the pulleys is changed with standoffs or spaces so that the plane of one belt loop is higher than that of the other. </p>
+                <p>I used a couple of regular ball bearings for one of the pulleys (left side of image below) because I ran out of the idler pulleys but it doesn't really make a difference.</p>
+                <p><em><strong>Future Praj Update:</strong></em> <em>Speaking of beefier standoffs, the setup on the left below with the ball bearings is 100% preferable to what we saw in the last picture.</em>  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jUORagX.jpg" alt="">
+                </div>
+
+                <p>The last step was to run the belts, just like in the diagram. There are a couple of things to keep in mind here. First, it's important to keep the innermost sections of both belt loops as parallel as possible to the axes of motion. This ensures the same amount of tension in the belt throughout the range of motion of the gantry. Fortunately, since everything is mounted on T-slot extrusion, the positions can be very easily adjusted until they're perfect. Second, although each loop is at a different height, within each loop, the belt must run on the same plane. A vertical change from one pulley to the next can wear the belt or de-track it. Third, each loop should be somewhat taut. A decent amount of tension in the belt prevents slipping and ensures smooth, reliable motion. To tension it, I just pulled the belts taut before clamping them into the ball slider.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BNy47vR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/G80gnDS.jpg" alt="">
+                </div>
+
+                <p>I actually made a mistake in my measurement and my belt clamps ended up being significantly higher than the rest of my pulleys, resulting in a pretty severe belt angle making contact with the pulley. This is not great, because the belts have a chance of being pulled off of the pulleys. I adjusted the height, reprinted the part and the problem was solved.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WDssb49.jpg" alt="">
+                </div>
+
+                <h4>Wiring and Finishing Up Frame</h4>
+                <p>I added a couple of limit switches to the gantry so I could home the ball before moving it. I used a couple of micro switches and hot-glued them at the end of each axis of the ball. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/celeJSi.jpg" alt="">
+                </div>
+
+                <p> <em><strong>Future Praj Update:</strong></em> <em>Look I love hot glue as much as the next guy, but I'm pretty comfortable admitting that this is not a good place for it. This fell off within a week of use. The microswitches come with holes for fasteners<em>—</em>they should definitely be used. </em></p>
+                <p>For safety, I should have added limit switches for the paddles as well but I haven't really gotten around to that yet. Rather than homing them in software, I just manually 'home' them by making sure they start at the bottom of their travel before turning on the machine.</p>
+                <p>I wired up all the LED panels using three conductor audio cable.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uXbB1p5.jpg" alt="">
+                </div>
+
+                <p>For the ball LEDs. I needed something thin, light and inconspicuous, so I used a  thin USB cable that I cut the ends off of and modified very slightly to have 3 conductors. This was then threaded through (and ziptied to) a couple of standoffs I made from bits of aluminum I had around. The purpose of this is just to hold the cable away from the belts and prevent it from getting caught.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/av5HLWx.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wqxD0qD.jpg" alt="">
+                </div>
+
+                <p>To house all the electronics, I found this nice steel enclosure, into which I (painstakingly) drilled a bunch of holes, and cut out a circle to accommodate a fan. The fan was necessary since I was really pushing the stepper drivers to their limits using such large motors for all the axes. Without it, they would quickly overheat from the power they were dissipating.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OinDaJ0.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ods7Q19.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WkjtEAj.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fbh5W6A.jpg" alt="">
+                </div>
+
+                <p>And with that, the mechanical build was complete (for now). </p>
+                <p>Now for the hard part.</p>
+                <h2>Software</h2>
+                <p>You may notice from the equations of motion that movement in CoreXY is not as simple as the cartesian one-motor-per-axis scheme. In fact, in this arrangement, each motor moves the gantry in two axes at once, on a 45 degree diagonal. We have to carefully mix the rotations of both motors to vector the gantry and get the motion we want.  In addition, these movements would have to occur simultaneously and synchronously in order to move from point A to point B in a straight line. </p>
+                <p>I used the TeensyStep library to help me control the synchronous movements of the motors and the velocity/acceleration profiles and created a large state machine for various parts of the game play. Check out the code on github below:</p>
+
+                <a href="https://github.com/prajwal1121/Mechanical-Pong" class="project-button">Main Base Code</a>
+
+                <h4>Testing and Finishing Touches</h4>
+                <p>I mounted the finished device up on a wall with the controller and power supplies below and wired everything together, making sure it was as messy and un-traceable as possible (don't do this).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yBTlOt0.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nKPmZzi.jpg" alt="">
+                </div>
+
+                <p><em><strong>Future Praj Update:</strong> Ignoring the totally awesome cabling and wire management, you can see where I mounted the nrf24l01 receiver outside above the enclosure. Yuck. Again, highly recooment using ESP32 and ESP-NOW if you can.  </em></p>
+                <p>I'll break down the operation of the machine in more-or-less the order of the state machine in the code above.</p>
+                <p>First up - <strong>Homing</strong>. In this state, All the LEDs are switched to red, and the machine slowly moves the ball toward the bottom left limits (i.e. max right and min down). This establishes where the machine is and allows me to define positions relative to that zero point.</p>
+                <p>The paddles don't have limit swiches or a homing sequence yet and the machine just assumes they start all the way at the bottom. I do plan to put in limit switches for these too at some point.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/4lqTrJnJOxs" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>Next the machine transitions to its <strong>Color Selection</strong> state. As the name implies, each player will at this point be allowed to select his/her paddle color. The X axis of the controller is used to scroll through the five available colors and pressing the Z button locks in the selection.</p>
+                <p>The paddle corresponding to the color being chosen is automatically raised to half height to indicate whose turn it is to choose their color.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/MdDBYq8Cy7g" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/z7aWWyUFlxQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>After both players have chosen their color at the beginning of the game, the machine begins a <strong>countdown</strong>. This is a simple countdown from three displayed on the ball LEDs.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/k9TJlL3aqxM" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>At the end of the countdown, the machine transitions to <strong>gameplay</strong>. The ball leds are switched to all white and the paddles are set to the color chosen in the earlier stage. To begin the game, the ball moves towards the right paddle to a randomized vertical position. If the right-side player manages to 'hit' the ball with their paddle (controlled via the controller's Y-axis),  the ball bounces off and heads toward the left paddle, with a final vertical position depending on where on the right paddle it hit. The game continues in this manner until one of the players misses the ball.  If a player misses, a point is awarded to the other player, which is indicated on the 'scoreboard' row of LEDs at the top of the machine. </p>
+                <p>To determine whether the ball was hit or missed by the player paddles, I use relative positioning of paddle and ball elements by keeping track of the number of steps commanded to the motors and using that number to estimate the position based on the game elements' starting home location. I can do this because I'm using stepper motors, and assuming I built the rest of the machine correctly, one step commanded to the motor should result in one step in the game element in real life. Unfortunately, using this kind of positioning means that if I ever loose steps in one of the elements, for example by colliding with the physical limit of one of the paddles (remember I still haven't put limit switches on these), my count of where that element is will be off and the 'hitboxes' wont necessarily line up. Obviously, an encoder would do a lot of good here.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/q4l3wAk7fZA" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>After a player scores, the machine enters a <strong>restore </strong>state. Here, the ball LEDs turn red and the ball is moved back to the center of the board, and new round is started beginning once again with a count down.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/2HpiY18m52A" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>This restore->countdown->gameplay sequence is repeated until one of the players reaches a score of 10. The machine, instead of going into the restore state again, now enters either the <strong>Left Win</strong> or <strong>Right Win</strong> state. During this, the ball is moved back to the center, both paddles are automatically moved to the bottom of their travel, the winner's paddle is raised to half height, and all LEDs on the board are flashed with the winners color. </p>
+                <p>At the end, both paddles are once again dropped and the machine returns to its homing state. At this point the whole game sequence is started anew.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/5ONUQExQrUU" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>Unfortunately, before I got a chance to finish everything up and finalize its installation in the lounge, we ended up getting kicked out in response to COVID. Hopefully, I'll get the chance to come back and finish this project sometime soon.</p>
+                <p><em><strong>Future Praj Update:</strong>  I didn't :(</em></p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

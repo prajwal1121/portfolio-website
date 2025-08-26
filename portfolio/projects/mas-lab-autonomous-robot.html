@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAS Lab Autonomous Robot | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>MAS Lab Autonomous Robot</h1>
+                <p class="project-subtitle">The story of Digby, an underachieving robot</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <h3 >Problem Statement and Strategy</h3>
+                <p>For a Mobile Autonomous Systems (MAS) class, we were given the task to build an autonomous robot capable of picking up colored PVC tubes from around a field and placing them in a designated area. The tubes (20 in total) in their original state, would be placed both on the ground and in dispensers, and the robot would have to place these either on pegs or on the ground in the color-appropriate sections.</p>
+                <p>Since time was limited and scoring was key, my team and I decided that it would be the best strategy to focus on delivering the tubes from the dispenser to the scoring peg, since they would both be at the same height off the ground. We could then use whatever time we had remaining to push the ground pegs into the color appropriate scoring areas.</p>
+                <p>I was in charge of the mechanical side of the robot, meaning designing the drive train and the scoring mechanism, as well as fabricating them and placing the sensors and actuators necessary for them to function. After a long session of whiteboard brainstorming with the team, we came up with a couple of ideas for how we could achieve our objective.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zvNHReh.jpg" alt="">
+                </div>
+
+                <h3 >Ideas and Potential Designs</h3>
+                <p>This was one of the few plausible ideas for the scoring mechanism, which I drew up on Fusion 360 to get a better understanding of what was involved in the mechanism. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZSZyafE.png?1" alt="">
+                </div>
+
+                <p>The idea here was that we could use tweezer-type grippers to grip the tubes in the dispenser from the inside, which was really the only way that we could grab all of the tubes in the dispenser at once. The problem however was that the lateral spacing of the tubes in the dispenser was different from the spacing of the scoring pegs, upon which the tubes would need to be placed. </p>
+                <p>To address this, I designed a set of linear sliders with linkages in between such that when pushed together, all the tweezers would be equally spaced with the correct distance between each other to fit the tubes in the dispense. When pulled and fully expanded, the tweezers would be at the correct spacing for scoring. The blocks which these linkages were attached to and alowwed to slide freely on 6mm steel rods, using plastic bushings.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GGVBoD7.png?1" alt="">
+                </div>
+
+                <p>To fit into the tubes in the dispenser, the tweezers are closed by pushing a set of parallel bars over them, and are re-expanded once inside the tubes by pulling the bars back. To score, the mechanism is simply aligned with the pegs, and the tubes are ejected from the tweezers by the same parallel bars </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8f6vSuo.png?1" alt="">
+                </div>
+
+                <p>However, this is where we gave up on this design. The difficulty in actuating the parallel bars (which had a 4" travel) reliably using only servos or geared dc motors made this design a little impractical to use in the field.</p>
+                <h3 >Building a Functional Prototype</h3>
+                <p>With the next design, I had a good idea of it in my mind, so I decided to skip the CAD for now and assemble a rough prototype. This device would consist of a set of rods that could be raised and lowered, mounted on a moveable carriage, which would allow the robot to one-by-one pick up all the tubes from a dispenser.</p>
+                <p>Since I still had it laying around, I started with the x-axis linear slide from the 3D printer I had built almost a year ago. You can check out the post for that <a href="./cabinet-3d-printer.html">here</a>.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6ZMzA31.jpg" alt="">
+                </div>
+
+                <p>Onto this, I mounted two pieces of black acrylic perpendicular to eachother. On the top, I attached 5 servos, making sure their horns were roughly equally spaced apart.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3tMmTNa.jpg" alt="">
+                </div>
+
+                <p>To make the rods that would hold the tubes, I cut 4" sections from a 1/4" brass rod. I then then put these in a drill chuck and used it to chamfer the edges and polish up the pieces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GuxKHTY.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GIJO7Fi.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Vgm9wnp.jpg" alt="">
+                </div>
+
+                <p>I used a mil to drill a tiny through-hole radially through the center of each rod 0.75" from one end. To hold the work, I used this collet block which I was able to clamp down on in the mill vice.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/85ILQfR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bEozGpJ.jpg" alt="">
+                </div>
+
+                <p>Each rod was then pushed into one these 3D printed holders with two flanged bearings mounted perpendicularly to the rod. This allowed me to loctite each of these assemblies onto a 1/4" steel rod, where the rods could move freely up and down.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XGKIzB2.jpg" alt="">
+                </div>
+
+                <p>The rod was then mounted using a pair of L brackets to the front acrylic panel beneath the servos</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3JBdZdG.jpg" alt="">
+                </div>
+
+                <p>To mechanically connect the servos to the rods, I used conecting rods pade out of bent paper clips. These were threaded through the hole in the rod and through a hole in the servo horn and secured by bending the end. Since all the forces involved were very small, these will be more thanenough to relaibly actuate the rods.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ceX9zAy.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jUPNoGu.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UPIqY6A.jpg" alt="">
+                </div>
+
+                <p>With the rods done, I moved on to the linear motion part of this mechanism.  Since the rails and carriage were already built, all I had to add was the driving motor, pulleys, and timing belt. I  decided to use a continuous rotation servo for the driving motor, since the low speed, high torque, and ease of use made it perfect for this application. To adapt the timing pulley to the servo horn, I drilled out the pulley to accommodate the bottom of a spare servo horn. This was then superglued onto another servo horn and everything was bolted in place.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZhV9lDi.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HCkhdkj.jpg" alt="">
+                </div>
+
+                <p>I mounted the servo on one side and ran a belt loop between the motor pulley and an idler pulley on the other side. The belt was tensioned and affixed to the carriage.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lron8RJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kg0bllC.jpg" alt="">
+                </div>
+
+                <p>Since the the linear positioning of the carriage the carriage was pretty critical, and the continuous rotation servo provided no position feedback on its own, I added a 10-turn potentiometer and an extra timing pulley to the belt loop to provide just that. This way, reading the wiper voltage will give us absolute positioning whose resolution was limited only by the ADC with which we were reading it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/90P3He8.jpg" alt="">
+                </div>
+
+                <p>This potentiometer along with all the servos were connected to a small adapter board, which served as sort of a middleman between the teensy and all the electronics on this carriage. It also had a step down converter to provide the 6V required for the servos.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CjfCGV8.jpg" alt="">
+                </div>
+
+                <h3 >Designing and Building a Simple Wheelbase</h3>
+                <p>Next up was the robot itself. We decided to go with mecanum wheels for ease of navigation and alignment. These types of wheels aren't very common in the real world since they tend to slip a lot and the traction they provide isn't the greatest and if you're not too familiar with robotic vehicles, its likely you've never seen them. They are perfect however, when a situation requires your vehicle to be able to strafe. In fact, they are often used on forklifts so operators can align it properly without having to do many multi-point turns. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IhFlwWO.jpg" alt="">
+                </div>
+
+                <p>They consist of a set of rollers mounted at 45 degree angle with respect to the axle. When the wheel is turned, it created a force vector not straight, lie a normal wheel, but at a 45 degree angle. With 4 of these wheels, you can arrange these force vectors to move the robot omni-directionally.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NssP1YP.jpg" alt="">
+                </div>
+
+                <p>The robot frame itself was relatively simple and consisted only of a wheelbase and some pillars to support the scoring mechanism from earlier. It was to be made out of laser cut 1/4" MDF, and fit within a 18" x 18" x 16" area. I drew it up on Fusion 360, and designed everything to be held together with finger joints and M3 bolts.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/apqM8OF.png" alt="">
+                </div>
+
+                <p>After a quick trip to the laser cutter, I had all the necessary pieces. I fastened the finger joints using Bondo Fiberglass Resin, which wasn't the strongest or prettiest choice but it was all I had on hand and it seemed to work reasonably well.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vDw7LWO.jpg" alt="">
+                </div>
+
+                <p>The frame bolted together as planned and I used a rotary tool to cut the slots in the columns to accommodate the scoring mechanisms and have it sit flush.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TIymSjO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QcMpsas.jpg" alt="">
+                </div>
+
+                <h3 >Hastily Getting Everything Together</h3>
+                <p>With the frame complete, we were able to attach all the hardware with bolts/Velcro and make all the wiring connections. The main controller of the robot had two parts: an Intel NUC  to run ROS and  a Teensy 3.5 running TAMProxy to control all the motors and take in sensor inputs. All the software was thankfully handled by other members of the team, who are a lot more talented with CS than I am.</p>
+                <p>And done! We named him Digby.</p>
+                <p>I missed a few photos leading up to this step but the assembly was more or less straightforward. Once all the hardware was fixed in place, I added this upper platform that I sort of improvised to cover all the electronics and provide a place for the lidar to sit on top of the robot. The platform is also made using a couple of heavy steel brackets, which serves the purpose of adding weight towards the back of the robot to counteract the heavy scoring mechanism in the front.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/atGu5um.jpg" alt="">
+                </div>
+
+                <p>You might notice that there are in fact no mecanum wheels on this robot. Unfortuntately, because of a combination of a flimsy frame (MDF is not a great material for a robot wheelbase if you were wondering), non-equal weight distribution on the wheel themselves, and flimsy mounts that caused the wheels to splay out, we just were not able to get the mecanum wheels to work nicely with this robot. Since some wheels were getting slightly more traction than others, the movement pattern was unpredictable and unusable in an autonomous scenario and since they were not contacting perpendicular to the ground, the movement was too bumpy and would interfere with the function of sensors. As a result, (mostly because we didn't have time at this point to make any physical hardware changes to the robot) we decided to go with regular wheels and switch to a tank drive movement. This would make it harder to align with targets in autonomous mode, but there was little else we could do. </p>
+                <h3 >The Most Important Part</h3>
+                <p>The last step was to add some personality. I threw together this quick array  of WS2812B individually addressable LED strips (in the same way as the paddle and ball elements in my mechanical PONG project. <a href="./mechanical-pong.html">Check here for more details!</a>) On the back, I glued an arduino nano to control the image on the LEDs and another buck converter to power the LED strip and the arduino. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SjSBlb1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qAwtxaU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8StRbyn.jpg" alt="">
+                </div>
+
+                <h3 >Results</h3>
+                <p>On the final day, we took our robot to compete on the game field... and the result was less than spectacular.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/SiIUDNjYs4s" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>So obviously this is not what we wanted to happen. This is definitely no fault of the programmers, who actually did a really awesome job with the robot code. The main issue was that we only managed to finish the programming an hour before the competition, so we didn't have a lot of time to test and fine tune the system before putting it on the field. The set of movements that worked back in our dorm room just did not work the same way on the field. Particularly, in the video above, Digby simply could not see the April Tag target to its left, so it never entered the process of scoring and simply kept driving forward.</p>
+                <p>Not the greatest result, but we did learn a lot from this process and won a design award in the process! Since the class/competition was over, Digby was destined for the nearest trashcan- but I couldn't bear to let this happen. I had to redeem Digby and also find a reason to use the cool mecanum wheels we didn't get to put on this robot. And thus Digby was reborn: <a href="./3d-slam-robot.html">Check out Digby II</a></p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

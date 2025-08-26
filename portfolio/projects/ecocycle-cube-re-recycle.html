@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecocycle Cube Re-Recycle | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Ecocycle Cube Re-Recycle</h1>
+                <p class="project-subtitle">subtitle</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a  better documented read.</span></p>
+                <p>This cute little printer made its debut all the way back in 2015 with the promise of guilt-free 3D-printing out of filament made of recycled plastic bottles. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iJuq1K4.png" alt="">
+                </div>
+
+                <h3 >Why?</h3>
+                <p>More likely than not, you probably don't remember this thing and have never heard of it. This, I believe is for two main reasons: </p>
+                <ol class="wp-block-list">
+                <li>It sucked  </li>
+                <li>It was unreasonably expensive to own. </li>
+                </ol>
+                <p>Despite being endorsed by will.i.am, the only screaming and shouting one could do when around this printer was out of frustration. Launching with a $1200 price and missing many of the premium features present in printers at that price level, it was immediately clear that these devices were more suited to be luxury appliances than practical tools. While featuring  dual extruder and nozzle hardware, the system's highly proprietary software didn't allow the user to actually use both in one print. The (also proprietary) filament cartridges, even if hey had decent print quality (which they didn't) were priced so high that even the most environmentally focused maker would not consider using them. It had so many blower fans all over it that it sounded like a small jet engine while it was running. Moreover, when the product line did poorly and was discontinued, software support for the printer ended as well, turning it into a $1200 noisy paperweight.</p>
+                <p>Needless to say, I wasn't a fan.</p>
+                <p>Around the time they came out with these printers, they distributed them to a bunch of FIRST robotics teams, perhaps because of will.i.am's association with bot parties (thanks will.i.am!). That's how I was able to get my hands on one of these. Around 2017, my robotics team threw their noisy paperweight out and I took it home with me, because collecting electronic garbage was just what I did in 2017. </p>
+                <p>I tried to make some modifications to it at that time involving replacing the electronics inside with opensource hardware, but because of a lack of knowledge and the appropriate tools, I abandoned that project and the printer had been sitting in the garage collecting dust.</p>
+                <p>Now, in 2020, as I was stuck at home with nothing to do (and because I was tired of using hot glue as a structural medium) I decided to take another look at it. The plan here was a simple conversion to RAMPS and  Marlin Firmware. This would provide a couple of advantages ofer the previous setup:</p>
+                <ol class="wp-block-list">
+                <li>I would have complete control over the behavior of the printer. This includes motion profiles, temperature and fan control, software leveling features, etc</li>
+                <li>It would allow me to add my own, more universal, extruder system so that I can use whatever filament I want for the printer</li>
+                <li>I would be able to replace the hotend with more universal parts as well as print with both hotends (and different types of filaments at the same time</li>
+                </ol>
+                <h3 >Teardown</h3>
+                <p>The first step was to strip the printer down to its essential parts. There was a lot of non-structural and non-practical decorative plastic on the printer which was only getting in the way of working on the machine, so that had to go first. This included the printer housing, the lighing, and all the brackets, mounts, fans that surrounded the actual 3D printer.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HxrOAtg.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rVkIjWy.jpg" alt="">
+                </div>
+
+                <p>As you can probably see, the useful part of the printer was actually quite small, and took up a much smaller footprint. Looking closer, the printer has some really nice hardware (perhaps not surprising given its price). It's worth taking a quick moment here to appreciate the build quality of this thing.</p>
+                <p>The whole frame is a single piece cast and machined aluminum, which makes the machine incredibly rigid and there are linear slides on every axis including two sets on the z axis (very expensive!)</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eAsJpYU.jpg" alt="">
+                </div>
+
+                <p>If you take a look at the y-axis stage in the picture above, you can see the motor mount also doubles as a way to tension the belt for the axis. The y axis carriage, which is also made out of a single piece of machined and anodized aluminum, bolts onto the bearing block and simultaneously clamps the belt. There are three magnetic 'feet' on the carriage that can be adjusted to level the bed and locked in place with a little tiny set screw.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Fn4N5VK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LxJmUkl.jpg" alt="">
+                </div>
+
+                <p>The filament cartridges, as expensive as they are, are also very cool pieces of engineering. The cartridge is removable and locks into the printer housing with magnets, where two pins make electrical contact with the two small metal pads on the cartridge (bottom center). Then, thru some magical data transfers  the printer can get info about the type and color of the filament and it can store info about how much filament has been used in the cartridge itself!</p>
+                <p>The part that really makes me geek out about these cartridges is that they have the extruder and bowden tube all built into them. The little metal square at the center of the cartrighe mates with the shaft of an extruder motor when the cartridge is inserted into the printer and the filament is driven up the tube tube and into the hot end. </p>
+                <p>The extruder itself looks like an incredibly expensive part (and probably makes up the majority of the cost of the cartridge) but you have to admit its quite beautiful. It consists of a machined stainless steel housing that hold the toothed extruder gear and the idler bearing on either side of the filament. The toothed gear has a hex shaped hole in it to accomodate the shaft of the extruder motor. You'll notice that this extruder design doesn't employ any springs to maintain pressure on the filament with the drive gear. Instead it relies on very precise tolerances in the extruder and very consistent filament width, as the toothed gear and the idler gear are fixed just far enough apart to grip the filament and push it forward.</p>
+                <p>This integrated cartridge design means less fiddling around for the user and a cleaner looking machine overall. Unfortunately this also means that small problems, like filament getting stuck/kinked can be very time consuming and difficult to resolve, often forcing people to pay to just replace the broken cartridge. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yP9M3qF.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LQFeUvI.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/43h8tvV.jpg" alt="">
+                </div>
+
+                <p>As I was taking apart the printer, I actually actually grew really fond of the look of the bare frame, so I decided just to keep it like that and just toss out the plastic housing pieces. This would also make it easier to service the printer down the line as it inevitably breaks down.</p>
+                <p>The printer was missing one of its little black rubber feet so a quick squirt of hot glue made a quick temporary replacement until I could find a better solution.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aGROgE9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Pm014jn.jpg" alt="">
+                </div>
+
+                <h3 >Electronics</h3>
+                <p>The hard part of the build was already done for me by the manufacturer. I already had an excellent frame, with high quality motion hardware and everything was all belted up and ready to run.</p>
+                <p>All I had to do was add the electronics required to run the show.</p>
+                <p>I used the RAMPS 1.4 board, a classic platform and one of my favorites for anything involving stepper motors. I've used this little carrier board on so many projects over the years, and it has never let me down. The brains of the operation is of course an Arduino Mega 2650, and the stepper motor drivers are a random assortment of Allegro A4988s and Pololu DRV8825s that I had lying around.</p>
+                <p>The frame had a perfect little nook for everything to sit inside, so I glued in a little insulating platform of balsa wood and fixed the Arduino with its RAMPS shield in place.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zkKJBD5.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/V0IDwlh.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/d98yCXX.jpg" alt="">
+                </div>
+
+                <p>I planned to run the printer at 24V in the future, as a higher voltage generally lets the stepper motors work a little more silently and efficiently. The problem with this is that the Arduino voltage regulator cannot handle that high of a voltage. To deal with this, I clipped the diode that supplies power to the Arduino through the main power port and replaced the connection with a switching buck regulator. This can supply 5V to the Arduino's 5V pin directly, can handle voltages up to 24V, and can supply enough current to power any other 5V devices I want to add to the printer, like fans or LEDS. Plus, its so tiny that I can just glue it to the back of the RAMPS shield and hide it away.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sUFp5U9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zVPyHxB.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NHPGfa4.jpg" alt="">
+                </div>
+
+                <p>You'll notice that the input ground wire of the buck converter isn't connected anywhere. This is because the ground connection is shared internally through the output side. Its kind of a weird and dangerous way to wire this up, but I guess I just like to take risks.</p>
+                <p>The power for the whole printer, including the motors, fans, nozzle heaters, and the control board above is coming form this old Gateway (remember them?) laptop charger. It's rated for 12V and 5A which is more than enough power for the current configuration. If I can find one in the future, I'd like to upgrade this to a 24v power supply, just so the motors can run a little bit faster, quieter, and cooler.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KioOYiI.jpg" alt="">
+                </div>
+
+                <p>For limit switches, I just used 3 micro-switches, hot glued them in place for each axis and plugged them into the appropriate header on the RAMPS board. These wont  be getting too much action and won't be very visible, so hot glue is more than enough to secure them</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DAvTCPn.jpg" alt="">
+                </div>
+
+                <p>Here's the RAMPS board with motors, limit switches, and everything else plugged in. It is admittedly a little bit messy, but I'm the only one whose ever going to be looking at it so I didn't really feel like it was necessary to make it look presentable.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/voqXY9M.jpg" alt="">
+                </div>
+
+                <p>You might notice that one of the stepper motor drivers is different than in the earlier pictures. This is because I switched out the x-axis driver and replaced it with a Trinamic TMC2208 driver I had left over from another project. These newer-generation stepper drivers have the ability to run the motors at a crazy 256 microsteps, which makes them almost completely silent. </p>
+                <p>Take a peek at the printer homing video a little bit down the page and notice how much quieter the x-axis (the first one to start moving) is relative the other two axis. </p>
+                <h3 >Extruder and Hot-end</h3>
+                <p>The extruder and hot-end assemblies were the only bits of printer hardware I had to completely replace. The the extruder assembly just came from a cheap bolt-on kit that I had from a previous project. This is fixed onto a NEMA 17 stepper motor along with a 90 degree bracket and bolted to the side of the frame. Out of the top of this extruder comes the PTFE bowden tube which carries the driven filament to the hot end.</p>
+                <p>I also tied a bit of open cell foam around the filament on the input side of the extruder. This is just to wipe off dust or other contaminants before the filament gets extruded to prevent the nozzle from clogging up.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4pLWHah.jpg" alt="">
+                </div>
+
+                <p>The hot ends were a little more complicated to deal with. I did want to keep the original dual-extruder functionality, and you can see in the picture below I had already tried to install my own E3D-V6 style hotends the last time I tried to get the printer working. I gave the actual heat blocks as well as the plastic they are bolted onto a thermally insulating cover of fiberglass cloth and kapton tape to keep the former hot and the latter cool. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Sp0N2sC.jpg" alt="">
+                </div>
+
+                <p>This let me make use of the original x-axis carriage and all the fans and lights that were built into it. The problem, that I later found out was more serious than I had initially thought, was that I didn't have enough space to install heat sinks around the heatbrake/feeding tube end of the hotend assemblies. This led to heat creeping up from the heater block and prematurely melting the filament  in the feeding tube, causing it to jam. You can see it actually produced so much heat that it began melting the low-temp plastic on the inside of the carriage even though the fan was running directly over it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vj69ctc.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5hA6CJo.jpg" alt="">
+                </div>
+
+                <p>So, I decided that this time around, I would replace the entire x-carriagge assembly to one better suited for these types of hotends. However, I would have to use this this 3D printer itself to print out the parts that would make up the  cariage. </p>
+                <p>To do so, I started by first removing the original belt gripper thing from the existing x-carriage and shimming with a few pieces of aluminum tape to adjust the angle and make it perpendicular to the bed. To this, I temporarily fixed the hotend,  heat sink and cooling fans to some partrs of the original carriage all with hot glue. This janky setup only needed to last as long as it took to print out the new carriage. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GiYvusc.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Mgk9G4T.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HlXPPKn.jpg" alt="">
+                </div>
+
+                <p>And it worked! Honestly, it worked so well I was considering keeping it for the finished printer rather than ruin a working thing by trying to install this new carriage. However, for only aesthetic reasons, I went ahead and installed the new carriage. Since I only had one roll of filament and one extruder motor at the time, I simply omitted installing the second hotend just to avoid any unnecessary problems. This second hotend and extruder could easily be dropped in in the future when I get the necessary hardware and materials.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nmPQ21h.jpg" alt="">
+                </div>
+
+                <p>The overall design of this new carriage worked out quite well. My only complaints were about the print cooling fan shroud that surrounded the nozzles and delivered cool air to the extruded filament. My first gripe is its proximity to the build plate. I was initially pretty exited about this because it meant I had gotten my dimensions spot on, and it theoretically wouldn't have been a problem since the printed material would always be below it. However, in real life, printed layers are not always perfect and this shroud tended to snag on all the bumps and imperfections/</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Zc4fu7X.jpg" alt="">
+                </div>
+
+                <p>The other problem was airflow- distributing the air from such a small fan into a wide circular pattern like this made it so that velocity of the air being directed towards the print was quite low.</p>
+                <p>I would have to go back and redesign this sometime in the future, to maybe just be a straight nozzle, but for now, I could deal with the minor inconvenience of this version.</p>
+                <h3 > Quick &amp; Dirty Spool Holder and LCD Mount</h3>
+                <p>To hold the spool of filament I threw together this little little stand from some scrap wood and a piece of copper pipe. A simple paint job makes it slightly less of an eyesore.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/D6fdj8O.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qa2MwdJ.jpg" alt="">
+                </div>
+
+                <p>As for the LCD mount, I cut a couple of popsicle sticks to the correct length, drilled the appropriate holes, and bolted everything to the top corner of the printer frame using some M3 hardware. This is mainly just here to keep the LCD from taking up room on my desk or having anything stacked on top of it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/G6LK1xR.jpg" alt="">
+                </div>
+
+                <h3 >Reducing Noise</h3>
+                <p>3D printers are loud and that makes them pretty hard to be aroundf all the time. Since I planned to have this machine sitting on my desk most of the time, I had to find some ways to attenuate the noise.</p>
+                <p>One of the biggest sources of noise is low frequency vibrations from the motors  that get transferrred through the body of the printer and into the large surface area of a desk, where they are significantly amplified. To prevent the transfer of these vibratins, I can make a simple mechanical high pass filter, consisting of a large weight resting on a compliant material. I chose an old 25kg disk weight and a piece of dense open-cell foam.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8r7vu21.jpg" alt="">
+                </div>
+
+                <p>When stacked between the printer and the desk, this system absorbs the energy of the vibrations that are low enough frequency to affect the system. This is because there is a lot of time in each period of a low frequency vibration to allow the weight to move back and forth on the foam and eat up the energy. This eliminates a majority of the noise from the printer, but unfortunately, it does nothing to stop the transfer of higher-frequency noise, which has no trouble passing through the stack. </p>
+                <p>If electronics is more your jam, this is similar to putting a large capacitor in parallel with an AC signal. For low frequency frequency signals where the capacitor has enough time to charge and discharge, the capacitor acts like an open circuit and doesn't let any current through.  However, relatively high frequencies signals can pass right through.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/R11bGat.jpg" alt="">
+                </div>
+
+                <p>These higher frequency vibrations are a lot harder to deal with. One way to accomplish this is to try and reduce the noise at its source, by finding a way to quiet the motors Like I mentioned earlier, I did this by reb=placing the motor driver with newer generation TMC2208 drivers, which can microstep  the motors at such a high level that noise and vibrations are almost eliminated.</p>
+                <p>The video below shows the printer homing all 3 of its axes. The TMC2208 driver is installed only on the x-axis, which is the topmost axis carrying the print head. See if you can notice how much quieter it is compared to the other axes.</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/_VP8vCt9x6A" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>Crazy right? With the trinamic driver, the axis is almost completely silent! That takes care of the noise problem.</p>
+                <h3 >Finally Printing</h3>
+                <p>And it works great! The motors are so quiet that the only thing you can hear while printing is the tiny fan cooling the hotend.</p>
+                <p>I've put more than 50 hours of printing time and a full kg of PLA filament through it so far and it's working just as well as it did the first time I fired it up. I'm really happy with how this one turned out and its been a very useful tool to have around for prototyping and building complex assemblies.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/Nfcw6ofZzGg" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Modular LED Displays | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Mini Modular LED Displays</h1>
+                <p class="project-subtitle">A Quickie!</p>
+            </header>
+
+            <section class="project-section">
+                <p>I had my radiator turned up a little too high the other day, and I ended up having a weird little fever dream where I was screwing around with some colors.</p>
+
+                <div class="wp-block-image">
+                <figure class="aligncenter size-large">
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QAWfHMy.png" alt="">
+                </div>
+                </figure>
+                </div>
+
+                <p>I figured this would be a nice thing to have in real life</p>
+                <h3>Design</h3>
+                <p>So I needed something small-ish  that could change colors and display patterns while aslo being versatile enogh for me to be able to use it for something more practical than just indulging my stupid fantasies . An RGB LED matrix was a pretty straightforward choice. That way, if it doesn't live up to what I saw in my dream, I could still use it as a display, or for lighting photos and videos.</p>
+                <p>Browsing around, I found these WS2813E LEDs on LCSC. These seemed to be the most economical option I could find for individually addressable LEDs (hence the "E" suffix, I suppose). I could get 500 of these for just $35, and that was perfect because the minimum order quantity of PCBs on JLCPCB was 5 boards. My math might be wrong here, but as far as I can tell, 500 divided by 5 is 100 , and that meant I could do a 10x10 grid of LEDs on each board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4yrvwOg.png" alt="">
+                </div>
+
+                <p>Each of these LEDs, just like the other variations in the WS281x (Neopixel) family, are made up of  red, green, and blue LEDs, as well as a driver IC, all built into a single 5mmx5mm package (there are of course other smaller sized variants). What makes them ideal for this project is that they can be chained together into long strings (or matrixes) while still only needing a single digital control signal. Upon receiving a carefully timed, asynchronous signal from an external microcontroller, the driver in each LED acts on the information and shifts out the data to the next LED in the chain. So with a single connection to the first LED, we can address, and change the color and brightness of every individual LED in our chain. The WS2813 is a little different in that it has an extra pin that lets the signal bypass the LED, so that a single dead pixel doesn't stop all the pixels downstream from working.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NxGkf66.png" alt="">
+                </div>
+
+                <p>I jumped on Eagle and threw a schematic together. Down below, you can see the aforementioned 10x10 grid of the WS2813 LEDs with a little decoupling capacitor next to each of them. The LEDs are chained in a serpentine fashion, where the led number increases from left to right. This way, the led address and its (x, y) position can be described by the following simple relation: lednum = 10y+x where the LED in the upper left hand corner corresponds to (0,0)=led[0] and the LED in the bottom right hand corner corresponds to (9,9)=led[99].</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NPbd0TF.png" alt="">
+                </div>
+
+                <p>You might have noticed, in addition to the LEDs and capacitors, there's also a bunch of nonsense at the top of the schematic. I decided at some point that it would be nice to have each of these boards be fully independednt, meaning they would not need an external microcontroller to operate the LEDs and display images or animations. This was mainly for the purpose of keeping the wiring relatively clean, so that each panel would just need two power wires to function.</p>
+                <p>The easiest way to do this was just to build a whole microcontroller into each board. I chose my new favorite uC IC, the ATMEGA4809. This absolute legend of a chip works great with Arduino, has a pretty comprehensive set of peripherals, has like 40 IO pins, and is super easy to program via UPDI all while costing less than $2. I set up  bare-minimum circuit  with the ATMEGA4809 and after connecting one of it's PWM pins to the LED chain's input, broke out the rest of the pins into a series of pads on the back of the board. That way, in addition to using the microcontroller to talk to the LEDs, I also had access to its pins so I could connect it to anything else and use it just like any other Arduino.</p>
+                <p>Even cooler than than that, since each board has it's own controller, I can also have them talk to one another using something like I2C or SPI so that I could coordinate animations and display elements across multiple boards!</p>
+                <p>I then routed everything onto a 100mmx100m PCB. This was the largest size that still qualified for JLCPCB's $2 PCB deal, plus it gave a pretty decent LED density per PCB. The LEDs are spaced so that if multiple PCBs are placed adjacent to one another, the matrix appears continuous.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AG97Rv3.png" alt="">
+                </div>
+
+                <p>I used a copper ground fill on both sides to soak up heat from the LEDs. Each of the LEDs can draw close to 60mA at full brightness, which means there will be a non-negligible amount of heat produced by all the LEDs on the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7xZPmJx.png" alt="">
+                </div>
+
+                <p>With the design done, I put together the CAM files and uploaded it to JLCPCB. I really didn't want to solder all the components on this PCB by hand, so I figured it would be a good idea for JLCPCB to place all the LEDs and capacitors on the front of each PCB , since the SMT assembly service would only cost me like $7 on top of my PCB price. Unfortunately, the week I placed my order, JLCPCB was doing some upgrades to their machines and was unable to assemble the LEDs and unable to give me an estimate of when they would be up and running again. So I just had them place the capacitors and I ordered the 500 LEDs separately to solder by hand. </p>
+                <p>Literally 2 days after I placed my order, the LED went back up on JLCPCB's smt menu... </p>
+                <p>I also don't have access to a heat gun or a reflow oven, so solder paste was out of the question. Oh well...my soldering iron is about to get one hell of a workout.</p>
+                <h3>Parts</h3>
+                <p>Around a week later I got my PCBs.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/M4d4k5u.jpg" alt="">
+                </div>
+
+                <p>Aren't these cute? These are definitely a lot smaller than I was picturing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XpWqpVG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/T1aOAm7.jpg" alt="">
+                </div>
+
+                <p>You can see all the capacitors have already been soldered onto the board. I suppose 0805 sized caps are a pretty straightforward part for the machines to place and solder, but I was still impressed by how perfectly they were all soldered in. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uYCehxW.jpg" alt="">
+                </div>
+
+                <p>On the back of the board is where the ATMEGA4809 lives. Underneath it are the programming pads, and to the left are the rows of pads corresponding to the microcontoller's IO pins.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WfOrOTP.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pOy6v8H.jpg" alt="">
+                </div>
+
+                <h3>Assembly</h3>
+                <p>Now for the part I was dreading.</p>
+                <p>I grabbed my 500 LEDs and set to work.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iiBAxxY.jpg" alt="">
+                </div>
+
+                <p>Each LED wasn't too difficult to solder , but the sheer volume made it a real pain in the ass. I started by tinning a single pad, positioned the LED and tacked it in place by reflowing the solder on that pad, and then wet around and soldered the other five pins of the LED...</p>
+                <p>x100 for each board</p>
+                <p>x5 for all five PCBs</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ejGdUe4.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0lJBBiD.jpg" alt="">
+                </div>
+
+                <p>Can't say it doesn't look pretty though. Here's four of the panels arranged side by side to make a 20x20 gird. For independent operation of each panel, the only connection that need to be made between panels is power, via the +5V and GND points at the edges of the board. You can see the the two metal strips that make this connection at the intersection of each board and the one adjacent to it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QeWa0EI.jpg" alt="">
+                </div>
+
+                <p>Since the four boards share power, I just need to connect a power cable to one of them. For the time being, I'm using a usb cable and portable power bank to supply power.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uRhC3RC.jpg" alt="">
+                </div>
+
+                <h3>Programming</h3>
+                <p>Once powered, I can see the power LED light up on the back. Now I just have to hook up my Arduino Nano, into which I've already uploaded the jtad2updi sketch (found <a href="https://github.com/ElTangas/jtag2updi" target="_blank" rel="noreferrer noopener">here!</a>), to the programming header to flash the ATMEGA4809.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AARJMwa.jpg" alt="">
+                </div>
+
+                <p>I've already installed MegaCoreX (<a href="https://github.com/MCUdude/MegaCoreX">here!</a>) in my Arduino IDE, so the flashing process was as simple as making the connections Nano Pin 6 -&gt; Board UPDI  and Nano GND -&gt; Board GND, selecting jtad2updi as my programmer, and hitting upload. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WG4TDGH.jpg" alt="">
+                </div>
+
+                <p>I wrote up a quick little program to animate some "rocket ships" on each panel, and repeated the programming process for each board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/k0a1m6b.jpg" alt="">
+                </div>
+
+                <p>Nice</p>
+                <h3>Some Thoughts</h3>
+                <p>At full brightness, the LEDs are blinding to look at, so for most animations and pixel art, I have to run each panel at 25% brightness or less. Heat isn't a big issue, either. I designed the PCBs with pretty big groundplane on both sides of the board, so there's definitely plenty of copper to soak up and dissipate the heat for the LEDs. At full brightness, the board gets slightly warm, but it's more or less negligible. </p>
+                <p>The color accuracy of these WS2813-Es is a little so-so, and it especially begins to suffer at low brightness. However, as far as I can tell, at above 50% brightness, the colors are rendered pretty accurately, and it's pretty effective for implanting colored lighting for photography or in videos.</p>
+                <p>By this point I've kinda forgotten what I was specifically doing in the original dream that inspired these LED panels, so I can't say for sure whether or not these satisfy that original design requirement. Either way, I'm having a lot of fun playing with these.</p>
+                <p>Thanks for reading &lt;3</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SylhjyA.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

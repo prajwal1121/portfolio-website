@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salvaged LulzBot Mini | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Salvaged LulzBot Mini</h1>
+                <p class="project-subtitle">Trash to <del>treasure</del> slightly-less-trash</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <p>A few months back I found an old lulzbot mini 3D printer in the recycling. It was in pretty bad shape. The hotend was clogged and covered in burnt plastic, the electronics were literally smashed, and the frame was barely in one piece. Even after replacing the USB connector on the main board (which was ripped off) I could not make contact with the printer</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9Pxq1ce.jpeg" alt="">
+                </div>
+
+                <p>I had gotten quite a bit of experience with 3D printer hardware by this point, so I figured I could fix it up. I brought it back to my dorm room. Upon closer examination, the frame and its linear motion hardware was actually in decent shape. After adding some necessary fasteners, cleaning up the hotend with wire brush, and replacing the nozzle,  the frame was mostly ready to go. I did have to add a Z-min limit switch, since the LulzBot originally used the upper crossbars (now missing) to home the Z axis.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mGS0BCq.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BtVu9jL.jpeg" alt="">
+                </div>
+
+                <p>I pulled off the bits of broken electronics, and started tracing all the wires and connectors that went into it. With the wires identified, I plugged them into an Arduino RAMPS setup I had laying around, with some minor changes to the board to make it compatible with the Lulzbot's 24v power supply and to add an auxiliary 5v supply.  I uploaded Marlin, tuned some parameters and with a few hours of trial and error, managed to get my first print.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DKoC0du.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ug7R9m0.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ijDFJd8.jpeg" alt="">
+                </div>
+
+                <h4 >Enclosure</h4>
+                <p>The setup was pretty rough at this point, just to test whether the printer would work. My next step was to build a proper enclosure, for both the printer and its electronics. To give the frame some more rigidity, I added a couple of 2020 extrusion crossbars and I started the printer enclosure with a steel framed box with 1/8 in MDF side walls, all of which were salvaged from recycled materials. I then added a couple of led strips to provide some lighting for the camera that would come soon. To finish this up, I need to find a way to bolt these to the steel frame, and find a clear acrylic panel to use for the door.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TKDrFu1.jpeg" alt="">
+                </div>
+
+                <h4 >Wiring Everything Up</h4>
+                <p>I rebuilt the electronics outside the enclosure and replaced the old DRV8825 stepper drivers with some nice TMC2208s to reduce motor noise while printing</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dDmicHU.jpeg" alt="">
+                </div>
+
+                <p>I modified some random salvaged 5V and 12V power supplies (perhaps not in the cleanest way) to power the arduino and the LED strips.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o4czMVt.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/thK9uQC.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qh9rlLo.jpeg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5cM6Yz6.jpeg" alt="">
+                </div>
+
+                <p>It doesn't look very pretty, but I intend for this whole area to covered anyway, so no one will be able to see it.</p>
+                <h4 >Making a Door</h4>
+                <p>A few weeks later I happened to find a sheet of 2mm thick acrylic- perfect for a door! It was a little to thin which meant I would need to reinforce it a little to keep it from flapping around but that was cheaper and easier than buying and cutting a thicker sheet of acrylic. Now this sheet was too big to fit in any laser cutter I had access to and just a little too big to score and snap, which meant I had to cut one side very carefully with a jigsaw.</p>
+                <p>Understandably, this didn't go too well.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kd2JgRU.jpg" alt="">
+                </div>
+
+                <p>Fortunately the chipping was shallow enough that they would be covered by the reinforcement bars anyway. To cut the other side of the rectangular, I just used the score and snap method, which turned out much cleaner. </p>
+                <p>I cut a long hinge and a skinny galvanized steel bar I had laying around to size to create the door frame. I then bolted one side of the acrylic sheet to the hinge and used glue to affix the steel bars to the other three sides. This made the door rigid enough to be easily and repeatedly swung open and closed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fY5CPYI.jpg" alt="">
+                </div>
+
+                <p>Next, for a good seal and to prevent a gap between the the door and the frame, I added this foam weatherproofing tape all around the frame. The enclosure doesn't need to be airtight, but minimizing the amount of air leakage would make it easier to maintain a heated environment when printing and reduce the likelihood of print fumes from materials like ABS from filling up the room.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RmGjcLx.jpg" alt="">
+                </div>
+
+                <p>Finally using some double sided tape, I affixed all the MDF sheets and the hinge securely to the frame, finishing the enclosure.</p>
+                <h4 >Hiding the Wiring Disaster</h4>
+                <p>I found this little wooden cabinet a while later and realized it would make a decent enclosure for the electronics. I riped the back off to make room for the power cord and exiting air flow, cut a hole out of the bottom where I could mount a cooling fan, cut a similar hole in some white plastic, and stuck it all up on the frame.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ElgErxP.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ah9ZwfL.jpg" alt="">
+                </div>
+
+                <p>The grip hole in the cabinet lines up nicely with the USB port and the power switch. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jA1r1TS.jpg" alt="">
+                </div>
+
+                <p>Et voilà - Its finally done, and it looks pretty good. Trust me it looks a lot nicer in person than in a photograph (;</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rWkdkKf.jpg" alt="">
+                </div>
+
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

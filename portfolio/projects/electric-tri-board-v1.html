@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Triboard V1 | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Electric Triboard V1</h1>
+                <p class="project-subtitle">Vehicular dreams of a madman</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <p>A while back I bought an old, broken 'hoverboard'/ balancing electric scooter off craigslist for $30. It wasn't much use to me as a personal vehicle but it was a cheap way to get a couple of reasonably powerful brushless hub motors.</p>
+                <h4 >Getting the Motors Running</h4>
+                <p>These motors have a pretty low KV rating, which meant that they were wound in such a way that they had plenty of torque but pretty low RPMs. The only way for me to get faster rotation was to increase the input voltage or have physically bigger wheels. Unfortunately I wasn't able to find the 10" variant of these wheels in my area (which would have given me greater ground speed with the same RPM) so I had to settle for the smaller 8" wheels. </p>
+                <p>This meant I had to have a high input voltage if I wanted these wheels to spin faster. The specific voltage however, depended on the limits of the controller, since the motor voltage limit only really depended on the integrity of the insulation on the motor windings. </p>
+                <p>So it was time to pick a controller.</p>
+                <p>These hub motors are 3-phase brushless DC outrunner motors, the same type of motors I use for my drones. In an outrunner motor, the rotor (the part that spins) is the can of the motor, which in this case has a tire glued to it, and the stator (the part that stays stationary) is in the center. Since in this arrangement, the permanent magnets are mounted on the motor can, outrunners typically have more poles, which allows for higher torque at low speeds. Inrunners on the other hand have the windings and magnets reversed, so that the motor can stays stationary and the center does the spinning. These tend to have higher KV ratings (low torque/high RPM) and are more similar in arrangement to traditional brushed DC motors.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JyyuqeV.png" alt="">
+                </div>
+
+                <p>This is what my hub motors looked like on the inside. You can see that the windings are mounted on the axle, which remains stationary, and a series or permanent magnets are mounted all around the rotor onto which the tire is mounted.</p>
+                <p>What all this means is that I can't run these motors like a simple 2-wired brushed DC motor. I need a special type of electronic speed controller (ESC) that can energize the coils with the right timing and in the right order to keep the motor spinning at a desired speed. It does this by energizing he coils in such a way to create a 'spinning' magnetic field that drags the rotor along with it. This isn't too hard to build from scratch, but since Mouser's high shipping costs would make ordering the components twice as expensive as they were worth, I explored some controllers that were commercially available.</p>
+                <p>The sort of go-to controller for many people building their own electric vehicles is the <a href="https://vesc-project.com/">VESC</a>. These open-source controllers can output high currents, can tolerate high input voltages, and allow you to collect real time data and customize your movement profiles very precisely. All of this sounds great, but with the high cost of even non-original VESC controllers, I had to choose something else.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/et1kCzF.png" alt="">
+                </div>
+
+                <p>You might have noticed something a little different on these motors - the extra 6-wire harness that came out of the motor housing alongside the motors 3 power leads.</p>
+                <p>These wires connect to three hall effect sensors inside the motor, and is in fact what makes these <em>sensored</em> brushless motors. These hall effect sensors measure the position of the outer rotor by detecting the presence and polarity of the permanent magnets attached to it.This is a pretty important feature. BLDCs are synchronous devices, meaning the turning magnetic field and the spinning rotor must move at the same rate. That is, to keep the motor running correctly, the controller needs to adjust its drive frequency according to the instantaneous speed of the rotor. </p>
+                <p>In sensor-less motors,  the controller uses the back-EMF produced in the coils to estimate rotor position. This works great for most hobby applications, like multicopters, boats, and cars, where the motor, in its typical use case, is operated at very high RPMs. However, if we want to operate the motors reliably at very low RPMs, the back-EMF produced is very weak and difficult to read. The controller is left 'blind' and this results in the motor not being able to start and run correctly, often producing very low torque due to de-synchronous driving. </p>
+                <p>This, however, is the area where sensored BLDCs shine. The motor controller can use the data feedback from the hall sensors to know exactly which  phase to power and at which time, even at very low RPMs. This leads to improved starting capability and high torque at low RPMs, since the controller can keep a phase powered and wait for the rotor to catch up before moving on.</p>
+                <p>Al that is to say I needed to find a controller that would accommodate input from these hall effect sensors. After searching on Ebay and Amazon, I settled on something generically called '<em>12-36V 500W Brushless Motor Controler'</em>,  mainly because it was cheap. I'll link it <a href="https://www.ebay.com/itm/New-12-36V-500W-Brushless-Motor-Controler/254396644564?hash=item3b3b38bcd4:g:Q60AAOSwPnNarI1n">here</a></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/umx0IIS.jpg" alt="">
+                </div>
+
+                <p>It did everything I wanted (at least the page claimed it did) and had a very impressive power output (though I'm pretty sure 500w is a lie) for about $10. What a steal! There's literally hundreds of sellers offering this board so I'm sure you can find an even lower price If you looked. </p>
+                <p>The caveat was that I could have an input voltage of 36V max, which is pretty low. I wouldn't be able to drive the motors as fast as I would have liked, but this was the most inexpensive way.</p>
+                <p>Now that I had motors and a way to drive them, I had to find something to put them on.</p>
+                <h4 >Building the Board</h4>
+                <p>I decided an electric skateboard would be pretty cool, and I chose to make this one three wheeled, with one hub motor at the rear and a regular two-wheeled longboard truck at the frunt. This was mainly because it was pretty unique and I thought it would look really cool to ride around on, but also because using both hub motors would require building a steering system/ modifying preexisting longboard trucks and I didn't really have the tools to do that at the time. </p>
+                <p>I made the longboard deck out of two pieces of half inch plywood that I glued together and painted black. It had the appropriate stiffness and bounce to it, although it didn't curve like a traditional deck</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/K0IITq0.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fojvwLQ.jpg" alt="">
+                </div>
+
+                <p>For the front, I first used some smaller skateboard trucks I had laying around, but I quickly found out that the board was pretty unstable and that I couldn't really make reasonably sharp turns on them.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sGqzr6P.jpg" alt="">
+                </div>
+
+                <p>I paid a quick visit to my  local skate shop where I was able to pick up just one of these longboard trucks. These have a much wider wheelbase and can rotate a lot more, allowing me to make turns on the board without falling over.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RF6tkVF.jpg" alt="">
+                </div>
+
+                <p>The hub motor was actually pretty annoying to mount since it has an axle on one side only. I cut off the original mount from the scooter with an angle grinder and was ledt with these blocks that I could bolt to something.</p>
+                <p>I attached it like this, with a long-ish piece of flat steel too sort of distribute moment produced from having a one sided axle. Without this, standing on the board would create enough torsion in that thin piece of plywood to break it off, which is something I wanted to avoid if I could.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QTmNuZr.jpg" alt="">
+                </div>
+
+                <h4 >Setting up the Electronics</h4>
+                <p>To run the motor I used an arduino I had lying around.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4KowwQq.jpg" alt="">
+                </div>
+
+                <p>I think the ESC I chose was intended to be used in electric bikes or scooters, because the control input was an analog 0-5V signal, like that produced by a potentiometer on a handle grip. This made it really annoying to control with a digital micro controller like the Uno, which didn't have a DAC. For the time being, I used a simple resistor-capacitor DAC, but I plan to upgrade this to a digital potentiometer (or find a better ESC altogether). </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZpKoz0k.jpg" alt="">
+                </div>
+
+                <p>To control the speed of the board while riding it, I am using a generic 433MHZ reciever and trnsmitter pair. These are super simple to use, and there are many arduino libraries that will help get them running. The reciever is mounted on top of the board and hopefully out of the way of my feet, and I soldered an appropriate length of wire to act as a little quarter wave single pole antenna. A little led was added as a power indicator and the power and signal wires were routed back to the arduino.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8sIu8Ih.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lLawrp0.jpg" alt="">
+                </div>
+
+                <p>The controller was built inside the body of a Wii nunchuck, and included a little lithium ion battery, and arduino nano, and the 433MHz transmitter. I removed the spring from the y axis of the joystick, so that I could use the full range of travel of the stick and so it would stay at whatever position I put it. To see a more detailed explanation about building a similar controller, check out my Mechanical Pong project.</p>
+                <p>The board was powered off these 18650 lithium ion cells I salvaged from some old laptop batteries. I arranged them in an 8S2P configuration, to give me about 4000mAH at 30V nominally (at 3.7V per cell) and about 34V when fully charged (4.2V per cell) so that I could stay within the voltage limit of my ESC. It features XT60 connectors, a balance port so I can charge it using my li-po balance charger, a few structural popsicle sticks, and copious amounts of hot glue.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GHo5aLX.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HuweMcU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dcJ1Nqk.jpg" alt="">
+                </div>
+
+                <p>To finish it off and to protect the electronics (but mostly to hide the scary looking wires and batteries) I made a cover by using a heat gun to bend some thin sheets of PVC and attached it to the bottom using velcro.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CaPLD51.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PLIocv4.jpg" alt="">
+                </div>
+
+                <p>The finished board sits about 4 inches off the ground, which is a pretty comfortable height, and comes up to my waist when standing up, about 3 feet. It maxes out around 12 km/h and has no trouble starting from standstill, thanksto the hall sensors in the motor. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/53yEroM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sa3zGlw.jpg" alt="">
+                </div>
+
+                <p>Its not the best looking thing in the wold but it works, and is a lot of fun to ride around. It is a bit slow, as expected, because of the low battery voltage, but there's little I can do about that other than buying a different ESC. Hopefully I can build it better in the future.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/e6UzgMj.jpg" alt="">
+                </div>
+
+                <p>UPDATE: Check out my page on the <a href="./electric-triboard-v1_1.html">Electric Triboard V1.1</a>, where this piece of garbage gets a much needed upgrade.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

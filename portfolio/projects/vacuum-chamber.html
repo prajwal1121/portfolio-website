@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacuum Chamber | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Vacuum Chamber</h1>
+                <p class="project-subtitle">It sucks!</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <p>This all started when I fond this neat little vacuum pump at my university's recycling. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c1cyVgn.jpg" alt="">
+                </div>
+
+                <p>It only has an inlet, a plug, and a powerswitch and despite googling, I could not find very much information about it. What I did know, by peekig inside its cover, it consisted of two very sturdy looking rotary vacuum pumps in parallel.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3Tovjma.jpg" alt="">
+                </div>
+
+                <p>I planned on using it with this "vacuum chamber" I made by attaching a hose barb (to suck the vaccum through) and a valve on a copper pipe (to let air back in) to an acrylic chamber that was originally meant to house electronics underwater. The seal is created by an o-ring on the outside of the lid, but while it may work well to keep water out, it probably wasn't great for vacuum pressures. when I sucked a vacuum though, I didn't really notice any leaks so i decided to keep using it until I found something better.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JgmNwZZ.jpg" alt="">
+                </div>
+
+                <p> I was able to make some cool looking arcs inside the chamber using a little flyback transformer and some magnets. These were surprisingly difficult to take a decent picture of.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ubbvugm.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZJ64ToF.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MWC1ku5.jpg" alt="">
+                </div>
+
+                <p>The problem however, was that I was unable to pull a decent vacuum with this setup. It just couldn't bring the chamber to a low enough pressure for interesting things to start happening, like water boiling at room temperature.</p>
+                <p>Since I'm broke and I couldn't just buy a better chamber and pump, the only way for me to get a better vacuum was to find another pump I could put this in series with.</p>
+                <p>After looking around a little, I found this little refrigeration/heating unit in the recycling.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/M4LjBFL.jpg" alt="">
+                </div>
+
+                <p>It was sort of half taken apart, but in the back, this little refrigerator compressor caught my interest, so I brought the machine back with me.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fJXsHuo.jpg" alt="">
+                </div>
+
+                <p>It looked pretty gross on the inside. Ill try to avoid touching that if I can.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HfOLMjQ.jpg" alt="">
+                </div>
+
+                <p>Regardless, I started with disassembly. I quickly found out why it was only half taken apart: the Philips slot in this screw was completeley rounded over. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HS80yxE.jpg" alt="">
+                </div>
+
+                <p>A carbide burr on a rotary tool made quick work of destroying the bolt and I continuing with the disassembly, which honestly was a nightmare.</p>
+                <p>I found a cute little PCB motor, which I thinck connected to a stir rod inside the chamber. Neat!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NFJvAHV.jpg" alt="">
+                </div>
+
+                <p>I eventually managed to get the compressor out</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NUzbtCv.jpg" alt="">
+                </div>
+
+                <p>There was some pretty bad corrosion (at least I hope thats what it was) inside the foam cover on the inlet side so I trimmed the copper pipe back to a clean section. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hUc1WW1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yi8352E.jpg" alt="">
+                </div>
+
+                <p>The datasheet of the compressor was helpful in figuring out the pinout of the compressor and I was able to wire together the current relay and starting capacitor to the compressor inputs. I didn't really know what I was doing here, but I made some educated guesses. I plugged it in, the compressor whirred to life, and nothing blew up or caught fire, so I knew I had done something right. I stuck everything together together with hot glue and I has left with a compressor, the inlet of which I could use to pull a descent vacuum (albeit very very slowly. These compressors aren't really made for high CFM).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xaUNvCE.jpg" alt="">
+                </div>
+
+                <p>These compressors are designed to have continually have lubrication come in with the coolant and flow over the pump, so in open air like this, I don't expect it to last very long.</p>
+                <p>I soldered some brass barbs to the inlet and outlet of this compressor and connected hoses so that the inlet of the compressor was connected to the vacuum chamber, and the outlet would feed into the inlet of the first vacuum pump.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dQZprmP.jpg" alt="">
+                </div>
+
+                <p>This worked pretty well! I was able to get to a low enough pressure to boil a little cup of water, although it took a while to reach that level. </p>
+                <p>Fortunately (or unfortunately depending on how you look at it) a month or so later, I stumbled onto this 80lb monster of a vacuum pump. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NdxslRI.jpg" alt="">
+                </div>
+
+                <p>Looking into the viewglass and the oil port on top, I could tell that it hadn't been used in ta long time. The oil reservoir was completely dry and whatever parts of the pump I could see inside the housing were completely rusty. But - it was able to start , so I bought a quart of some high vacuum oil (just a high purity oil with all the moisture removed so it remains stable at high vacuums) and filled it up.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PG9UN97.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LrX8eEl.jpg" alt="">
+                </div>
+
+                <p>After powering it up, it ran quiet and smooth and and was able to move air at a huge CFM. This one pump alone, if it performed up to its specs, would be orders of magnitude better than the series network of pumps I had created earlier.</p>
+                <p>So I lubed all the hose connections and the vacuum chamber o-ring with this Dow-Corning High Vacuum Grease to get good airtight connections and ran a hose from the inlet of the pump to the chamber.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kbXgo2R.jpg" alt="">
+                </div>
+
+                <p>Page in progress...</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

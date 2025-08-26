@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet 3D Printer | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Cabinet 3D Printer</h1>
+                <p class="project-subtitle">Only 2/3 Successful!</p>
+            </header>
+
+            <section class="project-section">
+                <p><span style="color: #800000;"><strong>Praj's editorial note:</strong> This is an older project and the information on this page may be a little sparse. I like to leave these early pages up because there's always a chance someone may find something useful in here and because I think every project, even a small or unfinished one, is an important part of my journey. After all, the tool works at both ends. Go ahead and scroll on through if you'd like, or check out some of the other projects for a better documented read.</span></p>
+                <p>I ran into this gel electrophoresis imaging cabinet at my university's recycling area. Something about it made me want to bring it back to my room.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jyzhgk8.jpg" alt="">
+                </div>
+
+                <p>After pulling out all the stuff I didn't care about, like the imaging platform and lighting gels, I was left with this.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TwmkZAw.jpg" alt="">
+                </div>
+
+                <p>The cabinet had a pretty robust looking adjustable height platform, powered by a beefy 24V geared DC motor and a set of timing pulleys and belts. It was at this point I realized that this cabinet was roughly a third of the way to being an awesome large-format 3D printer. All I had to add was an X-Y gantry, a print bed, and the control electronics. It turned out this was easier said than done</p>
+                <p></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DtMNCsA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/70shRps.jpg" alt="">
+                </div>
+
+                <p>The drive shaft of the pulley system ran through this very expensive and very high resolution (40,000 pulses per revolution!) optical quadrature encoder. Looking at the datasheet revealed that it had a differential TTL output, so reading data from it would not be as trivial as simply connecting its leads to pins on my arduino. Regardless, I was excited about the ability to add closed loop conrtol to my Z height positioning, especially since the large-pitched belts and non-stepper-motor drive wasn't precise enough for regular open loop control..</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ufBd66t.jpg" alt="">
+                </div>
+
+                <p>The motor had a solenoid brake that defaulted to locking the shaft. This meant that when the system was un-powered, the motor and consequently the z-stage was immobile.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YC6jHpR.jpg" alt="">
+                </div>
+
+                <p>The brake was actually a pretty cool mechanism, but I ended up removing it, since it ended up adding unnecessary interference to the PID control I implemented later. Apparently the friction in the gearbox alone was enough to keep my stage up, so the brake wasn't really necessary.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gFZjoPb.jpg" alt="">
+                </div>
+
+                <p>To attach my X-Y gantry to the Z height stage, I had these aluminum panels on either side of the cabinet that were ariginally attached to the imaging bed. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/FWsWrlk.jpg" alt="">
+                </div>
+
+                <h4 >XY Gantry Design</h4>
+                <p>With this information I jumped onto Fusion 360 and threw together a design for the gantry so that I could start laser cutting some parts. I would have liked to call this a 'preliminary' design but in reality, I never actually made any changes to the CAD after this stage. I ended up just improvising solutions to all the problems that came up after I actually started the build.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/K3DrpuR.png" alt="">
+                </div>
+
+                <p>I cut the plates out of 1/4" acrylic sheets and used 8mm ground linear shafts and linear bearing blocks for the moving components. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6ZMzA31.jpg" alt="">
+                </div>
+
+                <p>This is what it looked like installed inside the cabinet, along wit plenty of LED strips for lighting. At this point, many problems became immediately apparent.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sFhrX2E.jpg" alt="">
+                </div>
+
+                <p>First was rigidity. When the y axis (into/out of screen) slid back and forth it tended to flex the acrylic arms and bind up the bearings. This was easily solved by adding some aluminum bars in parallel.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sUJ14h5.jpg" alt="">
+                </div>
+
+                <p>The next problem was positioning the stepper motors, placing the pulleys, and running the belts. I hadn't planned it out at all because I thought it would be easy enough but that turned out not to be the case. The x-axis movement was somewhat easier. It was a single layer belt attached on either end that ran through some idler bearings and a timing pulley. The motor itself was attached to the part that would eventually be the print heard</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XqIciDY.jpg" alt="">
+                </div>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/9IoPqbR_GSg" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>The y-axis was a little bit more finicky. I quickly reaized that one linear bearing per side was not enough to keep the axis rigid. So, I replaced the single bearing block with two 3D printed bearing holders, effectively doubling the bearing surface area in contact with the linear rod.</p>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/28x-YwcmRyU" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/29fSyeh.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZDA0jbf.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Sl7xxtZ.jpg" alt="">
+                </div>
+
+                <p>For the y-axis belts, I added an idler pulley on the far end of each arm. There were temporarily G2T timing pulleys but were later replaced with a 1/4" shaft and roller bearings.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/a652HRI.jpg" alt="">
+                </div>
+
+                <p>Nema 17 steppers (later replaced with Nema 23s) were mounted on either side, belts were run in a loop, and clamped to the axis with 3D printed belt clamps.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/r5wG20a.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/321tdLK.jpg" alt="">
+                </div>
+
+                <p>With this sorted, I turned my attention to the electronics. The setup was pretty simple. Up top I had standard 3D printer hardware: an Arduino Mega with a RAMPS 1.4 shield and Pololu DRV8825 (A4988as in the picturebelow) stepper drivers. This Arduino would run the Marlin firmware and act as the main 3D printer controller, most importantly receiving gcode from the computer and translating it into machine movement. The x and y axis steppers were controlled directly from the stepper drivers attached to this Arduino. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3D9L6ZX.jpg" alt="">
+                </div>
+
+                <p>I used a computer PSU for power, and an old laptop charger I found to provide the 24V for the DC motor. I braided the cables because I thought it looked nice in the end, but I gave up on making it look pretty very quickly. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rVfjCIc.jpg" alt="">
+                </div>
+
+                <h4 >Figuring Out the Z-Axis</h4>
+                <p>The z axis was more complicated to deal with. The control scheme for this would have to be a little bit different, since instead of a stepper motor like the other two axes, this axis was driven with a regular geared DC motor and encoder. This meant that to raise and lower my z-axis, I had to read the signals from the encoder and use it as an input to a PID loop that would control the position of the motor. Since this type of implementation was not handled by Marlin, I had to implement it myself.  </p>
+                <p>The first step was to read the encoder outputs. The model of the HB6M encoder I had, outputted its quadrature pulses in a differential line output format. What this essentially means is that unlike a single ended transmission, where one wire carries a signal that goes HIGH and LOW with respect to the ground voltage level, differential signals use a twisted pair of conductors and the signal being carried is the potential difference between the two wires.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9wgjxjV.gif" alt="">
+                </div>
+
+                <p>This type of transmission is very useful for maintaining signal integrity in noisy environments, but it did make it difficult to read with just an Arduino. What I needed was the <a href="http://www.ti.com/lit/ds/symlink/am26c32.pdf">AM26C32</a> Quadruple Differential Line Receiver IC. This chip took the differential line signal, 'interpreted' it (albeit all in hardware), an output it as a single-ended, microcontroller-readable signal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PpZ7Wqd.png" alt="">
+                </div>
+
+                <p>With this, I could read it like any other quadrature encoder, for which there are plenty of Arduino libraries. But could my Arduino keep up with the 40,000 pulses per revolution put out by the encoder?</p>
+                <p>The answer was a resounding no. Even using interrupts, the arduino would consistently miss encoder steps and the resulting reading was jerky and inconsistent.  I needed a separate IC that could receive the encoder pulses and transmit them in a better way to the arduino, perhaps over I2C. For the time being though, the reading was good enough to continue.</p>
+                <p>At this point I offloaded the z-axis control to a different Arduino mega. This allowed me to use interrupt pins and various digital outputs without interfering with Marlin on the main controller. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fX8e3hb.jpg" alt="">
+                </div>
+
+                <p>The next step was to communicate between the main controller and the z axis controller. Marlin normally controls the stepper motors on each axis through stepper driver. The arduino sends each driver ENABLE, DIR, and STEP signals to enable control of each motor, set the direction of the motor, and tell it how many steps to move in that direction. Since there was no z axis stepper motor and consequently no z axis stepper driver, my z axis arduino had to read the STEP, DIR, and EN signals from the main controller and interpret them in order to raise and lower the z axis. More specifically, when the ENABLE signal was recieved, it would enable PID control of the z axis motor. It would then read the DIR and STEP signals to know how much to over and in which direction, and make a PID setpoint at this value. The PID algorithm would then compare the current encoder value with the setpoint, and based on the tuned parameters, move the motor until these two values matched. This position would be held until the setpoint was updated.</p>
+                <p>To drive the motor I used a Pololu 3A (3A was definitely not enough) H-Bridge motor driver, but any H-Bridge with sufficient power capability would have worked. </p>
+                <p>This worked reasonably well, but was still a little problematic due to the missed encoder steps. Here's a brief video of the z axis moving up.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/0swVb6p9l0E" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>To finish it off, I printed a hot end mount out of PLA. Plastic was ok in this case because I would only be holding on to the heat brake of the extruder, which shouldn't be getting very hot anyway.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iG2PRw1.jpg" alt="">
+                </div>
+
+                <p>I used a knockoff E3D v6 hotend (because it was cheap) with a 0.4mm nozzle. The blue cylinder on the left is a proximity sensor, which I planned to use as a Z limit switch and to level the print bed in Marlin. This is actually the reason I had to use sheet steel for the bed, since the sensor was inductive and worked best with ferrous materials. </p>
+                <p>I hooked up all the wiring through these screw terminals on the Z-axis, nothing had caught fire yet, and the printer was ready to go.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xbrPkIY.jpg" alt="">
+                </div>
+
+                <p>Or so I thought.</p>
+                <p>The H-Bridge motor controller for the z axis blew out almost immediately when I actually tried to print something. It turned out that the motor  consistently pulled more than the rated nominal current since it was stopping and starting so often and a higher current motor driver was required to reliably drive the z axis motor.</p>
+                <p>At this point only 2 out of the 3 axes were working and it remained that way for a really long time, since I didn't want to spend more money on a new motor driver.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

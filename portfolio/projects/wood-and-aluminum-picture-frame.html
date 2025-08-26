@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wood and Aluminum Picture Frame | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Wood and Aluminum Picture Frame</h1>
+                <p class="project-subtitle">For when you have way more time than money</p>
+            </header>
+
+            <section class="project-section">
+                <p>I bought a picture frame off Amazon and it looked kind of bad. Granted I only paid $10 for it, but considering it's was made to house artwork, you'd think they would have put some effort into making it a little nicer on the eyeballs.</p>
+                <p>I knew I had some time and materials to spare, so I figured I could make one that was a little bit nicer.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jos2chl.jpg" alt="">
+                </div>
+
+                <p> I took a few measurements and hopped on the computer to see what I could do.</p>
+                <h2 >Design</h2>
+                <p>This was my result. This is an 11" square frame with all dimensions generally similar to the original except where they needed to be altered to fit within the stock material I had on hand. I didn't have a single piece of material large enough to make this all one piece, so it is broken up into 4 segments joined at each end with miters.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/I5KyXpx.png" alt="">
+                </div>
+
+                <p>Frames generally tend to be made of wood, but wood is a little bit of a mystery to me. Metal though, I can wrap my head around. </p>
+                <p>The main structure of the frame will be made out of aluminum, which I could machine with high precision on a mill. I could then cut a recess on the top face and attach a wood overlay that held the glass in place. This would create an elegant two-tone face for the frame and it would mean I only need to cut a 2D profile from the wood—which I could do on a CNC router.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UFM1rgI.png" alt="">
+                </div>
+
+                <p>For structural rigidity and ease of assembly, the aluminum frame segments are joined at the corners using half-lap miter joints. Commonly in wood joinery, this interface allows me to use fasteners and locating features in the back of the frame for fixing the segments together while keeping the front face clean.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jZA4N1Y.png" alt="">
+                </div>
+
+                <p>Each joint will receive two 1/8" pins to locate the segments relative to one another with high precision and rigidity. These will be press fit into this bottom segment and a close sliding fit with the top segment so that the frame can be assembled and disassembled at will. </p>
+                <p>I am using hole-hole instead of hole-slot with the mating surfaces of these pins, so these joints were definitely going to be overconstrained. I was hoping this would be ok though, and I had planned a machining order of operations that I was hoping would give me the accuracy I needed. Obviously, it is impossible to fabricate anything perfectly, and you'll see later that while the individual joints fit together, small amounts of error stacked up as the full frame was put together.</p>
+                <p>A 4-40 machine screw pulls the segments together and clamps them in place. The head of the screw will sit inside a counterbored recess and any stickout from the pins will be sanded flush to the back surface of the frame.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ecLHPoC.png" alt="">
+                </div>
+
+                <h2 >Aluminum Fabrication</h2>
+                <p>Time to make some chips.</p>
+                <h3 >Squaring Up Segments</h3>
+                <p>First up was getting the aluminum body segments squared up and brought down to overall size. I cut these from some leftover 1/2" sheet stock I had, and I zipped down the length with a 5/8" endmill to clean up the faces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/f2v0Rpr.jpg" alt="">
+                </div>
+
+                <p>These segments are a little under 12" long but the vice I was using in the mill only has 6" wide jaws. I couldn't support the ends of these beams very well and I got  some minor chatter marks.  I was able to reduce this a little by playing with the speeds and feeds, but wasn't able to eliminate it completely. I wasn't too worried about this—they were fairly shallow and could get sanded off the cosmetic faces pretty easily.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oMh6V4U.jpg" alt="">
+                </div>
+
+                <h2 >Machining Joint Features</h2>
+                <p>After setting my origin for each corner, the holes for the pins and screw were first spotted and then drilled out to appropriate size. The pin holes were reamed to exactly 0.125" for the press fit size and 0.1265" for the sliding fit side. The screw hole was tapped for 4-40 threads.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/d6jatgY.jpg" alt="">
+                </div>
+
+                <p>With the help of some conversational programming, I cut the 45 degree features that would become part of the miter geometry.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Y9nXpO6.jpg" alt="">
+                </div>
+
+                <h3 >Hiding a Mistake</h3>
+                <p>On two of these segments, the holes are not supposed to go all the way through the piece. Otherwise, they would be visible from the outside which was obviously undesirable.</p>
+                <p>I wasn't paying enough attention during one of these corners and I accidentally punched through with a drill bit. I didn't have a lot of stock left and I didn't want to remake the whole segment, so I wanted to see if I could try and fix this.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3cRzzuN.jpg" alt="">
+                </div>
+
+                <p>The plan was to try and press fit some more aluminum in the voids and blend it back into one unbroken surface. Using some scrap aluminum round bar, I carefully turned a narrow cylinder with a diameter slightly larger than these holes I had drilled. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/r2QJpAJ.jpg" alt="">
+                </div>
+
+                <p>I cut two small sections off this long cylinder and with a press, I pushed them into the holes I wanted to hide.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cw8zaS1.jpg" alt="">
+                </div>
+
+                <p>With some filing and sanding, I brought the pins flush to the surface of the segment. The result isn't perfect—I maybe should have reamed the holes out beforehand to make sure they were perfect cylinders—but this is more than good enough. Most of this would get cut away anyway when I put I the recess for the wood pieces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DHktF7S.jpg" alt="">
+                </div>
+
+                <h3 >Installing Locating Pins</h3>
+                <p>Once all the corner features were machined, I could start installing the pins and checking the fit. Two 1/8" steel dowel pins are pressed into each side of the two frame pieces that form the bottom of the half-lap joint.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CBjDVA3.jpg" alt="">
+                </div>
+
+                <p>With some help with the belt sander and some old-fashioned hand sanding, I removed the excess from the back of the pins and brought them in flush with the back surface of the segment.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VXYA3Sp.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eHxkQe1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/L36rAEt.jpg" alt="">
+                </div>
+
+                <p>This process was repeated for all four ends of the two segments.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UJfpGNk.jpg" alt="">
+                </div>
+
+                <h3 >Cutting Recesses</h3>
+                <p>The last machining step was to cut the recess for the wood pieces to sit inside. I used a 3/8" endmill and fed across each of the segments.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/680RhUE.jpg" alt="">
+                </div>
+
+                <p>I had the same chatter problem with this operation, but fortunately the wood would be covering this surface anyway.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/szA5Q1G.jpg" alt="">
+                </div>
+
+                <p>With that step complete, all the structural aluminum frame pieces are done! The two segments on the right form the bottom of the half lap joints and carry the press fit pins as well as the fasteneing screw. The segments on the left, which form the top of the half lap joints have close fit holes to accept the pins and threads to accept the screw. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/X95XSwj.jpg" alt="">
+                </div>
+
+                <h2 >Wood Fabrication</h2>
+                <p>I picked up a 1/8" thick piece of decorative hardwood from Rockler to use for the wood overlays. I chose wenge because I thought the dark color would complement the aluminum as well as the colors in the print that this frame would eventually house. The grain pattern is also very straight and consistent and thus wouldn't distract too much from the artwork inside the frame.</p>
+                <h3 >Routing</h3>
+                <p>I used some carefully placed nails to fix this piece of wood to the shopbot spoilboard and sent the router on its way.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/urgx1Gt.jpg" alt="">
+                </div>
+
+                <p>The job finished successfully, luckily without hitting a single nail.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KeeEC60.jpg" alt="">
+                </div>
+
+                <h3 >Postprocessing</h3>
+                <p>The pieces are a little rough coming off the router so some hand finishing work was in order.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kkORssm.jpg" alt="">
+                </div>
+
+                <p>I used this little block plane to remove the tabs that held each segment down during the routing process. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OzjNBsx.jpg" alt="">
+                </div>
+
+                <p>Finally, some very  light sanding was used on all the edges to smooth and remove any splinters and burrs.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4oC9KY1.jpg" alt="">
+                </div>
+
+                <h2 >Assembly</h2>
+                <p>All pieces are fabricated and ready for assembly.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BAlfV4S.jpg" alt="">
+                </div>
+
+                <p>I was in a hurry and the only compatible adhesives I could find were CA glue and E6000. I figured with the different CTEs of wood and aluminum, the flexible E6000 adhesive would hold up well as the two expanded and contracted over time. </p>
+                <p>I roughed up the mating surfaces of the aluminum and applied the E6000. I didn't want to clamp these while the glue dried, so I popped on a coupe dabs of superglue to hold everything together while the E6000 cured.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Pntt1uN.jpg" alt="">
+                </div>
+
+                <p>The next day, I grabbed some sandpaper and got ready for sanding. this was mainly to clean up the edges of the wood facing the miter joint and ensure everything could fit together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ff7fICz.jpg" alt="">
+                </div>
+
+                <p>The visible surfaces of the aluminum and wood were sanded as well. I intentionally cut the recess in the aluminum slightly shallower than the thickness of the wood so that at this step, I could bring them exactly flush with one another. I sanded up to 440 grit, and did a few unidirectional swipes to give the aluminum a brushed finish.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UNLZSVB.jpg" alt="">
+                </div>
+
+                <h3 >Oops, Overconstrained</h3>
+                <p>Like I mentioned earlier, the two mating pins at every joint would technically over constrain each joint—leading to problems if everything wasn't machined perfectly. I was happy to see that despite this, all the joints individually fit together great. However, when I was putting all the segments together, I could only seat three out of four of the joints. The error stackup over all four joints as well as slight variations in the lengths of the segments made it so that the pins in this last interface could not slide into their intended holes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/FRxns1r.jpg" alt="">
+                </div>
+
+                <p>To address this in a pinch, I used a drill bit to slightly expand both pin holes to clearance fits.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Z7oP9wd.jpg" alt="">
+                </div>
+
+                <p>This worked great, and I was able to assemble all the segments together using a 4-40 machine screw on the back of each corner.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7CEGjXP.jpg" alt="">
+                </div>
+
+                <h3 >Finishing</h3>
+                <p>The wood was finished with some coats of butcher block conditioner I had on hand. This is just a mixture of mineral oil and beeswax. The frame would live inside on a nice dry wall, so it didn't need more resilient finishes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HzRDU6F.jpg" alt="">
+                </div>
+
+                <p>This darkened up the wood and improved the texture considerably.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GCk4mLn.jpg" alt="">
+                </div>
+
+                <h2 >Assembly</h2>
+                <p>It was finally time to put the frame together with its contents. </p>
+                <p>I reused the glass, mat, and backing from the old frame. The print is "Pagan Cats" by Cécile Berrubé.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7sJiu3L.jpg" alt="">
+                </div>
+
+                <p>Here's the finished product. I tried to choose the colors of the frame (gray aluminum and dark brown wenge) to match the gray and dark brown colors in the print.</p>
+                <p>I'm pretty happy with the way this ended up, especially the corner that I fixed earlier with the press fit aluminum. The fix is visible if you zoom in on the top of the left segment, but from a distance it can't really be noticed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cez6Bi0.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

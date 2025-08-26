@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-Stage 'Electromagnetic Accelerator' | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/arduino-light.min.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>4-Stage 'Electromagnetic Accelerator'</h1>
+                <p class="project-subtitle">subtitle</p>
+            </header>
+
+            <section class="project-section">
+                <p>Remember these?</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Wr4Zmri.jpg" alt="">
+                </div>
+
+                <p>If you don't, you should go check out my <a href="./bigger-arcs-with-the-drsstc.html">Bigger Arcs with the DRSSTC</a> page. To be honest, that page is not actually relevant to this post at all aside from those capacitors, but I still think it'll be a cool read.</p>
+                <p>Anyway, I didn't end up using these caps for what I originally bought them for and I felt kind of bad about spending money on them, so I decided to use them in a project I've wanted to try for a long time- a multi-stage coil gun!</p>
+                <p>The core concept behind a coilgun is pretty simple- an electromagnet is used to pull a ferrous projectile through and out of a barrel. To generate the electromagnetic field required to attract the projectile, we use a a coil of wire wrapped around the barrel (hence the name). When an electric current is fed through the coil, it acts as an air-core solenoid and produces an axially directed (down the barrel) magnetic field that attracts the metal projectile. </p>
+                <p>However, as you can imagine, if this coil is kept on constantly, the projectile will just move to the center of the coil and be held there until the current is removed. So, if we want the projectile to actually leave the barrel, the magnetic field produced by the coil would have to be controlled so that it is on just long enough to accelerate the projectile forward, but not so long that the projectile gets sucked right back into the field. In other workds, the current in the coil needs to be produced in a very short burst.</p>
+                <p>Moreover, if we want a faster projectile, we have to maximize the amount of current dropped into the coil during this short burst, since a higher current means a stronger magnetic field produced by the coil and thus a stronger pull on the projectile. </p>
+                <p>To address both issues, we can use <em>capacitors</em> as the energy storage device for the coil, whose low internal resistance makes them capable of dumping all of their charge very quickly through the coils. Since the coils themselves have some amount of DC resistance, we can use handy Ohm's law to realize that the only way to increase the current we send through the coil during this quick dump is by increasing the voltage, and thereby putting more charge on the capacitors.</p>
+                <p>The capacitors you see above are not particularly big (in fact they're minuscule in coilgun terms) which means that they are only capable of storing quite a small amount of energy  (but still more than enough to kill you!). So, this was going to have to be a pretty small coilgun. On the bright side, the capacitors are rated for 400v, and I planned on using as much of that voltage real estate as I could.</p>
+                <h4>High Voltage Generator</h4>
+                <p>Now charging capacitors to 400V is no simple task, especially when your only power source is a 12V battery. Tho tackle this, I had to employ the help of this little thing I found in my old junk pile.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/X9PfnJ3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IzBshdy.jpg" alt="">
+                </div>
+
+                <p>My old induction heater! This circuit is based on the Mazilli flyback driver circuit created by Vladmiro Mazilli that has become so ubiqitous since its creation that pretty much any hobby-level induction heater sold today uses the same circuit. It is a Zero Voltage Switching (ZVS) circuit that is designed to take in a low voltage (like 12V) DC input and produce and alternating current through the output coil using self-resonance. As the name suggests, this circuit was originally intended to drive flyback transformers, like the ones powering old CRT tubes, so with a few minor modifications, I could turn the induction heater back into a flyback driver capable of pushing an alternating current through the coils of a step-up transformer.</p>
+                <p> Now I didn't need to generate nearly as high of a voltage as what is produced by a typical CRT flyback, so I would have to wind my own transformer. Luckily, I had the core of a flyback transformer lying around from the last time I had taken apart a TV. Now it didn't <em>have </em>to be the core from an actual flyback transformer, as nearly any transformer shape and size would work fine for the circuit, but this was the only empty and clean ferrite core I had around at the time.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bvwTMIG.jpg" alt="">
+                </div>
+
+                <p>Since I wasn't exactly too sure how the resonant frequency and capacitor loading would affect the output of the ZVS driver and the driver, I started with a low-voltage test. I wound approximately 20 turns of 30AWG magnet wire around one side of the core to act as the secondary, and 10 turns (center-tapped) on the other side as the primary. For the primary windings, since they had to carry more current, I used two strands of magnet wire twisted together.</p>
+                <p>As a side note, a lot of high-frequency, high current transformers use something called Litz wire for their windings to combat the skin effect, a phenomenon where as the frequency of the alternating current through a conductor increases, more and more of the current travels through only the periphery, or skin, of the conductor. This obviously leads to electrical losses. Since Litz wire is is made up lots of individually insulated thin gauge magnet wire strands woven together into a single cable, its skin surface area is increased greatly and thus the current carrying capability of the wire is vastly improved. </p>
+                <p>Anyway, I connected the primary windings to the ZVS driver and the secondary output to a bridge rectifier and a small capacitor. When I fired it up with 12VDC input, I measured 70-something volts across the capacitor. This makes sense! I am feeding each side of the center-tapped primary (5 turns) 12V, so naturally, with 20 turns on the output (4 times the number on the input), I should expect to see 64V on the output. The reason we get 70-something after the bridge rectifier is because 64V is the RMS voltage of the AC input, whereas what we are measuring on the DC side is somewhere between that and the peak voltage.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ck5DOh8.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SMD7PpA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MBhx2WS.jpg?1" alt="">
+                </div>
+
+                <p>Knowing this, I just tripled  the number of windings on the secondary in order to achieve an output voltage a little bit greater than 200V. I put a little bit of  brush on polyurethane on the windings to seal them and hold them in place and held everything else together with a bit of superglue and electrical tape where appropriate. The picture below gives a bit of perspective on how huge that transformer core is- I really need to find something smaller.</p>
+                <p>As for the ZVS, driver, I disassembled it from that admittedly ugly board I had soldered together many years ago and reassembled it as a very compact free form circuit that wouldn't take up too much space on the final device. Obviously this configuration is at a pretty big disadvantage in terms of thermals, but i didn't plan to run it long enough (or at high enough power levels) for that to be a problem.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AaMJHJw.jpg" alt="">
+                </div>
+
+                <h4>The Coil</h4>
+                <p>With that done, I moved onto building the star of the show: the coil itself. </p>
+                <p>For the projectile, I sawed a steel nail in half and designed the coil and barrel around the dimensions of that. The barrel was 3D printed and sized so that it fit as closely as possible around the projectile while also allowing it to move freely. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sBXGmw4.jpg" alt="">
+                </div>
+
+                <p>The coil was just wound directly onto the barrel to an arbitrary length and number of turns using 30AWG wire, which was the thickest magnet wire I had on hand. If we take a look at the equation for magnetic field produced in a solenoid, we can see that in order to get a large B, we need to increase the number of turns (N), decrease the length of the solenoid (L), and or increase the current through the solenoid (I). </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zGTjW7a.png" alt="">
+                </div>
+
+                <p>However, we can't easily increase all three. Since the wire itself has resistance, as we increase N bu winding more wire onto the coil, we also increase the resistance of the coil and thereby reduce the current I for the same input voltage. This can be solved with thicker gauge wire (less resistance) or a higher voltage but for me, with the supplies I had on hand, these parameters were unfortunately not changeable. Ideally, these coil parameters are chosen and optimized through simulation, but I didn't really want to bother with all that so I just went for the experimental approach.</p>
+                <p>And it worked! Which was kind of surprising. Obviously, since I was just using my hand to connect the coil and capacitor, I had no control on how long the current was present in the coil. In fact, the duration of current flow, and thus the duration of the magnetic field, was completely reliant on the RC discharge curve of the resistor capacitor combo. Somehow, I had wound a coil with a number of turns that happened to work quite well with this capacitor. </p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/PLgWbM-BCTM" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>You'll notice that I did accidentally make the coil a little too long, and that likely had a detrimental effect on the speed of the projectile. But, I didn't really have too much magnet wire left to mess around with so I made the decision to just move forward with this design and not waste much extra wire experimenting with different coil sizes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rn2gvEy.jpg" alt="">
+                </div>
+
+                <h4>Trigger Circuit </h4>
+                <p>Now that I had a single stage done, I had to build 3 more (one for each capacitor). These can be placed sequentially, and if triggered at the right time, each stage will add momentum to the projectile.</p>
+                <p>But therein lies the rub. Triggering each of the coils to fire at the exact time so that the magnetic field in each coil grows and collapses just as the projectile passes through is not a trivial task. To do this, I need to use sensors to know the location of the projectile as it passes through the barrel, and an obvious choice is photo-interrupt or break-beam sensors since they;re fast and don't need to physically contact the projectile to make their measurement.</p>
+                <p>I didn't actually have any real photo-interrupt sensors so I had to design some of my own. For the light source, I chose to use a couple common of 5mW laser diodes, because they could produce a high intensity localized point of light. This light would then be focused directly on the sensing element, for which I used some regular old red LEDs with a clear housing. Just as applying a voltage across the pins of an LED creates light as an output, applying light to the LED as an input produces a small amount of voltage across its pins, similar to a solar panel. However, the change in change in the LED's output voltage with the laser light blocked and unblocked is much too small to be detected by the Arduino.</p>
+                <p>To boost the signal, the sensing LED is then installed in 'reverse', with its anode connected to ground, and its cathode feeding into the inverting input of a op-amp comparator. The non-inverting input of the comparative is fed with a 400mV reference voltage through a resistor voltage divider. When there is nothing blocking the laser light from entering the LED, the voltage produced by the LED pulls down the inverting input below the reference voltage. In this state, the output of the comparator is off.  As soon as the laser light is blocked however, the LED can't provide enough voltage to pull the inverting input down, so it rises to the same voltage as the reference and the comparator output turns on. </p>
+                <p>The output of this particular comparator is an open collector of an NPN transistor whose emitter is connected to ground. This means that the 'on-state' of the comparator output is a direct connection to ground. If we connect this output to a pullup resistor (or use the Arduino's built in pullups) we can detect this connection to ground (due to the projectile blocking the sensor) as a falling edge in the signal and trigger an interrupt service routine in the Arduino. This can all happen very quickly (on the order of nanoseconds), so this type of sensor should be more than good enough to detect the projectile.</p>
+                <p>The schematic below shows the sensing circuit. There are three sensors, one  to trigger each coil after the first. Obviously, the first coild will be triggered manually so I can have control over when the coil gun fires.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6p06Y57.png" alt="">
+                </div>
+
+                <p>I put the circuit on a breadboard first and confirmed its operation before 3D printing brackets for the sensor and installing it around a new barrel, which has small cutouts to allow the laser beam to pass through. In the pictures below you can see the brass colored laser diode held in place directly across from the clear LED.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wcyZY2J.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JIQtdB5.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MI0Mapp.jpg" alt="">
+                </div>
+
+                <p>Each detector is placed just before the coil it is responsible for firing, so that it can alert the arduino when the projectile approaches the coil. The idea with this setup was to fire the first stage manually, and the next three stages would be fired automatically by the arduino when it detects that the projectile is close enough to the appropriate coil.</p>
+                <h4>Adding Stages</h4>
+                <p>I wound 4 coils on the barrel using the first one I tested as a reference for size. Each of the coils ended up having close to 5 Ohms of DC resistance, meaning at 200V, the initial current through each coil would have a similar value- about 40A.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PPskr0x.jpg" alt="">
+                </div>
+
+                <p>The following schematic shows how the 4 stages are electrically connected. The capacitors are charged basically in parallel, where all the positive and all the negative leads of all 4 capacitors are connected together. However, just connecting the capacitors in parallel won't work, because as soon as one coil is triggered, all the capacitors will dump their joice into it rather than just the one intended capacitor. To solve this, diodes are placed between the positive connections of the capacitors so that charge can only flow into the capacitor and not back into the capacitor behind it. </p>
+                <p>One side of each coil is connected to the positive terminal of its corresponding capacitor. The other end of the coil is connected to the negative terminal of the capacitor through a type of thyristor known as a Silicon Controlled Rectifier (SCR). This acts as a switch, and is necessary so that we can control, via the Arduino, when to dump the capacitors energy into the coil. An SCR is basically a diode that we can turn on by pushing a little bit of current into its gate, which will result in conduction of current between the anode and the cathode. Unlike a typical transistor however, the SCR cannot be turned off and keeps conducting until the current drops to zero. This makes it behave the same way as me connecting the capacitor and coil by hand earlier, where I can control when the coil fires, but not how long it fires for, since the SCR won't disconnect until the capacitor dumps all of its charge through the coil. This is not a problem for tiny capacitor like I hae, but larger coilguns with larger capactirs tend to use something like large IGBTs or MOSFETs to preciseley control the on-time of the current pulse from the capacitor. </p>
+                <p>On the bright side, SCRs are significantly cheaper than IGBTs or MOSFETs for the same power handling capability. I picked up a couple of BT-151 SCRs which are rated for 600V and 20A continuous current (or 200A burst current), which is more than capable of handling the power levels I was working with. </p>
+                <p>Initially, as the schematic shows below, I connected the gates of the SCRs directly to the Arduino's output pins. Obviously this is pretty dangerous, since there is no isolation at all between the high voltage from the capacitors and the low voltage of the Arduino, but it seemed to work initially so I just went with it </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XRF4w2D.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eubnJ8O.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0lPJcLk.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ePnxXio.jpg" alt="">
+                </div>
+
+                <p>Again, before moving forward, I tested the circuit with the Arduino in place on the breadboard to confirm that everything was working as it should. When I was satisfied, I soldered everything to a small piece of perfboard. I also added a small relay (white rectangle to the right) but didn't end up using it for anything.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eSMPh8a.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3Tx6SQk.jpg" alt="">
+                </div>
+
+                <h4>Oops! Fixing Problems</h4>
+                <p>Well the first time I turned everything on with the new control board, the Arduino stopped working almost immediately, which was pretty disappointing. I began probing around to try and figure out why the Arduino gave out when I noticed this signal on the wires between the Arduino and the SCR which only appeared when I was charging the capacitors.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/z6Zl63Y.png" alt="">
+                </div>
+
+                <p>You can see that this noise has a peak to peak voltage of over 10V, and I even saw it go over 30V occasionally. So no wonder the Arduino stopped working with these kind of voltages being fed into its pins. </p>
+                <p>Initially, I thought this could be due to the lack of isolation between the Arduino and the SCRs from earlier, so I redesigned the circuit a little bit and used optocouplers to electrically separate the Arduino from the high voltage end (which I should have done in the first place, I know. I'm in the future too). I soldered up the opto couplers directly to the SCRs and made all the appropriate wiring changes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xIngKp8.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/k2Jej1I.jpg" alt="">
+                </div>
+
+                <p>But the noise was still there! With a little more investigation, I found the true culprit. The signal wires were running very close to the charge flyback transformer, which, when turned on, would <em>induce</em> these huge voltages as noise in the signal wires themselves. This is why I would only see the noise when charging the capacitors. To try and combat this, I could have tried to build some kind of shielding for the wires, but the easiest approach was to reduce the size of the transformer so that the magnetic fields it produced could have a lesser effect on the conductors around it. </p>
+                <p>The only small ferrite cores I had were from these small audio isolation transformers. These were significantly smaller than the old flyback core but still large enough to fit all the windings I needed. Of course to use them, I would have to take them apart, remove all the old windings, and put in my own at the appropriate turns ratio.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WUeK7kD.jpg" alt="">
+                </div>
+
+                <p>Getting them apart though, was a huge pain. The extremely delicate and brittle ferrite  core was epoxied together, so I had to first try and soften that before I could disassemble it for un-winding and re-winding. I tried to use hot water, but that that was nowhere near the temperature I needed and I ended up accidentally breaking the core while trying to pull it apart. In the end, I ended up using a hot-air gun and blasting the transformer until the glue basically burned opp. That worked pretty well, and I was able to clean up the transformer, install my new windings (still using 30AWG wire), and put the transformet back together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HybINaN.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4hFwXuw.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LmEJig0.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0L2QIog.jpg" alt="">
+                </div>
+
+                <p>And it works great! Probing the voltage input of the transformer, we can see that it's operating at more than double the frequency of the last one. This is because the smaller core has a much lower inductance and thus a much higher resonant frequency.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/g25tJvo.png" alt="">
+                </div>
+
+                <p>The bridge rectifier I was using was not really happy with this boost  in frequency however (not that it was happy with the old frequency either). This thing is designed for rectifying mains AC current, which is normally at 50Hz or 60Hz. Unfortunately, that means the diodes inside it do not have a fast enough recovery time to work with the 50kHz (1000x its rated frequency) current I was putting into it. This makes it so hot that in the current configuration, I can only charge the capacitor four times before the rectifier starts melting the plastic its sitting on. i will obviously have to replace this with some fast recovery diode when I get my hands on them.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hiZjyYN.jpg" alt="">
+                </div>
+
+                <p>The transformer core change was successful and the noise was reduced! But then I ran into a different problem. For some reason, when the capacitor voltage got to around 160V, the coils would self trigger and dump all the energy before I could even charge to the full voltage. This was pretty odd, because this was still far below the maximum voltage rating of the SCRs.</p>
+                <p>After a long time poking around the connections, I came to the realization that the source of the triggering was not the SCRs but rather the optocouplers controlling their gates. The optocouplers, just like any other transistor, have a maximum rated voltage they can withstand between their collector and emitter (Vce_max) . For these optocouplers, that voltage is 35V.  I completely forgot to account for this in the last version of the design, so as the capacitors charged, the Vce on the optocouplers rose with the capacitor voltage to well above the rated Vce_max. At some point (which in this case happened to be around 160V) the depletion region in the optorcoupler's  photo-transistor would become sufficiently small to allow for conduction, thus dumping charge into the gate of the SCR and triggering it prematurely.</p>
+                <p> Knowing this, I redesigned the circuit one last time to use a 5V voltage regulator running directly off the battery as the current source for the gates of the SCRs. Since the battery and the voltage regulator were in no way connected to the Arduino or any of the low voltage electronics, the isolation was maintained.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UNl6ZTP.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CPETMdk.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ks9thuL.jpg" alt="">
+                </div>
+
+                <p>I wired up the whole high voltage side including the SCRs, capacitors, and optocouplers sort of free form on the barrel itself partly to completeley pysically isolate it from the low-voltage electronics and my hand as I was holding the device, but also partly because I thought it looked pretty cool. All the exposed circuit elements and copper wire give the gun  a apocalyptic weapon sort of vibe but all the exposed high voltage connections are probably not too great for my health.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1XbxROI.jpg" alt="">
+                </div>
+
+                <p>For control, I used these nice japanese Omron microswitches I had lying around. They have a real heavy detent and a nice satisfying click, so I felt they'd be a good fit for this application. I used two switches- the one on the side of the handle, which I could actuate with my thumb was to power the flyback driver and charge the capacitors and the one in the trigger well was, well, the trigger. It sent a signal to the Arduino to let it know when to fire the first coil.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bGv6PGm.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wuWY4pu.jpg" alt="">
+                </div>
+
+                <p>There are two power sources for the gun. A 12V li-po battery powers the flyback driver for the high voltage side of the device and a small USB power bank supplies 5V to the Arduino and photo detector circuitry. These are both strapped with velcro ties to the stock of the gun right before it joins with the butt.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/88acqjB.jpg" alt="">
+                </div>
+
+                <p>And that's it! All the electronics were hot glued and mounted on a (poorly) designed and 3D printed rifle body. It ended up being a bit longer and more stupid-looking than I had intended, and the fit and finish of the completed devise is pretty bad, but at least it fits comfortably in my hand, actually has a surprisingly decent balance, and is fairly intuitive to use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mF4NFcx.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kZr4bcA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZETco3x.jpg" alt="">
+                </div>
+
+                <p>Currently, the projectiles have to be loaded manually in the back of the barrel. Some time in the future, I plan to try and make some sort of hopper or feeder that will let me load in the projectiles in a slightly more automated way.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/H3x9v0R.jpg" alt="">
+                </div>
+
+                <p>Here's a quick demo of the coil gun firing into a block of foam. Now there's no charge indicator on the device yet, so its difficult to tell when the capacitors are fully charged and ready to fire. But, if you listen closely in the video, you can hear two little chirps (or squeaks?) coming from the gun every time I hold down the charging button. As the capacitors draw current from the charging circuit, the increased load causes the resonant frequency of the charging transformer to drop into the audible range, which we can hear as chirps. Once the chirps stop, it indicates that no more current is flowing into the capacitors and that they are fully charged. You can even hear this squeal in the proof of concept test firing above. This is what I've been using so far to determine when the coilgun is ready to fire.</p>
+                <p>Aside from these squeaks and the clicking of the trigger buttons, the coilgun is naturally completely silent, which is pretty cool.</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/4yCI9zmkTVk" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>The first two shots you see in the video are using pointed projectiles and  the final shot is using a blunt projectile.</p>
+                <p>As I've mentioned a couple of times already, the energy stored in the capacitors is pretty small and even then only about 1% of that gets transferred into the projectile so its obviously not very powerful. You can see in the video that if I shoot from even a little further away than point-blank, like I do with the third shot, the projectile can't even make it into the block of foam and bounces right off. In fact, shooting it with my hand placed directly over the barrel doesn't even break skin.</p>
+                <p>The goal of course was never to make a destructive weapon, and this project was more a way for me to experiment with the concept of an electromagnetic accelerator in a fun way. So at least in that regard, this was a pretty successful build.</p>
+                <p>Here's the fairly simple program running on the Arduino:</p>
+
+                <pre><code class="cpp">
+#define sens1 8
+#define sens2 3
+#define sens3 2
+
+#define coil1 A3
+#define coil2 A2
+#define coil3 A1
+#define coil4 A0
+
+#define chargeRelay 6
+
+#define trigswitch 11
+
+bool flag = 0;
+
+void setup() {
+    pinMode(sens1, INPUT_PULLUP);
+    pinMode(sens2, INPUT_PULLUP);
+    pinMode(sens3, INPUT_PULLUP);
+    enableInterrupt(sens1, blink1, FALLING);
+    enableInterrupt(sens2, blink2, FALLING);
+    enableInterrupt(sens3, blink3, FALLING);
+
+    pinMode(coil1, OUTPUT);
+    pinMode(coil2, OUTPUT);
+    pinMode(coil3, OUTPUT);
+    pinMode(coil4, OUTPUT);
+    digitalWrite(coil1, LOW);
+    digitalWrite(coil2, LOW);
+    digitalWrite(coil3, LOW);
+    digitalWrite(coil4, LOW);
+
+    pinMode(trigswitch, INPUT_PULLUP);
+
+    pinMode(chargeRelay, OUTPUT);
+    digitalWrite(chargeRelay, LOW);
+    
+    Serial.begin(9600);
+}
+
+void loop() {
+    if (digitalRead(trigswitch)){
+        Serial.println("t");
+        digitalWrite(chargeRelay, LOW);
+        digitalWrite(coil1, HIGH);
+    }
+    else{
+        digitalWrite(coil1, LOW);
+        digitalWrite(coil2, LOW);
+        digitalWrite(coil3, LOW);
+        digitalWrite(coil4, LOW);
+
+        digitalWrite(chargeRelay, HIGH);
+    }
+    delay(0.1);
+}
+
+void blink1() {
+    //delayMicroseconds(500);
+    if (digitalRead(trigswitch)){
+        digitalWrite(coil2, HIGH);
+    }
+    else{
+        digitalWrite(coil2, LOW);
+    }
+}
+
+void blink2() {
+    //delayMicroseconds(500);
+    if (digitalRead(trigswitch)){
+        digitalWrite(coil3, HIGH);
+    }
+    else{
+        digitalWrite(coil3, LOW);
+    }
+    }
+
+    void blink3() {
+    //delayMicroseconds(500);
+    if (digitalRead(trigswitch)){
+        digitalWrite(coil4, HIGH);
+    }
+    else{
+        digitalWrite(coil4, LOW);
+    }
+}
+                </code></pre>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize highlight.js after the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+
+</html> 

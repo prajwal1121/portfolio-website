@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Product Electronics | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Consumer Product Electronics</h1>
+                <p class="project-subtitle">Mostly making things look nice</p>
+            </header>
+
+            <section class="project-section">
+                <p>I was in a product design course a little while ago and my team had decided to develop an over-the-counter therapeutic device for home usage. I was in charge of developing the electronics to make the whole thing go. </p>
+                <p>The full nuanced details and background of the device are not as relevant for this page, but it was a semi-portable cooling/heating bandage system for various ailments. A user would be able to navigate a UI to choose or customize temperatures and ramp/soak profiles. Upon starting the device, a detachable "bandage", which could be wrapped around the user, would use recirculating water to bring warmth, cooling, or a combination of the two to the affected area.</p>
+                <h2 >System Design</h2>
+                <p>After some design work, the system was simplified to a few essential parts. Here's a quick little block diagram.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vMMIGHh.png" alt="">
+                </div>
+
+                <p>Lets go one section at a time.</p>
+                <h3 >Power Supply</h3>
+                <p>The system was to be powered by a DC power source, likely in the form of an external AC adapter. We also wanted the system to be optionally powered from a battery so the device could be used offline for small durations of time, for example while traveling from one place to another. The details of this are a little more complicated than it might seem.</p>
+                <p>The power input was to be designed such that the system could be used with or without the battery installed. When no battery is installed, the system gets all of its power from the DC wall adapter for as long as it's plugged in. With a battery installed, the system should similarly be able to power itself and run from the battery until the battery reaches a minimum voltage and then shut off. Simple enough. </p>
+                <p>However, when BOTH are plugged in, we not only want the wall adapter power to take precedence over the battery, but we also want a portion of the wall adapter power to go into charging the battery. In this case, the system gets as much power as it needs from the DC wall adapter as usual, but we also siphon a predetermined amount of current into replenishing the battery — even while the system is off. This preset current depends on how much overhead the power adapter has (how much additional current it is rated for after powering the system) and determines in part how quickly the battery is recharged. This feature ensures the battery will stay topped up between uses.</p>
+                <p>To be fair, this is a relatively common problem and there exist dedicated ICs that can perform some or all of these functions. The voltage and current requirements however were not common. The individual peltier modules and assemblies we were looking at came in 12V and 24V flavors. The 24V options had a notably higher efficiency and, since this was to be battery powered and TECs are already famously low efficiency devices, we needed all we could get. The size of module we were considering was rated to pull 15A on average. Because any buck/boost converter would get large and hot at these power levels, I decided to keep it simple and run the system straight off ~24V batteries. A 6S Lithium-Ion pack would do the trick.</p>
+                <p>Unfortunately, this is a relatively high voltage and almost all of the all-in-one ICs that would do the power switching and charging tasks were intended for lower USB voltages and 1S - 2S battery packs. After some searching, I found a single IC that was up to the task. You can find the datasheet <a href="https://www.ti.com/lit/ds/symlink/bq24618.pdf?ts=1693819195382&amp;ref_url=https%253A%252F%252Fwww.google.com%252F" target="_blank" rel="noreferrer noopener">here</a>.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bv0s3fk.png" alt="">
+                </div>
+
+                <p>Now isn't that convenient...</p>
+                <p>Important to note is that this controller uses a buck converter for battery charging, which means our input  from the DC power adapter needs to be 24V or higher. This is not an issue - we can purchase a large 24V power supply from Meanwell/other manufacturer and tune the output to be slightly higher than the Li-Ion batteries' full charge voltage of 6*4.2V = 25.2V. Everything else in the system will have no problem tolerating this slightly higher voltage.</p>
+                <p>This is the schematic I laid out in Eagle centering around the BQ24618 IC. There are a few other components on here to note — most importantly a couple of header pins in the top right to accommodate an off the shelf buck converter module. This is to drop the 24V input power to 5V for logic power. There's no sense in making more work for myself building one of these into the board when I can pick up an already super compact board for a few dollars. There is also a linear voltage regulator LP298XS up top that drops the 5V to 3.3V for the thermocouple reader IC (which I'll get to later). Finally a regulator, P-channel mosfet, and a header pin in the top left for turning the whole thing on/off with a button press.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mceVvjz.png" alt="">
+                </div>
+
+                <h3 >Outputs</h3>
+                <p>Now that power is in the system, we can to control how it goes out</p>
+                <p>The Fan and Pump (mentioned in the block diagram above) are simple to control. We simply need to be able to vary the power going into them or turn them off entirely. Each device gets a terminal block to connect to and a high-side switch with an N-channel mosfet hooked directly to the system 24V bus. We can switch the mosfet with a PWM signal from out controller and vary the amount of power going to each to adjust the speed. I also added an indicator LED so we could tell what was happening when testing/debugging.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lXVD68t.png" alt="">
+                </div>
+
+                <p>The peltier output was only slightly more complex, since in addition to varying the power we also needed to vary the polarity of the output to switch between heating and cooling. This can be achieved with a simple H-bridge driver, like what is used to control the speed and direction of common DC brushed motors. </p>
+                <p>I made the whole bridge out of n-channel mosfets, since they are easier and cheaper to get at the power requirements we needed. Because the current draw from the peltier modules was rather large (15A - 20A) and we weren't planning on having any additional heatsinking for these guys, I needed to find mosfets with a fairly low on-state drain/source resistance (Rds). The ones I ended up going with (<a href="https://www.infineon.com/dgdl/Infineon-IAUC120N04S6L009-DataSheet-v01_00-EN.pdf?fileId=5546d4626c1f3dc3016c4c4d087c177b" target="_blank" rel="noreferrer noopener">IAUC120N04S6L009</a>) have a rated continuous current of 120A. This might seem like overkill, but this is a bit of a deceptive figure because that rated value is not achievable with a practical amount of heatsinking. It suffices to say that you're almost always better off going with the largest current rating and lowest Rds mosfets you can fit into your budget and footprint constraints. They will run cooler.</p>
+                <p>Anyway, the issue with running a h-bridge with all n-channel mosfets is that a separate gate driver is required. Mosfets are turned on by applying a voltage between their gate and source pins above some threshold value that varies between mosfets. The bottom two mosfets have their source pins connected to ground, so it's straightforward for a controller that shares the same ground reference to raise the voltage on the gate high or low relative to that ground. The top two on the other hand have their sources connected to the load, which complicates turning them on or off. There are many gate drive IC's that solve this problem, and I went with the <a href="https://www.mouser.com/datasheet/2/302/MC33883-3138397.pdf" target="_blank" rel="noreferrer noopener">MC33883HEG</a>. This guy references the source potential of all the mosfets individually and uses an internal charge pump to always deliver a 24V gate-source potential difference.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/i03MtTE.png" alt="">
+                </div>
+
+                <h3 >Temperature Monitoring</h3>
+                <p>The water temperature in the loop is monitored via a K-type thermocouple so the controller can adust peltier power output as needed. I am using a <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max31855.pdfhttps://www.analog.com/media/en/technical-documentation/data-sheets/max31855.pdf" target="_blank" rel="noreferrer noopener">MAX31855K</a>, which is a simple cold-junction compensated thermocouple reader IC that communicates to the controller via SPI. I chose this one because there is already an Arduino library for it, which will save some time when it comes to programming later on. This runs on 3.3V but the SPI lines are 5V tolerant. This just means we don't have to do any logic level converting between this and the controller, which runs on 5V logic.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/stNK8KZ.png" alt="">
+                </div>
+
+                <h3 >Peripherals</h3>
+                <p>I've also included header pins for connecting WS2812b addressable indicator LEDs (left), and encoder knob(middle), and an I2C display (right).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6lCftJZ.png" alt="">
+                </div>
+
+                <h3 >Controller</h3>
+                <p>To run the whole show, I chose an ATMEGA4809 chip. I've used these in the past and at least prior to the chip shortage, they were very easily available. Super simple to use and flash with an Arduino bootloader for easy programming. I created a minimal layout with a USB-C connector and a MCP2221 USB to UART IC for uploading programs. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/njCZmWK.png" alt="">
+                </div>
+
+                <h2 >PCBs</h2>
+                <p>I stuffed all these components together into as compact of a one-sided layout as I could get, cleaned up the labeling, and sent them out for manufacturing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WYwB1Fx.png" alt="">
+                </div>
+
+                <p>I used JLCPCB, and we had the boards in a little more than a week with a net cost of no more than $40. Since these were still prototype boards, I dind't go with any fancy option - just green solder mask and plain HASL finish. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bAMSq6o.jpg" alt="">
+                </div>
+
+                <p>First thing I did was solder up the power supply section and ensured everything was working as intended. This involved making sure the on button, the power input switching, and the battery charging all worked and ensuring that nothing was getting hotter than expected. I also installed the off-the-shelf buck converter, adjusted the output to 5V, and checked that all the voltages around the bord were what I wanted them to be.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3Dai4m6.jpg" alt="">
+                </div>
+
+                <p>Once I made sure nothing would be destroyed by an errant power supply, I went aead and soldered the ATMEGA4809 and its supporting infrastructure. Quickly flashing the bootloader and uploading a blink sketch allowed me to confirm via the indicator LED that the microcontroller section was working fine. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jscThTR.jpg" alt="">
+                </div>
+
+                <p>I went ahead and soldered everything else, including the high side switches for the pump and fan (top), bridge rectifier for the peltier (middle), and thermocouple reader (bottom). These were also easy to confirm working with some quick arduino sketches.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oRKhOJU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nEAtFAl.jpg" alt="">
+                </div>
+
+                <div class="project-video">
+                    <video controls>
+                        <source src="https://i.imgur.com/oWPv9xY.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div class="project-video">
+                    <video controls>
+                        <source src="https://i.imgur.com/EnK4xP9.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <h2 >A Brief Digression About Lights</h2>
+                <p>I had a little extra time and decided to jazz up the indicator lights just for fun. You could see them in action in the previous video. I decided to go with a little status bar across the top with a strip of WS2812b individually addressable LEDs.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tE4bHdg.jpg" alt="">
+                </div>
+
+                <p>The front panel was made of 3mm laser cut acrylic sheet. Sticking the LEDs right up against it seemed a little tasteless so I used a thin strip of white acrylic behind the panel and offset the LED strip by a centimeter or so with some additional pieces of black acrylic. This gave the diffuse effect I wanted and was just far enough that individual LEDs were not discernable by eye (though the camera could pick it up sometimes).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dFseuCZ.jpg" alt="">
+                </div>
+
+                <p>I had attached the white acrylic to the front panel with acrylic cement, but that created lots of tiny bubbles that were very visible when the lights were off. It was difficult to eliminate these completely, even with careful application and clamping pressure.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0FmXWHK.jpg" alt="">
+                </div>
+
+                <h2 >Prototype Assembled</h2>
+                <p>This was the prototype device put together. It obviously lacks a little nuance, but it was good to see everything connected and working. With this done, we can get to wrapping everything up in a nice enclosure, and I can get to workfixing up this PCB and making it look nice.</p>
+
+                <div class="project-video">
+                    <video controls>
+                        <source src="https://i.imgur.com/MenbT2C.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <h2 >Revision 2 (Final) Design Changes</h2>
+                <p>I kept most of the major sections generally the same, but did some work to consolidate the components used and simplify the layout. </p>
+                <p>Most notably, I removed the BQ24618 charger/power selector. The battery feature was deprioritized and we decided to just have this be a plug-in device. I was happy with this change because that was really taking up a lot of space on the board.</p>
+                <p>I ended up switching to the Teensy 4.0 as the controller for the board, just to prepare for possibility of doing something more fancy with the display. This plugs in and out of the board, so it will also be easier to replace in case anything breaks. </p>
+                <p>We didn't end up doing anything fancy with the display, but we did switch from the I2C OLED to a Nextion HMI panel, which communicates to the controller via UART serial. This is larger, looks a lot nicer, and allows for easy designing and uploading of graphics and menus. </p>
+                <p>We also upgraded to two thermocouples for more realistic monitoring of the water temperature, one at the peltier module outlet as before and another one in the bandage itself. Instead of duplicating the MAX31855 from the last version and running an additional chip select line, I switched to the MAX31850 chip. These use a one-wire interface to send data and can be daisy chained so with a single trace back to the controller, we can read data off both thermocouples.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cTrblwl.png" alt="">
+                </div>
+
+                <p>I was using more than four different mosfets in the previous version, and there was no good reason for that. Besides, many had gone out of stock since then. I went ahead and changed all the N-channel mosfets on the board to the <a href="https://toshiba.semicon-storage.com/info/TPN3R704PL_datasheet_en_20191030.pdf?did=30643&amp;prodName=TPN3R704PL" target="_blank" rel="noreferrer noopener">TPN3R704PL</a> so that we would have just a single part number for them. </p>
+                <p>These mosfets have a gate-source voltage threshold (Vgs) of 10V. This is not a problem for the h-bridge setup, since the driver already supplies the mosfets with the needed voltage, but it is a problem for the fan/pump high side switches, since I was previously using logic level voltages (max 3.3V in current system) to turn them on. This is eaily addessed through the use of a separate gate drive IC that boosts the signal from our controller to an appropriate level. I used the <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3623_3624_3625_3633_3634_3635.pdf" target="_blank" rel="noreferrer noopener">ADP3624</a>, which is a dual mosfet gate driver.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NB55VZl.png" alt="">
+                </div>
+
+                <p>I also added some bulk capacitance all over the board. A large 470uF capacitor was placed near the power input to the board and two smaller 47uF capacitors were placed on the 24V and 12V busses, near the fan and pump outputs.</p>
+                <h2 >Revision 2 (Final) PCB</h2>
+                <p>I redid the layout. This time, I was able to fit everything into a smaller board footprint because the battery charging system had been removed. I also put in a little time to make the labels and graphics look snazzy.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/t60T5me.png" alt="">
+                </div>
+
+                <p>The boards were sent out to JLCPCB again. For this version I opted for the matte black soldermask and the nice ENIG finish on the pads. I'd say that's a pretty good looking board</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/q9jb6Sl.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/w1n0puC.jpg" alt="">
+                </div>
+
+                <p>I ordered solder paste stencils and used my little miniware hotplate to reflow the board, one small section at a time. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/f3LQMcY.jpg" alt="">
+                </div>
+
+                <p>I made two identical copies of the board so that in an emergency, they could be swapped out without losing a lot of time. Below is the fully assembled V2 PCB mounted behind the Nextion display panel.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rOTPg35.jpg" alt="">
+                </div>
+
+                <p>Here it is in its final resting place, behind the UI panel and atop the plumbing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8sYxeJN.jpg" alt="">
+                </div>
+
+                <p>These are views from the front, where the PCB is hidden behind the large display panel. The display, indicator LEDs and UI controls, including the knob and power button, are all mounted to the front panel. I made a glass faceplate, which hides the LEDs from view when they're off. You can check out how that was made here.</p>
+
+                <a href="./laser-etched-dead-front-display.html" class="project-button">Glass Dead-Front Display</a>
+
+                <p></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TqR44Oh.jpg" alt="">
+                </div>
+
+                <p>This is the device cleaned up and with its enclosure in place. The graphics could use a little work, but I think overall it came out looking pretty clean.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hTxQRI0.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

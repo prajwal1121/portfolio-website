@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Burr Coffee Grinder | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Flat Burr Coffee Grinder</h1>
+                <p class="project-subtitle">Homebrew!</p>
+            </header>
+
+            <section class="project-section">
+                <p>Praj hasn't gotten around to finishing this page yet. Check back later!</p>
+                <p>I've been been getting more into coffee lately. For a long time it was just morning pour overs with my fancy Blue Bottle coffee beans  but I recently bought a used Breville Barista Express espresso machine and it's really kicked off my transition towards third wave snobbery.</p>
+                <p>The Breville came with it's own built in conical bean grinder for fine espresso grounds, which was good enough to start with but certainly didn't offer much in the way of precision or ease of adjustment. For pour overs, cold brew, and anything that could require larger grind sizes, I've been using a cheap-but-reliable Krups GX5000 electric flat burr grinder. This guy was maybe $35 on Amazon when I bought it and it did a fine job for the couple years I had it.</p>
+                <p>When it finally stopped working, I figured it was time to try building my own and include the features I wanted.  Mainly, I wanted a single grinder that </p>
+                <ol>
+                    <li>could grind for both espresso (100-200 um particle size) and pour overs (500-700 um particle size)</li>
+                    <li>was precise enough to deliver very repeatable particle size distributions across its whole range</li>
+                    <li>could be adjusted quickly but with high resolution (at least 10 um step sizes)</li>
+                    <li>looked rad af</li>
+                </ol>
+                <p>Of course there are many grinders on the market that fit these criteria, but as a poor student my budget for this was exactly zero ($0) dollars which severely limited my options. Since I had access to machine shops on campus and had collected a good amount of discarded aluminum stock, I thought it might be worth my time to just make my own.</p>
+                <p>Step one was to learn how coffee grinders actually work. Fortunately for me, I had a fresh cadaver to dissect ... and maybe steal some organs from.</p>
+                <h2 >The Old Krups Grinder</h2>
+                <p>Here he is, the old bean cruncher.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RGxFMtZ.jpg" alt="">
+                </div>
+
+                <p>Like I mentioned earlier, this guy was a burr grinder. </p>
+                <p>This differs from the maybe more ubiquitous blade-style grinder that most people have seen or used before. I'm talking about the cheap ones that look like blenders or spice grinders, where a fast-spinning blade chops up the beans into progressively smaller pieces. These are fine in a pinch and are certainly a step above pre-ground coffee, but they shouldn't really be used once you start caring more about the flavor of your coffee or get into anything more complicated than a pour over/drip. </p>
+                <p>There are three big reasons (that I can think of while writing this) why you never see this kind of grinder used by anyone with a decent coffee setup or with an espresso machine.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/p08fo2M.png" alt="">
+                </div>
+
+                <p>First is that a blade-style grinder doesn't give you much control over the final grind size - it has <strong>low precision</strong>. The only control knob you have with a grinder like this is time. In theory, the longer you run the machine, the finer your coffee becomes. In practice, because the mechanism depends on the unpredictable flow and mixing of the coffee particles, chopping the same weight of beans for the same amount of time doesn't result in the same average particle size every time. This may be fine for a casual coffee enjoyer or the occasional pour over but is a non starter for more complicated brewing methods like espresso. Here, the extraction of the coffee depends heavily on the particle size to control pressure and flow of water through the grounds so a high precision grinder makes easier to get good, consistent results.</p>
+                <p>Second, a blade grinder produces coffee grounds with <strong>high dispersity</strong> - the particle size is very heterogenous. Because there's no way to guarantee every particle is hit by the blade in the same way, what you have after grinding is an assortment of particle sizes from very small powder to big pieces of bean. With good techniqe and a little bit of luck, you can make sure a lot of the particles fall within the range you want, but it is difficult to control well. This results in muddled flavors as the hot water extracts flavors from the small fines (which become bitter quickly) and the larger chunks (which remain acidic). A consistent grind with low spread in particle size lets you reliably get the best flavors out of your coffee, and make the unique tasting notes much more prominent.</p>
+                <p>Third is <strong>limited range</strong>. There's a practical limit to how fine you can grind in a blade grinder. These may be good for brewing processes that require larger grind sizes but aren't so helpful for espresso, where optimal particle sizes can be in the 100 micron range.</p>
+                <p>Anyway, this is what the flat burrs look like inside the Krups grinder. The lower burr (inside the housing) is attached to the motor which rotates it against the top burr, which is rotationally constrained. The adjustment knob brings the top static burr closer or further away from the bottom spinning burr to control the final size of the ground coffee. The burrs themselves are nothing special and are actually on the smaller end of what would be ideal, but they're at least made of steel and not ceramic. They're obviously pretty crappy if you compare them to higher end Mazzer or SSP burrs, but since I'm poor I'll just reuse them along with the motor they came with. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mFdkD8x.jpg" alt="">
+                </div>
+
+                <h2 >Design</h2>
+                <p>My biggest design constraints were that I had to use only material I had on hand and I had to reuse the motor and burrs from the Krups.</p>
+                <p>Here is what I came with.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/koHUTpN.png" alt="">
+                </div>
+
+                <p>Maybe not in the same class as something from Weber Labs but I think certainly rad enough to check off functional requirement #4 above.</p>
+                <p>I've taken some inspiration from commercial grinders like the DF64 for the slanted design. This is helpful for minimizing retention (the amount of coffee grounds that don't make it out of the grinder) since flat burrs just fling coffee out radially in all directions. There is an impeller and sweeper attached to the spinning burr that does most of the work removing the grounds, but tilting the whole assembly doesn't hurt.</p>
+                <p>This is how it works:</p>
+                <p>The most important part of the grinder is the adjustment assembly, which works to let the user adjust the output ground size with high resolution. This assembly includes the static burr, which is held rigidly in place until the user turns a dial to move it towards or away from the spinning burr. The dial sweeps through one millimeter (0 - 1000um) of range over one continuous rotation, making this a <strong>stepless</strong> <strong>adjustment</strong>. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5eLU84y.png" alt="">
+                </div>
+
+                <p>The assembly requires a number of separate parts and a few tight tolerance fits. The two parts in blue and teal along with the pink columns together form the structural body of the adjustment mechanism. The user operated dial (purple cross section at the top) is a captive nut, prevented from moving vertically by a flange and the pink retaining ring directly underneath. The threads of this nut interface with the green cylinder, which not only holds the static burr but also serves to funnel beans down into the grinder. The threads have a pitch of 1mm so that one turn of the dial nut moves the static burr cylinder up or down by 1mm.</p>
+                <p>A sliding sleeve (pale orange) constrains the motion of the static burr cylinder so that it can only slide up and down. This will be made of a wear resistant and food safe plastic like UHMWPE or PTFE (or whatever I can find) and serves mainly as an interface between the housing and the static burr column to allow low fraction galling-free motion. Moreover, having a separate sleeve I can turn on the lathe means that I don't need to worry too much about accurately machining the cylindrical bore in the housing (teal), I can just use an endmill to interpolate an approximate cylinder and use the sleeve to give me the sliding fits</p>
+                <p>Finally, a pin (light pink) slides inside a grove in the static burr cylinder to constrain its rotation about the vertical axis. This pin, made of another wear resistant plastic, has a close sliding fit inside the grove and prevents turning of the cylinder during adjustment or due to forces from grinding the beans.</p>
+                <p>To avoid overconstraint, the dial nut (purple) has a slight clearance fit with the blue upper plate so that it doesn't fight with the position of the static burr cylinder as determined by the housing and the sliding sleeve.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HdbynUH.png" alt="">
+                </div>
+
+                <p>The rest of the machine serves to bring the coffee in and out of the adjustment assembly above as well as house the motor that spins the lower burr. The coffee beans enter through a funnel up top, which is just 3D printed so that I can adjust the size if needed in the future. After getting pulverized, the grounds exit through a little tube that directs them into a cup below. Both the tube and the cup attach to the machine with magnets, so that they can be removed and cleaned easily.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/19HXRNh.png" alt="">
+                </div>
+
+                <p>The design of the structure isn't the most  elegant but but it looks that way because the only suitably large pieces of aluminum I had on hand were 2"x2" square bar stock. The main body pieces of the grinder, which includes the three lower sections that house the motor as well as the top section which houses the adjustment assembly , are each made of sections of this bar stock stacked and held together by dowel pins and long fasteners. This is easier to see in the fabrication pics below.</p>
+                <p>Lets get to it.</p>
+                <h2 >Fabrication</h2>
+                <p>TW: Mixed units</p>
+                <p>All the tooling I have access to is imperial whereas my design is in metric. Be prepared to see these numbers side by side</p>
+                <h3 >Housing Tubes</h3>
+                <p>The housing tubes are the largest structural elements of the grinder and some of the least complicated to machine, so I decided to start there. The bar was first chopped a little oversize in the horizontal bandsaw to get the rough stock for the four housing pieces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/g606NoA.jpg" alt="">
+                </div>
+
+                <p>These are then squared up in the manual mill and brought to dimension. I'm using a large 2" face mill (which was luckily just slightly larger than my final dimension of 50mm) to do most of the cutting in this step because it's fast and I was able to get a pretty decent surface finish.  All the housing pieces start off as the same size, so this step was pretty quick.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vVd5sQL.jpg" alt="">
+                </div>
+
+                <p>Next I go over to the CNC to cut out the cavities inside the blocks. This is done with a 4 flute 2" long 1/2" diameter flat carbide end mill. This is the longest endmill I had access to and it's fortunately just long enough to reach all the way through these blocks. </p>
+                <p>This particular housing block is the motor mount and it has "floors" at three different levels. For simplicity, I'm using three separate adaptive clearing operations to scoop out this material. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XyM2aY1.png" alt="">
+                </div>
+
+                <p>Since I loose a lot of stiffness with this long endmill, I have to take fairly conservative stepdowns of 2mm. Even so, machining these cavities didn't take too long.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yxcrHYv.jpg" alt="">
+                </div>
+
+                <p>Here's the part after the clearing operations and we can see pretty decent surface finish all the way down. Certainly not ornamental, but good enough for something that will never actually be seen.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GkfScWt.jpg" alt="">
+                </div>
+
+                <p>It was back to the manual mill to add these big decorative chamfers. I propped up the piece with a little angle block and zipped across the corners with the face mill.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/p2rS82z.jpg" alt="">
+                </div>
+
+                <p>When I had access to the CNC mill again, I set the block back up to make the bore that would locate the motor. I used the same 1/2" endmill to bore out the locating through hole and used a couple of plunge moves to cut clearances that I had forgotten to account for earlier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QuiTEIc.png" alt="">
+                </div>
+
+                <p>Finally the holes for fasteners and pins are drilled, reamed, and threaded as needed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sf1xGWj.png" alt="">
+                </div>
+
+                <p>This block receives two locating pins from the block below it, so I use the over/under reamers (specifically the over reamer) to bring the corresponding holes to size.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pi6xag4.jpg" alt="">
+                </div>
+
+                <p>Here's the motor mount block finished and with the motor bracket attached. Again, these parts came with the Krups, so while they weren't ideal to use or design around, I didn't have much of a choice if I didn't want to pay to replace it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ITso8eq.jpg" alt="">
+                </div>
+
+                <p>I messed up with my centering the first time I made this locating bore so I ended up having to cut it again in the right place. If you look closely it's a little oblong vertically, but it does a fine job of holding the motor in the right place anyway. Not worth remaking the part over this - I won't tell anyone if you don't.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rrjgGor.jpg" alt="">
+                </div>
+
+                <p>The next block just serves as clearance for the motor body, so it features a simple cavity that just goes all the way through the block. Another adaptive clearing is used to remove material from the center, and a drilling/reaming operation lets me create the holes that will later accept the locating pins.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GMMN1bK.png" alt="">
+                </div>
+
+                <p>Machining is a pretty efficient way to turn perfectly nice metal into a bunch of little chips. Sprinkle these in a salad or top your mac and cheese with them for a nice added crunch.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pLy402X.jpg" alt="">
+                </div>
+
+                <p>Here's that part done with pins pressied into the corresponding reamed holes.. Ignore the channels on the side, this photo traveled backwards from the future. We'll do those a little later.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YwdDPsa.jpg" alt="">
+                </div>
+
+                <p>The last of the body blocks is a little bit different. This is the lower-most segment and it features an angled bottom that ends up parallel to the base. Because of this geometry, the order of operations gets a little switched up. The four holes are drilled and reamed before any of the clearing or profiling steps that the drill has a flat surface to work on</p>
+                <p>That's followed by an adaptive clearing op that hollows out the middle, just like before, and a countour op that clears away most of the material for the angled feature. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JUWo54X.png" alt="">
+                </div>
+
+                <p>It's faster to remove the bulk of the stock material using the big  flat end mill, but as you can see, it leaves a coarse, stepped appearance that isn't exactly desirable in the final part.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OUI8RzY.jpg" alt="">
+                </div>
+
+                <p>That roughing operation is followed by a parallel machining operation done with a 1/2" ball endmill. From the preview you can see how fine the spacing between the toolpaths are. This step brings the part to final dimension and eliminates the steps from the previous operation, leaving a smooth and shiny surface finish. This surface quality is paid for by machining time - this parallel op takes a little under an hour to complete whereas the rough contouring was done in under five minutes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mG9WBaq.png" alt="">
+                </div>
+
+                <p>Here is the ball mill in action. Because I'm using a fairly large tool and because aluminum is a very soft material that smears easily, I can take fairly generous stepovers and still get a beautiful surface finish.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aOge7Mm.jpg" alt="">
+                </div>
+
+                <p>The last step is two counterbores for the two long M6 fasteners that run the entire length of the grinder and hold the segments together. These counterbores perform double duty as they give the heads of the fasteners a flat area to push against and hide them from view.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SZZ8dAu.png" alt="">
+                </div>
+
+                <p>Next it was time to cut the rectangular slot that runs down the length of the lower two body blocks. These slots are where the legs of the grinder interface with and attach to the body. For good looks and ease of assembly later on, I needed this slot to be machined fairly accurately and well aligned between the two blocks over which it spanned. Since I had already made the locating features and fastener holes, the easiest way to do this was to just temporarily attach the two blocks together and machine the slot through both of them together. </p>
+                <p>I created a separate manufacturing model to represent the joned blocks. An adaptive clearing operation was first used to rough out the material in the slot, followed by a pocket operation that cut the remainder of the material in a clean single pass. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TwEo2dZ.png" alt="">
+                </div>
+
+                <p>I immediately ran into a challenge here because the walls of the segments here were so thin and sticking so far out of the vice that the whole would ring like a bell while being cut by this endmill. You can see the bouncing effect on the back wall of the slot. It turned out that just pinching the assembly a little with my fingers dampened the vibrations almost completeley and gave me a great surface finish.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lVzcnvb.jpg" alt="">
+                </div>
+
+                <p>Last step was just drilling and tapping the holes where fasteners could clamp the legs to the the main body.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xWrRKF4.png" alt="">
+                </div>
+
+                <p>The final slot looks pretty seamless with little to no evidence of chatter on the sidewalls. Because of the locating pins that position the segments relative to one another, I can expect these to line back up in almost the exact same way after every disassembly and reassembly. </p>
+                <p>These exact steps are repeated on the other side of these body segments for the other leg.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4WW7AyL.jpg" alt="">
+                </div>
+
+                <p>One final step is putting in the hole for the latching pushbutton switch that will turn the grinder on and off. This is cut into the lowermost body segment using a flat endmill to interpolate the circle.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ErJxLbg.jpg" alt="">
+                </div>
+
+                <p>That's most of the machining on the body completed. The top and bottom segments slide nicely onto the middle, which contains the two locating dowel pins for each side. Two long fastneres nest into the counterbores in the bottom segment, pass through through the middle section and thread into the top to squeeze the whole stack together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Xa3Zg54.jpg" alt="">
+                </div>
+
+                <h3 >Base</h3>
+                <p>The base of the grinder isn't much more than a shiny rectangle with some holes , though I suppose that could be said about most of the parts I've shown so far. I first cut a rectangle out of 1/2" aluminum plate and brought the sides to dimension on the manual mill. I made the rectangle shiny with a flycutter, which I ran across the top and bottom faces.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/23rlO53.jpg" alt="">
+                </div>
+
+                <p>A couple holes were drilled, tapped to accept rubber feet and I made sure that these didn't go through to the other side. Two more holes were drilled, counterbored and chamfered to accept the fasteners that would hold the legs in place.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/s4lZ8pT.jpg" alt="">
+                </div>
+
+                <p>Since the feet thread into blind holes, the top of the base looks clean and minimal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sbUdDWk.jpg" alt="">
+                </div>
+
+                <h3 >Legs</h3>
+                <p>The legs are <em>almost</em> shiny rectangles with holes. Since the legs are what hold the body at an angle (20°) relative to the base, the bottom side of each leg has that 20° angle cut in. The screw that attaches the legs to the base however has to come in perpendicular to that angled face. I used a 20° angle block to tilt the leg in the vice so I could drill and ta this feature. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qGfYmYF.jpg" alt="">
+                </div>
+
+                <p>Not the stiffest setup, but with a conservative feed and a little care taken to not punch the drill bit through the side of the leg these threaded holes were not too hard to put in.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lBm4EbH.jpg" alt="">
+                </div>
+
+                <h3 >Grinder Tube</h3>
+                <p>This grinder tube is the main structural component of the adjustment assembly seen earlier. This starts with the same stock as the housing blocks machined earlier, but involves a few more operations on account of the shape. I started with the 1/2" flat endmill and cleared out the center bore with a 2D adaptive clearing operation. This doesn't need to be high accuracy and I can tolerate the non-cylindricity of the interpolated clearing because the imperfectiosns will be taken up by the sliding sleeve that I'll be turning to fit this part later on. </p>
+                <p>This is followed by a 3D adaptive operation with the same endmill that roughs out the exterior profile of this part. This removes most of the material but leaves a little to be cut by the finer finishing operations that come next. A flat milling operation is used to bring the top floor to dimension. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JwlNCQS.png" alt="">
+                </div>
+
+                <p>The part looks pretty good after the roughing, but there are conspicuous steps in the fillet that connects the cylinder to the rectangular base. These will be smoothed out in the next step.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sxHzPhh.jpg" alt="">
+                </div>
+
+                <p>A 1/2" ball mill is used with a parallel operation to bring the cylinder and the fillet to their final size. This doesn't feel like the most efficient toolpath to use here but I spent some type trying out other operation types and couldn't really get any of them to work as well.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VAY4JSE.png" alt="">
+                </div>
+
+                <p>The ball mill leaves a smooth and shiny transition from the cylinder to the base. Some sort of vertical radial pattern can still be seen around the fillet and this is likely due to the parallel operation, which moved the tool side to side instead of circularly around the feature. I didn't think this looked bad at all, so I decided to keep the finish and move on.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7zVEOAm.jpg" alt="">
+                </div>
+
+                <p>Next step was pitting in some holes. The counterbored holes are clearance holes for M6 fasteners that attach this to the body segment below it, and the bore is made quickly with a small 3/8" endmill. The two center holes are threaded M6 holes and they are where the columns will attach later on. The remaining two holes are reamed for dowel pins which will position this grinder segment relative to the rest of the body segments.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/38AZbWZ.png" alt="">
+                </div>
+
+                <p>I accidentally left my center drill too low when traveling from one hole to another and it took a little chunk out of this side wall. It's just cosmetic damage and it'll be really hard to see this once the grinder is put together anyway, so I'm just keeping this a secret and moving forward.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nO7uGsY.jpg" alt="">
+                </div>
+
+                <p>I needed to machine the exit window through which the ground coffee leaves this segment, and it's a long slot that's cut through one of the side walls. This posed a bit of a fixturing challenge since the part was too wide to be held long-ways in the vice and holding it short ways wasn't possible without the endmill having to cut through the vice jaws. I ended up precariously hanging it off the vice and using a couple of parallels under the part to keep it horizontal. This seemed to be rigid enough for the cutting forces involved in the next operation. I used a dial indicator to find the center of the cylinder for my toolpath origin and ran it across the surface both ways just to make sure everything was nice and parallel.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gZTuKCm.jpg" alt="">
+                </div>
+
+                <p>The cut is nothing special since this is neither a high accuracy feature nor one that requires a great surface finish. I'm using an adaptive clearing toolpath with a 3/8" flat endmill to clear out a little bit of material. I used a pretty conservative depth of cut to keep the cutting forces low on account of the odd setup.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EnEIMOx.png" alt="">
+                </div>
+
+                <p>The alignment was pretty good and the cut completed with no issues.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YOyuJyX.jpg" alt="">
+                </div>
+
+                <h3 >Spout</h3>
+                <p>I made the spout a two parter since I wanted to be able to clean it out. One half is a static segment, which is attached to the body of the grinder with some M3 screws. The second half attaches to the other using magnets so it can be easily removed and washed when needed. These were both deceptively complicated to machine on account of all the angles and small geometries so they required a couple of different setups to hit all the features.</p>
+                <p>I'm starting here with the static segment, using an adaptive followed by a parallel operation to cut the curved surface that leads out from the opening in the grinder body. I used this opportunity to drill and ream 4 holes into which I'll later press 4mm magnets.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/In6exkp.png" alt="">
+                </div>
+
+                <p>I cleaned up the edges of the holes with a light touch with the countersink bit to make the pressing a little easier and because I'm civilized.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c2kgwIV.jpg" alt="">
+                </div>
+
+                <p>The part then gets flipped over and a ramp is cut into the backside. This angled feature sits against the body of the grinder and complements the 20° lean so that the coffee grounds fall vertically (perpendiculat to the base).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Dobwi71.png" alt="">
+                </div>
+
+                <p>Again, the bulk of the material is removed with a flat endmill and an adaptive clearing operation after which I switch to a ball endmill and use a parallel operation to smooth and bring the feature to dimension.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ktCDZiM.jpg" alt="">
+                </div>
+
+                <p>With this angled face made, I can flip the part back over and cut the holes for the fasteners that attach this spout half to the grinder body. These are clearance holes for M3 fasteners and a little counterbore is added to recess the heads of the screws and keep them out of the way of the other half of the spout.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4cbGKvY.png" alt="">
+                </div>
+
+                <p>You can see here why I had to flip this part twice. The holes for the magnets and the holes for the screws had to be perpendicular to two different surfaces that are not parallel.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mWiDosD.jpg" alt="">
+                </div>
+
+                <p>The magnets went in with a small force and are held in place by a light interference fit. With this last step, the static half is complete.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MItTmEa.jpg" alt="">
+                </div>
+
+                <p>The second, removable half could be done in just two setups since all but one of the features could be accessed from one side. I start with the backside and use the same adaptive/parallel combo to cut and smooth this angled face. This is a purely aesthetic feature and makes it so that the top of the spout is parallel to the base of the machine.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Gox0ozn.png" alt="">
+                </div>
+
+                <p>Pretty simple cut, went off without a hitch.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vV46z1V.jpg" alt="">
+                </div>
+
+                <p>The other side is where most of the most of the interesting geometry lives. The most important feature is this channel which guides the coffee grounds that are flung out of the machine horizontally down and into a collection cup. Again, a combination of an adaptive operation with a flat endmill followed by a fine parallel operation with a ball mill leaves a smooth and chatter free surface even in this relatively restricted space.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A0j4H46.png" alt="">
+                </div>
+
+                <p>This half also gets a matching set of four holes drilled and reamed to accept the 4mm magnets. Once again, a little chamfering never hurts, especially when the hole positions are already programmed in the machine.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lkJA7on.jpg" alt="">
+                </div>
+
+                <p>Here is the final part with the magnets pressed in. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/znEEZ58.jpg" alt="">
+                </div>
+
+                <p>And here are both parts attached together using those same magnets. You can see here how the two halves come together to form a continuous spout and how the coffee grounds make that 110° turn to leave the grinder and fall into the cup below. The fit between these two parts isn't perfect and you can see that a conspicuous seam is visible especially near the top. However, aside from some painstaking hand work (which I didn't want to do) there wasn't really a way to make these any closer. I say good enough.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1JxqdTR.jpg" alt="">
+                </div>
+
+                <h3 >Columns</h3>
+                <p>These are the two columns that attach the top plate of the adjustment assembly to the grinder housing segment. They are pretty straightforward parts which involve turning the outside to the correct diameter, drilling and tapping a hole all the way through the part, and parting to the correct length.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uTvcMGK.jpg" alt="">
+                </div>
+
+                <p>The bottoms of the columns are attached to the grinder housing segment via grub screws. These are first threaded through the grinder housing segment from the bottom and held in place while the columns are screwed on top. I learned this trick from Thorlabs optical hardware and its a neat way to keep fastners hidden and out of the way.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ez4aJlD.jpg" alt="">
+                </div>
+
+                <h3 >Faceplate</h3>
+                <p>A lot of the structural components of the grinder have been made by this point just using the 3 axis mill. The faceplate is the last of these, but it's special in that it's probably one of the most conspicuous parts of the whole machine. Since this sits at the top of the machine and since it backs the adjustment knob, chances are you're gonna be looking at this pretty closely. So, I had to take a little care to make this look extra nice.</p>
+                <p>I'll be milling around the whole profile of this part and obviously won't be able to hold it directly in the vice jaws. I start with a sacrificial aluminum fixture plate (the same I used for fixturing the handle scales of <a href="./kitchen-knife.html">this knife here</a>) and mill the top surface flat. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AIdLUdD.jpg" alt="">
+                </div>
+
+                <p>The actual stock I'll be using for this part is this nice rectangle of aluminum that I flycut on one side to bring to the correct thickness. This flycut face, which will become the bottom of the faceplate, gets attached to the freshly faced fixture plate with a little bit of superglue to temporarily hold it in place.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nDVQBJB.jpg" alt="">
+                </div>
+
+                <p>In CAM, I set up a drilling operation that puts two holes in the same place where the columns will attach later.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MavMCiY.png" alt="">
+                </div>
+
+                <p>These are first drilled all the way through the material with a tap-sized drill. A larfer drill bit is used to make a clearance hole only through the top plate, and finally a tap is used to put threads into the lower plate.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3RW03Bi.jpg" alt="">
+                </div>
+
+                <p>Before I dropped fasteners in there, I first had to put a nice surface across the entire top of the part. There are ways to do more complicated ornamental finishes with strategic tool paths but I wanted to keep this design simple so as to not draw too much focus away from the rest of the machine. I opted to do a spiral toolpath which will leave a series of concentric circles that I though would complement nicely the circular motif of the adjustment dial and number markings.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3uU4dI7.png" alt="">
+                </div>
+
+                <p>The sprial was cut using a 1/2" flat endmill and a 2mm stepover. I had to make this a pretty shallow cut and run the operation without the mist coolant enabled because the part was still only being held on by the superglue and I didn't want to comprimise the integrity of that.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AcaPPdv.jpg" alt="">
+                </div>
+
+                <p>Despite the lack of coolant, the operation did a pretty good job and left me with he concentric circles I was looking for. It doesn't look too pretty yet, but there's still a lot of cutting left to do. At this point, I could drop in the fateners in the holes made earlier to properly secure the part to the fixture plate below.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VEH79MX.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/a1LruSU.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5EQR6TG.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/utSTiF6.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/URcWrnq.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dIjA93p.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XFhTcM9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ugWmQg6.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dNUkKKI.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GYJdHX7.jpg" alt="">
+                </div>
+
+                <h3 >Rotary Burr Hub</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/z5v0j8m.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o2d6DQr.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Q34TJpU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TtMORI7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KC0K2Cs.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fnKo8wa.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6i2YbST.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/12saos2.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xuRhNWJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/s4D2wm1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/J2ObVWO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jVfCwyk.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wo6AmYS.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AogTVDL.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7gYEtCs.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dM9dvlI.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ADRRcVd.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0fZsiEC.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/FoA2j2X.jpg" alt="">
+                </div>
+
+                <h3 >Static Burr Hub</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9KZz4nd.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TM4oIXi.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XqPDAz3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UeovcIC.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/osCWRQG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c1kKTdf.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BWTrhwN.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GkxxRCg.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3xJukRB.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Tu2zys1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AmXH4Z8.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4XTCcKy.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tOgXMfO.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Y0rRKJ1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/F2nX4Qt.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/45co0ZJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aQzREEK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rBOqYYe.jpg" alt="">
+                </div>
+
+                <h3 >Adjustment Nut</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aVHd6ok.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yf87udj.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/R1lfQLA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hnivAo3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yguPOlR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DTKCX3B.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Ohe6k7W.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6SKXi9r.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/np13Eh9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0gTtDu7.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xdD68Ty.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZfTksAs.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lHrzWW7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xr20Tc3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mx6qVmi.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/O1nj2bm.jpg" alt="">
+                </div>
+
+                <h3 >Sliding Sleeve</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/y3iIoRO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KLXKF70.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aUodVb6.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/a6mXVfM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/56vzCHb.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QDYqoF1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AssZ049.jpg" alt="">
+                </div>
+
+                <h3 >Retaining Pin</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vAEKcO3.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7MZ5Jg3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OVYhV60.jpg" alt="">
+                </div>
+
+                <h3 >Cup</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DtqwAvy.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/MJFdaYS.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qpwBbGp.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LH8G3gd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/owUSgFC.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ttEcM88.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6mI4Ucu.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5YpvWxr.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Zxczjcd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Gb7TLMB.jpg" alt="">
+                </div>
+
+                <h3 >Dial</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7EFMb2l.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6FKw8xe.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6Qk4JW3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UhmQH4m.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iDySkCu.jpg" alt="">
+                </div>
+
+                <h2 >Assembly</h2>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VggPy4d.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NWZgPvs.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3oQ76fw.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EV1n48g.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gxmSJ70.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1DjNCg7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3iPZDGq.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3mRmeHJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BZ6CJZO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5md3k5k.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

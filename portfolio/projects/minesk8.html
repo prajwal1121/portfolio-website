@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinESK8 | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>MinESK8</h1>
+                <p class="project-subtitle">A backpack-sized personal vehicle</p>
+            </header>
+
+            <section class="project-section">
+                <p>I got another project grant to build a tiny little skateboard. </p>
+                <p>Longboards, especially electric ones, are long for good reasons. I knew this in my heart and yet I was entranced by the allure of a small and portable personal transport vehicle. Carrying around or having to find a place for an unwieldy vehicle while running errands makes me hot and irritated, so I've been wanting something I can easily put in a backpack or strap to myself when I go grocery shopping. </p>
+                <p>Smaller electric skateboards do exist, but they're less common, don't have comparable power and range, and are still kind of long. I figured if the funds were available, why not try my hand and solving this problem for myself.</p>
+                <p>I actually wanted this to look nice, so first on the agenda was some design work.</p>
+                <h2 >Design</h2>
+                <p>Well, here it is.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2YzxNP5.png" alt="">
+                </div>
+
+                <h3 >Deck</h3>
+                <p>The deck is the main structural element of this vehicle. It not only has to bear my weight and forces from riding over uneven terrain, it is also the part to which everything else is mounted. Logically, I budgeted $0 to make this part.</p>
+                <p>My main design goal with this project was to make a vehicle that could fit into a backpack. Just to minimize the number of parts, I didn't want to make a folding skateboard so I decided to run with a traditional single piece deck. This gave me an upper limit on size. The lower limit was set by how close together I could comfortable keep my feet while riding. After some measuring and a few cardboard cutouts, I came to the conclusion that there was no way I was going to easily have both.</p>
+                <p>I made some compromises and sketched outa few shapes in CAD. I settled on the following dimensions. This gave me a board that would fit in my backpack—albeit with the top wheels sticking out. It also gave me enough space for my feet provided I hang them off slightly.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3pmuD7x.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UKaEu7W.png" alt="">
+                </div>
+
+                <p>In longboards, the deck had a fairly low bending stiffness - that is, the deck can flex up and down while riding to absorb bumps and vibrations. For a deck of this size though, where my feet are going to be pretty much directly on top of the wheels, this flexing isn't very useful. Moreover, because the deck is so short, even a small amount of flexing and bouncing will create a pretty tight radius of curvature in the deck. Since my electronics enclosures take up the nearly all of the area under the board, it's best to avoid any bending which might impart undue stresses on those parts.</p>
+                <p>Consequently, the aim is to make a deck that is as stiff and lightweight as I can make it. The logical first choice might be plywood, as it is light and is the material with which skateboard decks are traditionally made. However, this alone isn't a good option in this case. Firstly, plywood for skateboards is made up of seven to nine layers layers of laminated wood while the construction grade plywood I had access to for free has only three. Secondly, a traditional skateboard deck is not flat—heat and pressure are used to form a curved profile. Any reasonably thin deck I would be able to build out of plywood would lack the strength and stiffness needed for this application.</p>
+                <p>A chunk of aluminum may be able to address the strength and stiffness issues but it would be far too heavy. If only there were some way to harness only the best qualities of both materials...</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pUIbxTm.png" alt="">
+                </div>
+
+                <p>There is! </p>
+                <p>The above is a picture of a composite material. More specifically, it's a cross section of the sandwich structure I plan to use for this deck. Many people have heard of the term composite being used to describe fiberglass or carbon fiber, but any material formed from two or more different component materials is a composite material — and this one is a very useful type. </p>
+                <p>This configuration is used for this exact application where a relatively high stiffness material is needed with low density. Typically these structures are made using a thick but lightweight core material laminated on either side with a thin but strong/stiff skin material. Because the skins are placed far apart from one another (spaced by the core), the bending moment of inertia of the whole material is high.  </p>
+                <p>Here is some math for nerds. Looking at it from the side, we can roughly model the skateboard as a simply supported beam. When I stand on it with my feet spanning the deck, I create approximately a uniformly distributed load W across the length between the two wheels.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PyujoM2.png" alt="">
+                </div>
+
+                <p>Because everything has compliance, the board bends some amount and forms a u shape. The maximum amount of deflection is represented by the following equation. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/31PDbei.png" alt="">
+                </div>
+
+                <p>We can see there are several ways to keep the deflection small. One is to reduce the length L—this is fixed by the design constraints mentioned above and cannot be changed very much. The other route is to increase Young's modulus E or second moment of area I. </p>
+                <p>Here's a little diagram of the sandwich structure head on. For the sake of simplicity, we imagine this structure composed of simple rectangular sheets stacked on top of each other and ignore the effects of the adhesive layers.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/J4MgKr2.png" alt="">
+                </div>
+
+                <p>In a sandwich structure, because the stiffness of the skins and core act in parallel, we can simply add their individual contribution to find the effective flexural stiffness. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cn1RKst.png" alt="">
+                </div>
+
+                <p>where the core's moment of inertia is just that of a rectangular cross section beam</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xGwymOB.png" alt="">
+                </div>
+
+                <p>and the skins moment of inertia is that of a rectangular cross section beam plus its cross-sectional area multiplied by its distance from the neutral axis (as per the parallel axis theorem).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YRfNndb.png" alt="">
+                </div>
+
+                <p>Plugging these into the above equation gives us the following expression for combined flexural stiffness.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7zlQrFB.png" alt="">
+                </div>
+
+                <p>Lets plug some numbers in and compare how the stiffness and weight of this sandwich panel compares to that of a panel made of all wood or all aluminum. From engineeringtoolbox.com, the Youngs modulus of aluminum is 69 GPa and density is 2710 kg/m^3. The modulus for plywood is around 8 GPa with density around 500kg/m^3. My planned core thickness is 1/4" or 0.00635m. Each skin has a thickness of 0.001m.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XU3TCia.png" alt="">
+                </div>
+
+                <p> </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/U7w0A1C.png" alt="">
+                </div>
+
+                <p>This shows that as long as the skins don't slip, the structure maintains a stiffness over 60% that of a full aluminum deck (and over 5 times that of an all wood deck), with a weight that is only twice that a full plywood deck (and less than 40% of an aluminum deck)—the best of both materials. </p>
+                <p>This aside, the stiffness of this panel is good and the strength is more than sufficient for my weight plus a healthy margin. This deck is good to go.</p>
+                <h3 >Motors</h3>
+                <p>Because I was limited in time and budget, I had to simplify a few aspects of the drivetrain. I had initially wanted build a dual belt drive board. As cool as that would look and sound, realistically it would be a bit of overkill. An outboard motor connected to the wheel with a timing belt is used over in-wheel hub motors because it generally offers a much higher power density. We're talking a difference of several horsepower (thousands of watts) per wheel. This makes them especially good for driving the vehicle up steep grades. In practice though, I wasn't going to be climbing any mountains with this thing—especially not on a board of this size. In fact, a 500W-1000W drive train would be more than sufficient for zipping around the city at reasonable speeds.</p>
+                <p>Moreover, to actually take advantage of the drivetrain's rated power, I would have to actually be able to supply that power from the system battery. I'll get to this later, but there was no way I was going to be able to pull that many watts with a (cheap) battery pack small enough to fit on this board.</p>
+                <p>With some research, I found <a href="https://www.meepoboard.com/products/hub-motor-for-shuffle-v4" target="_blank" rel="noreferrer noopener">these 90mm hub motors</a> from Meepo. These are intended as replacement part for their V4 electric longboard and are rated for 620W each! which was more than enough for my application.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ysNCrEw.png" alt="">
+                </div>
+
+                <p>At $90 each, these motors were not cheap, but they were considerably less expensive than the motor-belt-pulley-wheel-mount-shield combo I would have needed with outboard motors. Plus they had good specifications, were from a reputable company, and were in the large diameter range I wanted. This seemed like the appropriate choice.</p>
+                <h3 >Trucks and Wheels</h3>
+                <p>I also grabbed motor mount <a href="https://www.meepoboard.com/products/trucks-for-shuffle-v4" target="_blank" rel="noreferrer noopener">trucks </a>and some additional 90mm <a href="https://www.meepoboard.com/products/90mm-wheels-for-shuffle-v4" target="_blank" rel="noreferrer noopener">wheels </a>from the Meepo replacement parts store. These were relatively inexpensive and there was no point making these from scratch myself. I was willing to pay for ease of assembly and reliability in the long run. This also sets my wheelbase at 280mm.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/63eYq9q.png" alt="">
+                </div>
+
+                <h3 >Motor Control</h3>
+                <p>The VESC is the most common choice for electric skateboards and I didn't have any reason to deviate from that. I grabbed a single <a href="https://flipsky.net/collections/electronic-products/products/mini-fsesc4-20-50a-base-on-vesc-widely-used-in-eskateboard-escooter-ebike" target="_blank" rel="noreferrer noopener">mini FESC 4.2</a> controllers from Flipsky because of budget constraints, but left space in the CAD to allow for expansion later on. For the time being, only one of the two hub motors will be powered while the other will remain disconnected and allowed to coast. I chose this varety just for the small form factor. It was rated for 60V and up to 50A continuous, which was more than adequate for this application.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/evzNDcy.png" alt="">
+                </div>
+
+                <p>Clearly there's a lot of empty space on that baseplate, and it's there to accommodate the remainder of the control electronics. The important components are shown in the image below. </p>
+                <p>Right in the middle is a small PCB with and Arduino Nano, an NRF24L01+ radio tranciever, and some headers. This radio recieves a signal from the handheld controller and sends it over to the Arduino, which applies some programmed conditions or transformations to the data, encodes it into a PWM signal, and sends it out through the headers to the VESC motor controllers. These are powered from the 5V regulator on the VESC, since I didn't want to buy a separate step down regulator for these two. This was a mistake, and I'll talk about this later on.</p>
+                <h3 >Power Switch</h3>
+                <p>The lower PCB is a electronic switch. If we are to make use of the combined 1240W of the two hub motors (at least once the other VESC is installed) we expect to draw anywhere in the neighborhood of 30A-40A from the battery. If we were to pass all of this current through a physical switch, it would end up requiring a fairly large and impractical switch. </p>
+                <p>The most common solution for DIY boards is something called a loop key. This is literally a loop of wire attached to a connector which when plugged in, bridges the connection from the battery and allows power to flow. It's a simple solution, but doesn't have the same sleek professional fell of just pressing a button to turn on the vehicle. </p>
+                <p>An e-switch is more commonly used in commercial vehicles. This allows the user to actuate a small , cosmetically appealing switch, which in turn activates larger solid state or electromechanical devices that carry all the battery current. In my case, I had numerous FQP30N06L logic level mosfets lying around and I decided to use those as the switching element. Pressing a small pushbutton on the outside turns these mosfets on or off, and I use four in parallel to share the current and improve thermal performance.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/07zfeAp.png" alt="">
+                </div>
+
+                <p>My first attempt after a bit of testing looked something like this, where the mosfets are set up as low side switches. When the battery is plugged in, a 12V regulator (with low quiescent current) steps down the voltage to 12V, so as not to exceed the maximum gate-source voltage of these mosfets. This gets fed to the normally open contact of a small relay on board. The normally closed contact is connected directly to ground. The common runs to the gates of all four mosfets. The coil of the relay is actuated by latching pushbutton switch (the vehicle on button).</p>
+                <p>By default, and when the board is witched off, the relay holds the gates of the mosfets at ground potential. This allows the board to turn off quickly and prevents any unintentional charging of the gate when the battery is plugged in or out. When the user (me) presses the on button, the cils of the relay are energized and the relay connects the gates of the mosfets to 12V. This turns them on and allows current to flow from their drain pins to their source pins—from the system to the battery.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/39QQAPj.png" alt="">
+                </div>
+
+                <p>Unfortunately, when I implemented this, the mosfets kept dying. As soon as I pressed the switch to turn them on, one out of the four mosfets would silently fail with a permanent short, preventing me from turning the board off again. After some digging, I realized this was due to the inrush current into the VESCs. The speed controllers have large capacitors on their input, and when the mosfets are switched on, these draw very large currents during the short amount of time it takes to charge up. Even though this inrush current pulse lasts microseconds, it still damages the mosfets. I needed an inrush current limiter - a way to slowly charge the capacitors before turning on the main mosfet switch.</p>
+                <p>The easiest technique was to use resistors to limit the current flow. I added another mosfet, this time connecting the gate directly to the pushbutton switch. I still need this mosfet because the pushbutton is only rated for 12V and the battery voltage would be a good bit higher than that. The source of this mosfet is still connected to ground like the others, but the drain is connected to the system through a resistance. These resistors will be dissipating some power as heat, so I am using several small resistors in parallel since I didn't have any large ones on hand. The values are chosen on these resistors using ohms law (R=V/I) such that the maximum current current at the battery voltage does not exceed the mosfets rated drain-source voltage. Thus it is safer to have higher resistance values, but too high will cause the capacitors to charge very slowly. We want the capacitors to be charged most of the way before opening up the main switches, so the maximum resistance is bounded by the capacitor charging time constant R = tau/C.</p>
+                <p class="has-text-align-center"><strong>(Battery Voltage)/(Mosfet Max Current) &gt; Resistance &gt; (Charge Time)/(Total Capacitance)</strong></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9rd0tUQ.png" alt="">
+                </div>
+
+                <p>Instead of the pushbutton turning on the relay that turns on the 4 parallel mosfet switches, the pushbutton now only turns on this current limited mosfet. The capacitors charge slowly with the pushbutton and the system voltage rises to  a level that allows the arduino to power on. The arduino waits a programmed amount of time (250ms in my case) to allow the capacitors to continue charging and then switches on the relay that turns on the 4 parallel mosfet switches. Once this happens, the board is fully on and all the bulk of the power passes only through the 4 parallel mosfets.</p>
+                <p>To turn the board off, the pushbutton is depressed. However, since the arduino and not the pushbutton is now in control of the relay/parallel mosfets, the board does not turn off.  To address this, I added a stipulation in the program that if the arduino does not receive any signal from the handheld remote for a set amount of time, it turns off the relay and the main power switch. That is, once the remote is turned off, the board turns itself off after a few seconds. This works ok assuming the connection between the handheld remote and the reciever was reliable, and it turned out this was a bad assumption to make. </p>
+                <p>Anyway, this is very roundabout and sucks a lot, but it did successfully fix the problem of my mosfets breaking down. I will move on with this, until I can get the time and money to just design a soft start from scratch (you can scroll down to see the improved version two below). </p>
+                <p>Here was the final PCB</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fD49U9r.png" alt="">
+                </div>
+
+                <h3 >Battery</h3>
+                <p>Obviously I wanted the highest capacity and highest voltage battery I could fit on the board. A high capacity allows for longer range and larger bursts of current without the voltage sagging. A high voltage lets us achieve higher efficiency, as it allows for lower current flow to maintain a given power level. Tis means lower heating and resistive losses in the motor, VESC, and the e-switch.</p>
+                <p>Sadly, I lacked the funds to support my ambitions, so I had to make do with what I could find. I couln't purchase a whole set of cells, so I spent some time taking apart discarded laptop batteries and was able to collect 20 18560 Lithium-Ion cells. This allowed me to arrange them into a 10S2P configuration. 10 series cells gave me a max voltage of 4.2V*10 = 42V and a nominal voltage of 3.7V*10 = 37V. Two of these stack in parallel gives me a rated capacity of 3200mAh*2 = 6400mAh and a continuous discharge rate of 10A*2 = 20A though in reality, both of these numbers will be a little smaller because these are old cells.</p>
+                <p>Yikes, that's not great. This means at full tilt, I'll only be able to use around 37V*20A = 740W of the 1240W my hubmotors are rated for. This is not the end of the world - 740W is more than enough to get me around, and I will have the option to upgrade the battery pack later on.</p>
+                <p>I arranged the 20 cells in a compact configuration, and included some space for a cell balancing BMS.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GeA6qCS.png" alt="">
+                </div>
+
+                <p>A BMS, or Battery Management System, is pretty much a requirement for any system that uses lithium cells. I've written about the importance of these before but they protect the batteries from overdischarge/low voltage, overcurrent, overcharge/high voltage, and short circuits all of which can not only damage the cells but potentially lead to fires. </p>
+                <p>On a pack like this with multiple cells, it is also important for the BMS to have a cell balancing feature, which ensures that all cells stay at approximately the same voltage. Especially when cells come from different lots like in my case, they can have different internal resistances and discharge rates that make them drain at different rates. This can lead to the situation where one or more cells are overdischarged or overcharged, hurting the health of the overall pack.</p>
+                <p>A quality BMS is seriously hard to find, especially at these higher series cell counts. Many BMS modules will say they do cell balancing but lack any balancing circuitry whatsoever. This Daly BMSI found was relatively inexpensive and seems to be doing a good job so far keeping the cells healthy.</p>
+                <h3 >Enclosures</h3>
+                <p>One of the final elements to design are the enclosures which house all these electronics and protect them during use.</p>
+                <p>Both sections get an 1/8" aluminum baseplate. In the case of the control enclosure (top), this is the plate to which the VESC and various other PCBs mount with M3 screws and standoffs. It is also the piece that gets screwed into the deck of the skateboard and secures the enclosure in place. A 3D printed cover protects the electronics from the elements while riding and provides a place for the pushbutton and plug to reside.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8exCQ5F.png" alt="">
+                </div>
+
+                <p>The battery enclosure also has an aluminum baseplate that sits against the board, but it not attached to the skateboard deck and merely serves to provide alignment and seal the batteries. The weight of the batteries is borne by the 3D printed cover, which also serves as the means of securing the batteries to the skateboard deck. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/L8K0O74.png" alt="">
+                </div>
+
+                <p>You may have noticed that the battery and control electronics are split into separate enclosures. This is because I wanted the battery to be easily swapped in and out. I had envisioned someday being able to carry a second battery pack in my bag and being able to quickly switch them out when one was depleted. To accommodate this, the battery enclosure is designed to be independent from the rest of the deck. A small aluminum frame is attached to the deck into which the battery box can be easily located and secured using toggle clamps on the enclosure body.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4iQtrl9.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dPsON85.png" alt="">
+                </div>
+
+                <p>Because of the orientation this cover is printed, it is prone to failure parallel to the plane of the skateboard deck. With high shock loads, the force from the battery can delaminate the printed layers and break the enclosure. Additional gussets as well as reinforcements from the body of the toggle clamps (which will be epoxied on) successfully prevents this failure mode.  </p>
+                <h3 >Controller Design</h3>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LgpZGvg.png" alt="">
+                </div>
+
+                <p>The requirements for the controller are pretty straightforward. It needed to have a variable input that I could use to adjust the speed of the board while I was riding, an indicator or display of some kind for potential ride settings, and a wireless transmitter that would send input data to the board. It had to fit in my hand, and it wouldn't hurt if it looked nice too.</p>
+                <p>Again, I very logically budgeted $0 for this. </p>
+                <p>Fortunately, I had some parts laying around from previous projects. After taking inventory and sketching out some designs, here's what I came up with.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fpwZcn8.png" alt="">
+                </div>
+
+                <p>Here's the schematic for the main PCB. The microcontroller is an ATMEGA4809 chip. I've used these many times in past projects, and though they were now completely out of stock everywhere, I had one extra lying around. It is very easy to use and flash with an Arduino bootloader for programming. The block to the left is a minimal layout with a USB-C connector and a MCP2221 USB to UART IC for uploading programs. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sPEkr0p.png" alt="">
+                </div>
+
+                <p>On the right hand side are ports for the power switch, display, and radio module. There is also a voltage regulator to step down the board's 5V to 3.3V for the NRF24L01+ radio module. Both the radio and the screen use SPI to communicate, and the ATMEGA4809 chip unfortunately has only one SPI bus. This is not ideal because this means I cannot make update both simultaneously. I have to select one, finish reading from/writing to it and then switch to the other one. I don't really have any other options at the moment, so I have to make this work.</p>
+                <p>Here is the PCB layout. I didn't bother to make the labels look pretty because this one sided board was simple enough to machine myself. Besides, I couldn't afford to have it made professionally anyway.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/26gQdIz.png" alt="">
+                </div>
+
+                <h2 >Fabrication</h2>
+                <p>Now for the fun part.</p>
+                <h3 >Composite Deck</h3>
+                <p>I collected some 300mm x 600mm aluminum and plywood sheets. Unfortunately, I couldn't find a single 6.35 (1/4") sheet of plywood, so the plan was to glue together these two sheets of 3.175 (1/8") sheets.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dhCgTlN.jpg" alt="">
+                </div>
+
+                <p>I started by sanding down the mating surfaces of all the sheets with a rough 80 grit sandpaper. A good glue joint is crucial for good mechanical properties of the resulting sandwich structure. Roughing up the surfaces allows the epoxy to get a better hold and decreases the likelihood of slipping and delamination. The left panel in the image below shows the smooth un-sanded aluminum sheet, and the right panel is the result after sanding.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/b7WpsWD.jpg" alt="">
+                </div>
+
+                <p>The wood panels are fixed to one another using regular wood glue. Because of the geometry of the panels, I have to glue these parallel to the grain instead of cross-grain like you would get in a premade 6.35mm (1/4") sheet. This glue joint will actually be the location of highest shear stress, as it will lay on the neutral axis of the composite panel, so there is the possibility of the cellulose fibers sliding past one another at this point. I am not too worried about this though—the glued area is so large that I have complete confidence in the glue/lignin holding up throughout this cross section.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/j1uAavP.jpg" alt="">
+                </div>
+
+                <p>The Aluminum is then glued onto the wood surfaces using a 2-part epoxy. I grabbed these JB weld tubes on Amazon but most any epoxy that will form a good bond between the two materials will do fine. Most importantly though, you will want something with a long working time so that you can get everything in place before the epoxy starts to set up. JB-weld has a working time of a couple hours at room temperature, so that made it easy for me to use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0hH2aU3.jpg" alt="">
+                </div>
+
+                <p>I used a card to apply and spread the epoxy in an even and thin layer. This stuff is kind of thick and doesn't squeeze out very well, so it's good to be mindful of how much is being applied and how consistent the coat is across the whole surface. </p>
+                <p>One interesting trick I learned from an engineer I worked with is to use a fine guage wire whose diameter matches the thickness of glue you want in your joint. This wire is then laid all across the surface after the glue is applied and before the mating surfaces are clamped together. The wire acts as a spacer, maintains a consistent glue thickness across the whole plane, and prevents too much glue from squeezing out and compromising the joint. This works well for some combination of hard surfaces, good pressure, and less viscous adhesive, but in my case, the wire would have just been pressed into the surface of the wood.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OsnzASr.jpg" alt="">
+                </div>
+
+                <p>I matched up all the surfaces and used some thicker scrap aluminum and wood plates along with a ton of clamps to try and apply even pressure across the whole surface while the wood glue and epoxy set up. This was left untouched for 24 hours before unclamping and allowing to cure for another couple days in a warm room. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zyznevx.jpg" alt="">
+                </div>
+
+                <p>Once I was confident the epoxy and wood glue were hard, I took it over to the shopbot and routed out the shape of the deck. The fastener holes were also put in with the router, so that everything would line up later on.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Pyeqptp.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8OWcUu9.jpg" alt="">
+                </div>
+
+                <p>A little bit of chatter is visible on the aluminum, but overall it came out well. I'm happy with the way the cross section looks—as far as I can tell, it is nice and consistent all the way around with even glue thickness. Standing on it with the edges propped up on blocks proves the board is stiff and strong as designed. I could see no sign of delamination or excessive deformation even with a little bit of hopping.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iLWPw5G.jpg" alt="">
+                </div>
+
+                <p>The fastener holes in the deck are sized to accept these threaded inserts. I wanted to use M3 machine screws to attach all the electronics enclosures to the board, so these were needed to create secure threads in this mostly wooden substrate. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jTb5Hhl.jpg" alt="">
+                </div>
+
+                <p>I applied a little bit of JB weld on these threads to prevent any loosening due to expansion of the wood, and used the provided tool to sink them as square as possible into the deck.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HBpw7VK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BBJSBO4.jpg" alt="">
+                </div>
+
+                <p>I filed the inserts flush on both sides before plugging the threads with some masking tape and filling the top surface with some additional JB-weld epoxy. This top side of the deck receives a decal and grip tape, so I wanted to create a smooth homogenous surface. The bottom side is where the enclosures attach, so the M3 threads are left alone and ready for use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DOQJFXr.jpg" alt="">
+                </div>
+
+                <p>I after finishing the inserts, I sanded the top and bottom surfaces of the board with 220 grit sanpaper to prepare the deck for painting.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rwUNMRl.jpg" alt="">
+                </div>
+
+                <p>At this point, I couldn't help but do a test fit and see how the board would look once everything was together. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CKbTWVh.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iCcGuKi.jpg" alt="">
+                </div>
+
+                <p>Not too shabby.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bPpZmg3.jpg" alt="">
+                </div>
+
+                <h3 >Painting and Decals</h3>
+                <p>I took everything back apart and masked the top surface of the board along with the wooden sides and threaded holes. I didn't want to paint over the sides because I thought it would be cool to be able to see the aluminum-wood-aluminum composite structure of the board later on.</p>
+                <p>The bottom surface of the deck received a few coats of matte white paint, which would create a nice canvas to receive some designs at a later step.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QTarXhV.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7b3XHEp.jpg" alt="">
+                </div>
+
+                <p>I wanted to remove any bumps and blemishes for a clean background and a nice, smooth feel. After allowing a day to fully cure, I wet sanded the white paint with 1000 grit sandpaper to even out the finish and remove any defects.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fLz7C4H.jpg" alt="">
+                </div>
+
+                <p>I had something special planned for the top-facing surface of the board. This would be the part that the griptape and later my feet would go on top of. It is also the part I'd be looking at the most, so I needed to make it look cool.</p>
+                <p>First step was a black background. I masked off some areas to prevent overspray and hit the center of the board with a couple coats of matte black spray paint.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/z90kSkc.jpg" alt="">
+                </div>
+
+                <p>On top of this, I stuck a few strips of blue masking tape and put the whole deck in the laser cutter. I aligned the surface and using a low power, I cut the pattern I wanted out of the tape.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4Nf0TkB.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/M3wVJq8.jpg" alt="">
+                </div>
+
+                <p>The exposed areas got a couple coats of flat white paint. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lOYrSmg.jpg" alt="">
+                </div>
+
+                <p>Finally, I print designs on waterslide decal paper using a color inkjet printer. This is special type of paper made of a plastic film attached to a paper backing with a water soluble adhesive. It can be printed on like regular paper, but when soaked in water, the plastic film with the pigment can be slid off the backing and onto another object.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YzO22mF.jpg" alt="">
+                </div>
+
+                <p>I printed a couple of these, and applied it to the painted surface, trying my best to align it on top the white painted lettering from earlier. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/P5uv6cI.jpg" alt="">
+                </div>
+
+                <p>This was as good as close as I could get it. A little bit shifted over, but definitely not noticeable from further away. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CT3hWw3.jpg" alt="">
+                </div>
+
+                <p>You might be wondering why bother with the white paint if I was just going to stick this decal on top anyway. From a test I did earlier, I found out that because the film itself was transparent and the inking from the printer wasn't fully dense, I found that the colors weren't very visible when put directly on a black background. </p>
+                <p>The image below show the difference is nugth and day with (top) and without (bottom) the white paint backing. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KITuoqB.jpg" alt="">
+                </div>
+
+                <p>The freshly decal-ed surface is allowed to dry before receiving a couple coats of UV-resistant clear coat. This is partially to prevent sun damage on the decal but and also to prevent water from seeping under the decal at a later date and lifting it off</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/N41oEu1.jpg" alt="">
+                </div>
+
+                <p>Finally the grip tape is cut on the laser cutter and fixed over top of the whole surface.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IqpN9tp.jpg" alt="">
+                </div>
+
+                <p>For the bottom surface of the board, which I painted white earlier, I masked off the areas the enclosures would cover and left it out on my residence hall along with some sharpies and paint markers for people to doodle on.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0H1hrY1.jpg" alt="">
+                </div>
+
+                <p>A couple days later, this was the result, and I'm very happy with the way it turned out. This is exactly the look I was hoping for. Interestingly, it looks like people gravitated towards one particular color of paint marker.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2zhZpHc.jpg" alt="">
+                </div>
+
+                <p>They're all great. For a future deck, I thought this schematic-style sketch would be a neat design to cover the entire back surface with.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AnpxCRu.jpg" alt="">
+                </div>
+
+                <p>This also got a couple coats of clear coat to make it easy to clean later on and to protect the underlying designs from being rubbed or scratched off over time.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3Xn8slb.jpg" alt="">
+                </div>
+
+                <h3 >Battery Pack</h3>
+                <p>Like I mentioned earlier, I didn't have the funds to purchase a full set of new cells for this board. I did however have access to a lot of discarded laptop batteries. After taking apart enough of them, I was able to salvage 20 of these Panasonic NCR18650 cells. These are rated for 3200mAh each and 10A continuous discharge.</p>
+                <p>SOme of them were a little worse for wear, so I repaired their covering with electrical tape before proceding. The outer can of these cells is actually connected to the negative electrode, so it's imperitive that they are well insulated to avoid shorts when putting the pack together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3NWo2qS.jpg" alt="">
+                </div>
+
+                <p>It's also important that the cells are all at the same voltage before assembling the pack in order to avoid damage and hot metal. I made sure they were all charged to within 0.02 volts of one another before starting assembly.</p>
+                <p>I picked up a very cheap battery powered spot welder, a nickel strip, and got to work. Spot weldind is used to attach connections to batteries like this because the heat is very localized and the current passes mostly just through the surface of the metal being welded. This avoids hurting the batteries and lowers the risk of any potential battery catastrophes. </p>
+                <p>It is still important to be mindful here, as there is a lot of stored chemical energy in play. Accidental shorts have potential to lead to fires or explosions.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Bxf8Eyq.jpg" alt="">
+                </div>
+
+                <p>I cut the strips to size, and sanded the surfaces of the batteries smooth to remove any bumps before welding the strips on. I used a bead of hot glue on either side of each pair to temporarily hold them together while I was spot welding.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pAxDf0i.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kIiepw0.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sGt3i8H.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kDjWTHx.jpg" alt="">
+                </div>
+
+                <p>Each half of the pack was assembled and welded separately. I also added tabs for connecting the balancing wires later when the BMS was attached.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/D4cWlyN.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CQ46BHS.jpg" alt="">
+                </div>
+
+                <p>I laser cut some thick paper to insulate and protect the welded connections on the cells. This was attached with adhesive.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aWjh5Jt.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QSECbfT.jpg" alt="">
+                </div>
+
+                <p>The two halves were welded together, insulated with paper, and folded into their final shape.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ckUGZ6B.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/P0nVrgU.jpg" alt="">
+                </div>
+
+                <p>Finally, the BMS can be attached and the balance leads can be soldered to the tabs left earlier. All wires, tabs, and connectors are secured in place with some healthy gobs of hot glue to prevent vibrations from breaking down these connections over time. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5BUI3Nd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gmlnaFZ.jpg" alt="">
+                </div>
+
+                <p>Lastly, the battery gets foam tape padding on all sides so that it fits snugly inside its enclosure and doesn't rattle around.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0HvfSmM.jpg" alt="">
+                </div>
+
+                <h3 >Battery Enclosure Hardware</h3>
+                <p>Im realizing I fon't have pictures of putting the full battery enclosure togther, but I do have some of attaching the hardware.</p>
+                <p>These are the toggle clamps that keep the removable battery enclosure fixed to the board. I troughed up the back side of these with a file so that the epoxy has a good surface to hold on to. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c00adfa.jpg" alt="">
+                </div>
+
+                <p>I used JB weld to glue the clamps onto the enclosure. A couple of M3 screws threaded into holes in the printed enclosure were used to locate the clamp and provide some holding force while the epoxy cured.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c17NvQ5.jpg" alt="">
+                </div>
+
+                <p>The waterjet locating/clamping hardware was also installed on the deck by screwing them into the threaded inserts installed earlier. A little bit of foal tape is added underneath where the battery enclosure sits to provide some preload for the toggle clamps. This was later replaced with rubber sheet, which would not deflate over time like the foam.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WUTswiH.jpg" alt="">
+                </div>
+
+                <h3 >E-Switch</h3>
+                <p>The PCB for the e-switch, as described in the design section above, was also simple enough for me to machine myself. I threw a blank on the Othermill and got one of these out.</p>
+                <p>You might remember the PCB shown earlier included some bulk capacitance, a relay, a 12V regulator, and inrush current limiting stage, all of which are notably absent from this PCB. Those were added iteratively after finding out all of the things wrong with this one.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yVUhIP8.jpg" alt="">
+                </div>
+
+                <p>This was a purely one sided board, and the back of the PCB was left as a solid plane of copper to help conduct any heat from the mosfets into the aluminum baseplate and skateboard deck. To avoid any shorts, I used a small drill bit to remove some copper around the holed where the mosfet pins would go through. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/258PEBd.jpg" alt="">
+                </div>
+
+                <p>The mosfets are soldered in place and some extra solder is flooded over the copper pads to improve its current carrying capability</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QIGSeOj.jpg" alt="">
+                </div>
+
+                <p>Up until now, I was running my tests with a 12V battery. My power switch (which gad a little green light on it) was only rated for 12V so after I had built the new 40V battery pack, it was necessary to add a 12V regulator to avoid burning out that light or damaging the switch contacts.</p>
+                <p>As a temporary fix, I made this tiny PCB to house the regulator and attached it to the other one. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pry6O3V.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Bl3Nc45.jpg" alt="">
+                </div>
+
+                <p>After wiring everything up and performing a couple tests, I naturally found out this didn't work at all. This is about the time I realized inrush current would be a problem.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NSGGNMx.jpg" alt="">
+                </div>
+
+                <p>I made the relevant corrections and cut out the PCBs I showed in the design section earlier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GztXitH.jpg" alt="">
+                </div>
+
+                <p>These were assembled using a little bit of solder paste and some assistance from a hot air gun to reflow everything.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HnktsI6.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/atLHiEN.jpg" alt="">
+                </div>
+
+                <h3 >Control Enclosure Hardware</h3>
+                <p>The aluminum base plate for mounting all of these electronics was cut out of 3.175 (1/8") plate on a waterjet and tapped to accept M3 screws.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lbcWHXx.jpg" alt="">
+                </div>
+
+                <p>The control enclosure cover was 3D printed, just like the battery cover. The glowing pushbutton was installed into it as well as the XT-60 connector that recieves power from the battery.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vou93CD.jpg" alt="">
+                </div>
+
+                <p>I couldn't find a bulkhead connector that I could attach to the cover using fasteners, so for the time being, I just stuck a regular XT-60 female plug through the enclosure and set it in place with a big gob of hot glue. It's actually held up really well so far, so maybe there's no need to come back and replace this.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A3z1ajg.jpg" alt="">
+                </div>
+
+                <p>Finally, all fasteners got a little bit of blue Loctite to hold them in place. The last thing I want is for all everything to shake itself loose while I'm riding the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kq5algU.jpg" alt="">
+                </div>
+
+                <h3 >Handheld Controller</h3>
+                <p>In conjunction with finishing the board, I was also working on building the handheld controller. I started with machining the controller PCB on an othermill. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/L5PZaMs.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jVCzRnn.jpg" alt="">
+                </div>
+
+                <p>The board went through several iterations before I settled on what you saw in the design section. An early version of the board, among other differences, had this big chunky joystick on it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/scvmwOb.jpg" alt="">
+                </div>
+
+                <p>Eventually, I settled on this low profile joystick. This is intended as a replacement part for the nintendo switch, but it worked great here. It has two analog axes and a pushbutton output.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/h1qNYBZ.jpg" alt="">
+                </div>
+
+                <p>The frame for the controller was 3D printed. I used heat set insets to add threads to the lower half. These accept M3 screws, which are used to clamp the top and bottom halves together</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kE86VPi.jpg" alt="">
+                </div>
+
+                <p>The screen and joystick are secured mechanically and with a little bit of hot glue to prevent any vibrations or shocks from knocking things loose.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2gEy90C.jpg" alt="">
+                </div>
+
+                <p>On the back, from left to right is the NRF24L01+ radio module (with giant input capacitor), a 2000mAH Li-Ion cell, and a Li-Po charger/5V boost circuit. The latter is essentially what you'd find inside a usb power bank—when plugged in, it takes 5V from the USB and charges the cell and when unplugged, steps up the 3.7 volts from the cell to 5V for the controller. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4jUGaR0.jpg" alt="">
+                </div>
+
+                <h2 >V2 Electronics (A Few Months Later)</h2>
+                <p>At some point, while riding around, the capacitors shook loose from my VESC. Repeated vibrations must gave fatigued the legs of these components, and the silicone adhesive they had used was not up to the task of preventing this. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yPYXRDP.jpg" alt="">
+                </div>
+
+                <p>I figured since I was already in here, I might as well get to all the leftover agenda items.</p>
+                <h3 >Second Motor Controller </h3>
+                <p>First up, I grabbed a second VESC for the unused hub motor. I reattached the capacitors in the previous VESC, but I ended up setting that one aside for a different project. I upgraded to two new FESC 6.7 controllers, also from Flipsky, and removed the covers and all the wiring that it ships with. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WmSpOoG.jpg" alt="">
+                </div>
+
+                <p>Before installing them, I made sure to give these a satisfactory dose of hot glue to try and avoid the breakage issue in the future. This seems to be holding up ok.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2ODfVCk.jpg" alt="">
+                </div>
+
+                <h3 >V2 Skateboard PCB</h3>
+                <p>I had a lot of gripes about the previous board and this was a good opportunity to address them. Since I had a little bit of money and time to wait, I wanted to just order some PCBs that integrate the e-switch, power distribution, and receiver controller on the same board.</p>
+                <h4 >E-Switch Upgrade</h4>
+                <p>First step was fixing the e-switch. If you remember, the previous version used a relay and the arduino to time the precharge circuit and turn the board on. A big problem with this setup was that the arduino was also in charge of disengaging the relay and turning itself off when the board needed to be off. This was messy and did not work very reliably. </p>
+                <p>This time around, I eliminated the relay and the arduino from the equation completely. These got replaced with a simple 555 timer delay circuit (top right). When the switch (bottom left) is turned on, 12V from the low Iq voltage regulators (top left) goes to the enable pin of a gate drive IC (bottom right) which turns on the precharge mosfet. </p>
+                <p>At the same time, when the switch is pressed, the 12V also begins charging up capacitor C1 attached to the Trig pin of the 555 timer chip. After a preset amount of delay, the 555 timer raises its output from LOW to HIGH. This output feeds into the other input of the gate drive IC and turns on the main bank of mosfets.</p>
+                <p>Because the delay is determined by the values of capacitor C1 and resistor R2, we can adjust it to be long enough that the system capacitors have a chance to charge through the current-limited precharge mosfet before the main, non-current-limited mosfets are turned on.</p>
+                <p>To turn off the board, we simply turn off the switch and all the mosfets are turned off, cutting power to the system.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ReBhFMr.png" alt="">
+                </div>
+
+                <p>This is far more robust than the old method, and makes the e-switch self-contained and separate from the main control electronics.</p>
+                <p>Like before, the precharge switch (top right) consists of one <a href="https://www.mouser.com/datasheet/2/408/TPH7R006PL_datasheet_en_20191018-1075496.pdf" target="_blank" rel="noreferrer noopener">TPH7R006PL </a>N-channel mosfet connected to some large resistors to limit the inrush current. The main bank of mosfets is made up of four N-channel mosfets connected in parallel. I also added a couple leds partly for for pizazz and partly so I'd have a visible indication of when each section turned on.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QUAM4RQ.png" alt="">
+                </div>
+
+                <h4 >Microcontroller Upgrade</h4>
+                <p>I was also having tons of problems with the NRF24L01+ radio transceiver modules I had been using to send information to and from the handheld remote. It turned out they required exceptionally clean power input to work, and even the only communicated about half the time. There was no amount of tinkering and adjusting power levels that seemed to give me a lon-term stable connection between the two. I finally gave up on these and started researching alternate communication methods.</p>
+                <p>I found out that the popular ESP32 platform had a fairly newly</p>
+                <p>developed two-way communication protocol called <a href="https://www.espressif.com/en/solutions/low-power-solutions/esp-now" target="_blank" rel="noreferrer noopener">ESP-NOW</a>. This claimed to be fast, direct and low-power transmission of small messages with very minimal delay—exactly what I needed. Most importantly, there was no pairing process like bluetooth and wifi protocols. You simply target the MAC address of the device you want to talk to and start shooting out messages. This makes it robust to turning one of the transceivers off and on or turning them on at different times. It simply starts communicating as soon as both are on.</p>
+                <p>I purchased a pair of <a href="https://esp32s3.com/tinys3.html" target="_blank" rel="noreferrer noopener">Tiny S3</a> ESP32 development boards mainly because of their small size and built in USB port. It even had LiPo battery charging and monitoring capabilities, which was great for the handheld.</p>
+                <p>I laid everything out to match the dimensions and mounting holes of the baseplate. After cleaning up the look and adding the appropriate labeling, I sent them out to JLCPCB for manufacture.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wSS3CSM.png" alt="">
+                </div>
+
+                <h4 >Assembly</h4>
+                <p>Here they are a short while later. These'll certainly make the setup a lot more reliable and will definitely look a lot cleaner.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZnRa6p4.jpg" alt="">
+                </div>
+
+                <p>I used a stencil to apply the solder paste and used my tiny miniware hotplate to reflow and solder all the components to the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wOomaSM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eMxs5oM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hkMSLUQ.jpg" alt="">
+                </div>
+
+                <p>Looks a lot prettier than the old setup. I'm using actual connectors this time, so it'll be a lot easier to move things around in the control enclosure. I do still have to solder power wires into the board and to each of the ESCs because I didn't really have the space to fit high current connectors. If I redo this board, I'll maybe try and find some way to mount XT-60 or even XT-30 connectors on here. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/I69waDL.jpg" alt="">
+                </div>
+
+                <p>I used a current limited power supply instead of the main battery to validate the current limiter and delayed start circuits were working. This way I wont just immediately blow everything if something is wrong with the board. Everything seems to be working great!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WlY5Wsw.jpg" alt="">
+                </div>
+
+                <p>I had to add this little logic level converter, because the TinyS3 uses 3.3V for UART instead of  the 5V used by the VESC. This just hides underneath the board and makes sure the two can communicate.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mjlSP5t.jpg" alt="">
+                </div>
+
+                <p>This is the board installed on the baseplate flanked on either side by the two VESCs. Definitely a cleaner setup, and the on-off behavior is a lot better, more reliable, and better protected than what I had before. The TinyS3 is also a huge upgrade—I don't have any signal dropouts like I was experiencing with the NRF24L01 modules. </p>
+                <p>Finally, everything just works like it's supposed to.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cQNzf70.jpg" alt="">
+                </div>
+
+                <h3 >V2 Handheld Controller</h3>
+                <p>The contoller got the same TinyS3 upgrade. This actually made the PCB quite a lot simpler, since the USB-C port, USB-UART, and radio transceiver parts were all handled by this one board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mG8l2v9.png" alt="">
+                </div>
+
+                <p>With a quick redesign of the enclosure and a little bit of 3D printing, this too was good to go.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/U7jsTPh.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XyWkVjF.jpg" alt="">
+                </div>
+
+                <h2 >Complete</h2>
+                <p>Everything is done! Enjoy this gallery of views.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rFkqi5U.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JCgdDtl.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dKp6mY1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/L0GBtvQ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oXkzyko.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dWmVQIJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/flpT6W1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YDrbWKa.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

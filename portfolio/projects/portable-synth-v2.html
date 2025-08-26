@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portable Synth V2 | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Portable Synth V2</h1>
+                <p class="project-subtitle">subtitle</p>
+            </header>
+
+            <section class="project-section">
+                <h3>17 November 2020 Update</h3>
+                <p>The boards are here, and they look awesome!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eGCIvRU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/utEIyJr.jpg" alt="">
+                </div>
+
+                <p>Let's start soldering.</p>
+                <h4>Power Supply First</h4>
+                <p>I always start with the power supply section first (as should you) so I can make sure all the voltages being delivered around the board are correct. This is to avoid potentially damaging the microcontrollers and other chips in the event that I make a mistake soldering the power supply, or if it isn't designed correctly.</p>
+                <p>The power supply section, which is mostly contained to the lower left corner of the back of the board,  includes the MCP73113 LiPo charger, the PAM2401 Boost Converter, the DMG9926 Dual Mosfet IC, the MAX6775 Battery Monitor, and all of the external passives needed to make them work. I also soldered in the NPC163 and AP7313 LDOs, which are responsible for delivering 3.3V and 1.5V respectively to the audio codec, along with all of the passives in that section.</p>
+                <p>Soldering this part was relatively straightforward. The MCP73113 is a tiny little chip, and was a bit of a challenge to solder, but with enough flux, anything is possible. Note that for the IC's with the thermal pad directly underneath, like this one, the audio codec, and the Atmega4809, I put a big via in the middle of the corresponding pad on the PCB so that once the chip is soldered in, I can flip the board over and flow solder in through the hole and onto the pad. This just felt like the best way to solder these when not using solder paste and a hot air gun. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9z8lnpb.jpg" alt="">
+                </div>
+
+                <h4>Power Supply Troubleshooting</h4>
+                <p>Once I soldered all the necessary components, I connected the battery, switched it on, and nothing happened. This is always alarming. I started by probing the ENable net with my oscilloscope and saw that it was stuck in a cycle of being pulled high for a brief time and then pulled back down to ground. This explained why the power supply wasn't outputting anything - when the enable pin is low, the PAM2401 boost converter disables its output. This still didn't explain the cause of the problem though, and didn't explain the weird cycling behavior of EN.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Q5SJb6b.jpg" alt="">
+                </div>
+
+                <p>The next thing I tried was plugging in the USB. When I did this, the USB power was passed to the output of the power supply and the battery charge light also turned on (which means the MCP73113 was working correctly!). In this state, EN was pulled low and held low, just as I had designed it to be. This told me for sure that the problem had something to do with the EN net, and the only two devices capable of actively driving this net one way or the other were the DMG9926 Dual Mosfet IC and the MAX6775 Battery Monitor. </p>
+                <p>Since these are both non-essential components, I desoldered both and tried turning it on again. This time it worked fine, and the boost converter was producing a steady 5.2V at its output. Sweet. Next, I soldered the MAX6775 back in and tried again. It still worked... Finally I soldered the DMG9926 back in and observed that the power supply stopped working again. Great! We found the source of the problem, now lets look at why this was a problem.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KoHM3SE.jpg" alt="">
+                </div>
+
+                <p>Remember this picture from the last part? This is the circuit diagram for the DMG9926, whose purpose is to switch the boost converter off and switch the board's power over to USB power when a cable is plugged in. This is just to make sure we're not drawing too much power from the battery at the same time we're trying to charge it. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/36KDXN3.png" alt="">
+                </div>
+
+                <p>Now if you're familiar with how Mosfets work, you might see a problem with this arrangement right away. If not, check out the image below which shows a lower level representation of the above circuit.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/U11rtRG.png" alt="">
+                </div>
+
+                <p>The DMG9926 is just two N-channel Mosfets in a single package. The way I have it hooked up, Mosfet 1 is used for switching USB power (VUSB) to board power (+5V) and Mosfet 2 is used for switching EN to ground (GND). Both of these are controlled VUSB, which feeds the gates of both Mosfets. VUSB is normally pulled low by a resistor, but when a USB cable is plugged in, VUSB is pulled high and both Mosfets are turned on. VUSB is connected to +5V and EN is connected to ground, which disables the boost converter.  When the USB cable is disconnected, VSUB drops low, the Mosfets are turned off, and the signals are disconnected. </p>
+                <p>However, there's a big problem here that I neglected to notice when designing this. Say there's no USB cable plugged in and we just want to run the board off the battery and the boost converter. In this case, VUSB will be at ground potential because of the pulldown resistor, but +5V, which is connected to the same net as the output of the boost converter, is driven high as the board receives power. What I forgot to take into consideration is that all Mosfets have a body between their source and drain. When the voltage at the source gets higher than the voltage at the drain (plus the forward voltage of this body diode), the diode beings to conduct current from the source to the drain. In my case, as the boost converter raises the voltage at +5V, and as soon as this voltage gets above the body diode forward voltage in Mosfet 1, it conducts, and current flows into VUSB. When this happens, VUSB switches both Mosfets on, and Mosfet 2 connects EN to GND, thus switching the boost converter off. The +5V now drops back down to zero as does VUSB, which turns off both Mosfets and disconnects EN from GND in Mosfet 2. Consequently the boost converter is turned back on and the process repeats.  </p>
+                <p>When we probe EN with an oscilloscope, we can see exactly this behavior!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DCuZWfX.png" alt="">
+                </div>
+
+                <p>Since this isn't a totally essential component, we can just leave this component off altogether and everything will work mostly fine. For a next version, I might look into using a small SSR, or solid state relay, which would probably work better in this situation.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RkUSau3.jpg" alt="">
+                </div>
+
+                <h4>Tip for Soldering Small SMD Components</h4>
+                <p>When you're working with small SMD components that have a really tight lead spacing, i.e. the pads are small and close together, it's not easy to try and solder each pad individually. This is especially the case for chips like the SGTL5000 and the  MCP73113, whose QFN packages don't even have external leads. Usually, these are soldered with a hot air gun and solder paste, but I don't own either of those things, so I have to try and do this with my regular old soldering iron.</p>
+                <p>Here's a good way to deal with this.</p>
+                <p><strong>1.</strong>Cover the pad where the chip will go with a lot of flux and align the chip on the pad in the correct orientation.</p>
+                <p><strong>2.</strong> Get a big blob of solder on the end of your soldering iron, press down on the chip with some tweezers to pin it in place, and drag the blob of solder over one side of the chip. Because of the additional flux you added, the solder will wick in and make contact between all pins on that side and their respective pads. Don't be afraid to just gob on the solder at this step and don't worry if you leave big blobs of solder all over the pins while you're doing this. The important thing here is to just make sure solder has made contact with all of the pins on the chip.</p>
+                <p><strong>3.</strong> Now that the chip is pinned in place by the solder joints you just made, repeat the same procedure for all the other sides of the chip.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/poRaMxi.jpg" alt="">
+                </div>
+
+                <p><strong>4.</strong> Great! The chip is now soldered in place and all we need to do is clean up the excess. Solder wick is a great tool for this. Start by putting a tiny bit of solder on the end of a fresh section of solder wick. This helps better conduct heat from your soldering iron and makes the wicking process much easier.</p>
+                <p><strong>5.</strong> Put the wick on the board perpendicular to the side of the chip you're trying to clean up. Press down on the end of the wick with your soldering iron and use the iron to push the end of the wick up against the side of the chip. You should see the excess solder get wicked away leaving cleanly soldered pins!</p>
+                <p><strong>6.</strong> Repeat the wicking procedure for all sides of the chip.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Kh8L7a1.jpg" alt="">
+                </div>
+
+                <p><strong>7.</strong> Inspect the solder joints at all of the pins and make sure there are no bridges of solder between any of them. If there are, just add a bit more flux and repeat the wicking at that spot until the bridge is gone</p>
+                <p>8. Clean up all the excess flux with some isopropyl alcohol.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6cPFOEU.jpg" alt="">
+                </div>
+
+                <h4>Soldering Everything Else</h4>
+                <p>I finished up soldering the rest of the SMD components on the back and front sides of the board. I made sure to hold off on soldering any of the big thru-hole components until after all the SMD parts had been soldered in just so I'd be able to easily lay the board down flat while soldering the SMD stuff. I also scrubbed the board down with a toothbrush and isopropyl alcohol to clean off all the flux residue from the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qFQTFCa.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DjlJ1H4.jpg" alt="">
+                </div>
+
+                <p>When it was time to solder in the switches, I was surprised to find out it actually lined up pretty well. I did my best with a pair of calipers when designing the switch footprints on the PCB, and I'm glad to see that it actually turned out reasonably. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5N3uJgr.jpg" alt="">
+                </div>
+
+                <p>As you might be able to see in the image above, the switches were just a tiny bit skewed clockwise though. To fix this, I placed each switch in its respective slot, and gave it a little twist with a pair of pliers. The switches were fortunately tough enough to stand up to this, and I was able to successfully bend the pins just enough to straighten out the switch once I soldered it in.</p>
+                <p>I repeated this admittedly time consuming process for all 47 switches. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/009TwXJ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2LCCFPw.jpg" alt="">
+                </div>
+
+                <p>Next up were all the knobs. The four encoders went in without a problem, but the potentiometer I was planning to use for volume control ended up standing off the board quite a bit higher than I had originally expected. I'm not entirely happy with this solution, but I just used a pair of close cutters to cut off the parts of the pins that wouldn't fit in the holes.  This way I could push in the potentiometer all the way down to board level and have it be on the same level as the encoders.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/jpu5OpA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Aw2b8ry.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aqyr1Zs.jpg" alt="">
+                </div>
+
+                <p>The Teensy 4.1 went in next, and I remembered at the last minute to solder in the two PSRAM chips on the back before soldering the whole microcontroller onto the main PCB. It's important not to forget this step- it's gonna be real difficult to try and desolder the teensy when you realize you forgot to solder these in.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OlKlBNC.jpg" alt="">
+                </div>
+
+                <p>The joystick was actually a real pain to solder. I started by disassembling it so that I wouldn't accidentally melt the plastic case while soldering. I made sure to clip off the springy bit of metal at the bottom of the metal clip so that the joystick would sit flush against the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Y5cbzww.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ibzIpxk.jpg" alt="">
+                </div>
+
+                <p>Next, I put solder on the contacts of the joysick PCB as well as the main PCB, aligned the two, and used my soldering iron to reflow the solder from the joystick PCB down to the main PCB. As a word of warning, dont put as much solder on the pads as I did in the picture below. You just need the tiniest bit or else you'll risk having the excess solder short out all the pins and it'll be a really big hassle to come back and try to fix it.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VZ9urPq.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sfpd55x.jpg" alt="">
+                </div>
+
+                <p>Soldering the hinged SD card reader on the Teensy was another thing that gave me a little bit trouble. As I mentioned in the last part, The reason for doing this is to give easy access to the SD card without having it interfere with the adjacent key switch. Instead of desoldering the old SD card reader and soldering in this new one, I decided it would be easiest to just solder the new one directly on top of the old one. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nyG9Zhb.jpg" alt="">
+                </div>
+
+                <p>To make this work, I used a small flat edge to bend all the pins on the bottom of the new SD card reader to a roughly 90 degree angle so that they'd be able to reach the pins on the Teensy below.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1tdAKlg.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A8wdMlc.jpg" alt="">
+                </div>
+
+                <p>As preparation, I covered the top of the old card reader with a bit of kapton tape to insulate it and protect the pins on the new card reader from shorting out on top of it. Moreover, I used a bit of aluminum tape to cover up the adjacent mechanical switch to protect it from melting immediately when I inevitably bump into into it with my soldering iron.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BwjYuWo.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/082ojuG.jpg" alt="">
+                </div>
+
+                <p>With that done, it was just a matter of soldering it in place. I did also anchor the back of the SD card reader to the Teensy by soldering some solid wire between one of the Teensy's ground pins and the chassis of the card reader. This keeps it from wobbling around and eventually breaking as it gets used.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AVr3Zjc.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SGUjA7n.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PTaQICw.jpg" alt="">
+                </div>
+
+                <p>Finally, the radio module also got soldered in the back. I left the board antenna jumper connected for now. I'm pretty excited to see how it will perform.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tR4vqWc.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/woS60tT.jpg" alt="">
+                </div>
+
+                <h4>Final Assembly</h4>
+                <p>It was finally time to put it all together in a single neat package. I designed an enclosure in Fusion360 and printed it out using white PLA. The overall height of the case is determined only by the height of the battery, which fits in a nice little compartment on the right side of the board with some foam tape over it to keep it snug and protected from all the sharp pins on the bottom of the PCB.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RMdAfGh.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nhkAtcp.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aBmrtAj.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/skkzfK5.jpg" alt="">
+                </div>
+
+                <p>I didn't really plan out the microphone placement all that well, but I am really happy with how everything else came together. There are two 3.5mm audio jacks on the device (one for input and one for output) that sit flush with the outside of the case.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Evc70MR.jpg" alt="">
+                </div>
+
+                <p>The power switch and the usb charging port are hidden in a little recessed dimple in the case that also has a small opening to allow the user to see the power indicator LED. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/43TUNLU.jpg" alt="">
+                </div>
+
+                <h4>We did it!</h4>
+                <p>And there's most of the essential hardware finished! Obviously there's a lot of cosmetic stuff I still need to make for this, like the keycaps, a border to cover up the screw heads, some knobs and cover plates for the encoders and volume potentiometer, etc. and that's all coming up eventually.</p>
+                <p>But for now, lets just take take a minute and enjoy looking at this cool thing we just made.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CRWA8jG.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Tv2rUyj.jpg" alt="">
+                </div>
+
+                <h3>19 November 2020 Update</h3>
+                <p>Alright break over. Lets get right back into it. </p>
+                <p>I forgot to mention in the last update, but I did find a couple of mistakes while I was checking if everything was working. </p>
+                <p>The first thing is pretty minor. I had 10kohm resistors on the encoder indicator leds and they were pretty dim. I switched these to 2.2kohm resistors since I had some extra, and this helped to make them a lot more visible. They're still not very bright, and I plan to swap these out again with like 220Ohm resistors next time I place a Digikey order.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/U5hV0Az.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AsR2yUX.jpg" alt="">
+                </div>
+
+                <p>This one was a slightly bigger issue. I had forgotten that I was using the WS2812B Serial library with the Teensy to control my neopixel leds, which requires that the LED data pin be a serial tx pin on the Teensy. This was not how I had laid the PCB out, so I had to cut the original trace and instead connect the correct pin on the Teensy to the LEDs using a small section of 30AWG magnet wire.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/O2tv3UA.jpg" alt="">
+                </div>
+
+                <p>I also forgot to order R8, so for the time being, I'm just using this big thru-hole resistor as a placeholder until I can get my hands on the correct component.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/f7HRlYK.jpg" alt="">
+                </div>
+
+                <h3>19 December 2020 Update</h3>
+                <p>So it took a month, but I finally managed to make some more progress on this.</p>
+                <h4>Printing Keys</h4>
+                <p>First things first, I finished printing all of the keycaps and cosmetic components for the device. I still hadn't settled on any particular aesthetic for these keys, but I was getting tired of looking at the bare keys so I decided to just go ahead and print off a bunch of these rounded rectangles. I can always come back and change it up if I want a different look.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/z1XuIWY.jpg" alt="">
+                </div>
+
+                <p>I use Overture white PLA for all prints in this project, and I've been really happy with the way the parts have been looking. Compared to other filaments I've tried, this one just produces absolutely pristine, perfectly white parts, which look amazing when put together especially against the black PCB background. The black keys were were also printed with white PLA and painted with thin coats matte black acrylic paint. To keep all of these parts from getting dirty via my dusty workspace or my grubby hands, I gave all the keys and encoder knobs (i.e. the parts that the user will be touching most often) a couple of nice protective coat of clear acrylic. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/94oDJAe.jpg" alt="">
+                </div>
+
+                <p>I still wanted to keep the keys somewhat textured though, rather than totally smooth and glossy, so I made sure to give the keys short but heavy coats with the acrylic spray. This resulted in this awesome speckle pattern that feels pretty decent to press on. I was really happy about how these turned out- you don't look too closely, they almost look and feel like something you'd find in a commercial product.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zev9lnR.jpg" alt="">
+                </div>
+
+                <h4>Programming Input Processor</h4>
+                <p>I flipped the board over and uploaded the input processor to the ATMEGA480 chip. This part was ridicoulously staightforward compared to how much trouble I had trying to get the ATMEGA64 working in the last version.</p>
+                <p>It was as simple as </p>
+                <ol><li>Upload the jtag2updi sketch onto a separate Arduino Nano (jtag2updi can be found <a href="https://github.com/ElTangas/jtag2updi">HERE</a>)</li><li>Install MegaCoreX via Board Manager (details <a href="https://github.com/MCUdude/MegaCoreX">HERE</a>) </li><li>Connect Arduino Nano pin 6 -&gt; UPDI and Arduino Nano GND -&gt; GND</li><li>Pull up the code you want to upload, select the correct chip under "Tools", and press upload!</li></ol>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/US9Aw0M.jpg" alt="">
+                </div>
+
+                <p>The input processor code was pretty similar to what I had last time, except now that we have a lot more buttons and an extra encoder, we sent 8 byte messages to the Teensy instead of 6 in the last version. The total data "packet" is composed of 51 bits to hold the binary state of 51 buttons plus 2 bits to hold the state of each encoder (forward or backward). This adds up to a total of 59 bits,  for which we need minimum of 8 bytes to represent. You can find this code in the github link somewhere down below.</p>
+                <p>After a few hours of debugging and probing around the board trying to solve a mystery that ended up just being a few shorted pins on the ATMEGA, the input processor was up and running.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Lx5ML2f.jpg" alt="">
+                </div>
+
+                <h4>Subtractive Synthesizer with Mod Matrix</h4>
+                <p>Now that all the hardware was working, I decided to get my feet wet by porting over one of the more straightforward softwares from last time, the subtractive synthesizer. I had to reinvent a lot of the UI and navigation to fully utrilize the bigger, color display I now had at my disposal. </p>
+                <p>This was by far the most time-consuming part of the project. The implementation details of this sections are not as important, but at a high level, the synthesizer controls were divided into six main menus that were switched using one of the encoders. In each of the menus and various sub-menus, colored LEDs under each of the encoders are illuminated to show the users which encoders are currently active, and the corresponding graphics on the screen are displayed using the same colors to show what particular parameter is being controlled by that encoder. </p>
+                <p>Designing and implementing the graphics for each of these screens and visually showing when a change had occurred turned out to be one of the more challenging parts. The first of these challenges was finding a way to build a visualization for each of the parameters using primitive graphics elements in a way that was visually interesting to look at, self-explanatory, and not repetitive. The other challenge was actually implementing moderately complex interactions between elements on the display. The Adafruit library I'm using for my display doesn't implement a display buffer, since storing a buffer of colored pixel values for a relatively high-resolution screen would consume a significant amount of memory resources. What this meant for me was that every&nbsp; graphics element I included in the code was put on the screen immediately, and remained there until it was overwritten by something else. Consequently, for every moving element on the screen, I had to also draw a complementary set of black-colored objects to follow its motion and overwrite the pixels it left behind.</p>
+                <p>You can see and hear how everything turned out in the demo video below.</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/yj9AeDa9qw8" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>You'll find all my code for the synthesizer in the github link here, along with a text file you can import into the Audio System Design Tool:</p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Synthesizer Code on Github</a>
+
+                <h3>29 December 2020 Update</h3>
+                <h4>Bringing in External Sample Packs</h4>
+                <p>Lately I've been watching a bunch of producers on youtube make music (maybe I should've done this a lot earlier) and I saw that lot of them rely on loops/sequences of samples to make their beats. Apparently, you can download whole collections of audio samples from the internet specifically for this purpose. </p>
+                <p>Naturally, I thought it would be pretty cool if we could sequence these same samples on the Teensy just like people do in regular DAWs.</p>
+                <p>There's a couple of challenges I have to address if I want to do this. First and foremost, if I want to have any kind of decent-sized sample library, I'll have to store it on the SD card. There's no way we can fit 1 gigabyte+ of audio anywhere in flash memory/RAM. But because the SD card is relatively slow at transferring data in and out,  we cant really use it to play all of our samples  directly, especially if we want to be playing multiple samples at the same time. For better performance, I'll need to play the samples off of a faster form of memory, like the serial flash chip. </p>
+                <p>The serial flash chip doesn't have nearly the same capacity as the SD card though. Whereas my 32Gb microSD can hold tens of hours of uncompressed CD quality audio (more than I'll ever need), the 128Mb (16 megabyte) serial flash chip can hold a little less than two minutes. The best workaround for this is to store our main sample library in the slower but larger SD card, and only move the samples that we're actually using over to serial flash.</p>
+                <p>I want to use the 4x3 grid of buttons on the left side of the device as a "sample pad" so I figured I can divide the available 16 megabytes on the serial flash chip into 12 1.3 megabyte chunks, each triggered by one of the 12 buttons on the sample pad.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/N2MM83S.png" alt="">
+                </div>
+
+                <p>Now, sample packs usually come full of audio in the .WAV format, which is nice for audio quality, but a little annoying to use at a low level. Plus, the audio library doesn't have a function for playing wave files off of serial flash. And because I want to make this as simple as possible, I also don't want the user to have to try and batch convert all of their samples to RAW. Instead, I figured the samples could be stored as .WAV on the SD card (so adding would be as simple as copying downloaded sample packs directly to the SD card) and I can translate specific sampes to RAW on the device as they are moved to serial flash. </p>
+                <p>I couldn't be bothered to learn how the wave header works and how to parse the audio data, so I took the easy way out and just set the following up in the Audio System Design Tool. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Qiuyqsz.png" alt="">
+                </div>
+
+                <p>This way, the audio library can "play" the wave file, effectively converting it into a stream of raw audio data for me, which I can record straight into a queue (basically a buffer) and copy into the serial flash file. This is kind of an awful way to do the conversion/transfer, especially because transferring a sample means waiting for the entire sample to finish playing in real-time, but it is definitely the easiest approach. Plus the write/erase speeds for serial flash is kind of slow, so I suppose it does benefit from having this slower transfer process. You can see how this all ends up working in the demo video somewhere below.</p>
+                <p>One unexpected issue I ran into while building the file browser for finding/choosing samples is that the standard SD library for Arduino only supports 8-character length file names, consistent with the FAT format. This was a pretty big problem, since most of the sample file names and even descriptive folder names, like "Cymbals", would be over the 8-character limit. Browsing and navigating a multi-level  file system would be pretty much impossible.</p>
+                <p>To get around this, I ended up switching to the SDFat library, which has support for many different file formats, and most importantly for me, long file names. There was a bit of a compatibility issue with the audio library, and I fixed this by downloading and replacing a few files in the Audio library (usually in C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio) with some modified ones I got from the PJRC forum. I've included these modified files in the github for this project.</p>
+                <p>There is still a limit on file names, but this is more of an intentional one. I've only allocated enough space for a maximum 100 character length path, but this should be more than enough as long as you don't use too many directory levels.</p>
+                <p>Here are the steps for loading samples onto the device. </p>
+                <ol><li>Get your audio samples together. Make sure they're all in 16bit 44.1KHz WAV format</li><li>Copy them into the "Samples" folder on the SD card</li><li>Insert the SD card into the device, and open up the sample browser. You should be able to see/preview/use your new samples.</li></ol>
+                <p>Files that are not audio files, or are audio files in the wrong encoding format will still appear in the device file browser, but you won't be able to use/preview them and they'll be marked with a grey X. The audio library only works with 16bit 44.1KHz files, and I don't yet have a good way to differentiate between WAV files that are or aren't in this format. So they'll still be displayed as valid files, but they just won't play when you try to preview them.</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/XyqohSevqoo" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <h4>Step Sequencing</h4>
+                <p>These samples are only useful if we can string them together somewhat coherently. Since I have no rhythm (which is painfully obvious if you ever see me trying to dance),  I also can't lay down beats live. Thankfully, I can just write some code and have the teensy do this for me. </p>
+                <p>The step sequencer I put together is conceptually pretty straightforward. I set up a grid on the oled made up of 12 horizontal lines (one corresponding to each of the sample buttons) and 16 vertical lines corresponding to the individual beat. There are a total of 8 bars of 4 beats each in the complete sequence. </p>
+                <p>To set up a sequence, we can move the cursor to any horizontal position on the grid and select the sample to lay down. When we hit play, the playhead/cursor starts moving across the timesteps at a set tempo, and every time it moves past a sequenced note, the corresponding sample is triggered. You can see more about how this works in the video.</p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Combined System Code on Github</a>
+
+                <h3>15 January 2020 Update</h3>
+                <p> I found a pretty big problem. </p>
+                <h4>A Pretty Big Noise Problem</h4>
+                <p>I was trying to get the audio inputs working on this thing (ya know , from the microphone, line-input, and radio) but everything I was hearing seemed to be plagued by some inexplicable buzzing noise. This noise was especially prevalent in microphone recordings, which were almost entirely drowned out by this mysterious drone. </p>
+                <p>Out of curiosity, I probed my microphone connection and this is what I saw on my scope</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/60hGvLf.png" alt="">
+                </div>
+
+                <p>Huh. 100mV peak to peak? That's quite a bit of noise, and more than enough to to cause the audible distortion I was hearing.  And the pattern, with little bursts every 10ms or so explains the buzzing sound, which, come to think of it, did sound like 100Hz. </p>
+                <p>Hey this is just a hunch, but you know what else is happening every 10ms? The display getting updated... a coincidence? Unfortunately not. Check out this trace of SCK, one of the SPI signals going to the oled display</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cQ0sVFU.png" alt="">
+                </div>
+
+                <p>Moreover, if I comment out the display code, the noise stops. So this tells me the noise is for sure being caused by the SPI signals being sent to the display. But I didn't really understand how. I thought at first it was some kind of wiring problem, so I spent too many hours cutting traces all around the board, probing to see if the noise was still there, adding jumpers, and repeating to try and find the mistake that could be causing the problem.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eoWw4bz.jpg" alt="">
+                </div>
+
+                <p>And still nothing I did seemed to have an effect. At this point I started to realize this noise issue wasn't gonna have a simple fix. After some googling and asking for input from people who actually know what they're doing, I started to understand the cause of the problem.</p>
+                <p>Now I don't have enough electrical engineering experience to say any of this for sure, so I'm just speculating on most of this. I came to the conclusion that bad PCB design was at the root of this issue. Let me explain.</p>
+                <p>What I'm dealing with on this device is a mixed-signal board, in that there is both digital circuity and analog circuitry sharing the same PCB. Little did I know, whenever you have digital and analog signals near eachother, special care has to be taken with the signal return paths (i.e. the ground nets) so that the high speed digital signals don't accidentally pollute the analog signals with noise. I did not pay attention to this when layingo out the PCB, and now I was paying the price.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cQPj5bh.png" alt="">
+                </div>
+
+                <p>Currently, I had a 2-layer board with traces routed on both sides and ground pour in all of the empty spaces. I didn't think too much about it at the time, but it actually resulted in a bunch of separate ground polygons interconnected randomly by thin sections of copper. This caused two interrelated issues</p>
+                <ol><li>The return currents for all the signals had to travel really long distances through multiple polygon sections before being able to get to GND. These long return paths resulted in a lot of parasitic inductance, essentially setting up RLC circuits resulting ringing in my high speed digital signals. The high frequency components from this were able to couple into the surrounding traces and GND polygons. </li><li>Because there was a relatively large amount of impedance in the ground net, the various polygons were not actually always at ground potential, and "ground bounce" coupled the digital signals into the analog signals.</li></ol>
+                <p>After reading about this, and getting some advice from Brian, an electrical engineer at Bose who not only clued me in to most of the info above but generously shared some tips on best practices when when working with mixed signal boards (thanks Brian!), I decided the best and easiest way to solve this problem was to switch to a 4 layer PCB. The name is sort of self explanatory, but these are just simply PCBs with 4 copper layers, two on the outside, and two internal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/477DabI.png" alt="">
+                </div>
+
+                <p>I once again routed the signals on the top and bottom sides, but left the two internal layers as big uninterrupted ground planes (stitched together like crazy with a bunch of vias). This </p>
+                <ol><li>reduced the parasitic inductance by providing a more direct return path for all my signals and</li><li>provided a stable, low-impedance ground connection to all the components.</li></ol>
+                <p>Sometimes it's recommended to split up ananlog and digital grounds and have them meet at a single point, but from what I've read this approach is more trouble than it's worth. In many cases a single solid groundplane can perform just as well ofr better than split grounds. </p>
+                <p>In addition to the noise-reduction improvements, I also added a couple of extra 3.5mm jacks on the board for line-in and an external radio antenna, as well as a spot for a big 512Mb (64 Megabyte) serial flash chip for storing lots of audio. Finally, I adjusted some of the resistor values for the indicator leds around the board to make them brighter and more uniform. </p>
+                <p>I made a build video using these new 4-layer boards, where you can also hear the improvement these fixes had on the electrical noise problem (spoiler: they help a lot!)</p>
+                <h4>Build Video </h4>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/Mdk-aUEtNno" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>You can find all the files you'll need to build this (or to build something else) in the github, including the BOM, PCB files, STEP files for all the 3D printed bits, and a full CAD assembly of the device.</p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">V2.3 Project Files on Github</a>
+
+                <h3>3 February 2021 Update</h3>
+                <p>With the noise problem out of the way, I could fionally get those audio inputs working. Here's a demo of an audio recorder firmware that lets me choose a source to record audio from (mic, line-in, or FM radio), monitor it, adjust its gain, and make recordings straight to the SD card. Check it out:</p>
+                <h4>Audio Recorder</h4>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/2ahzlKvuJ6E" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>You know where to find the code.</p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Audio Recorder Code on Github</a>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

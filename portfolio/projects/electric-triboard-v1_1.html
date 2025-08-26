@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Triboard V1.1 | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/arduino-light.min.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Electric Triboard V1.1</h1>
+                <p class="project-subtitle">A much needed coolness upgrade</p>
+            </header>
+
+            <section class="project-section">    
+                <p>After MIT sent us all home in response to COVID-19, I suddenly found myself with a lot more time on my hands. With this, I decided to revisit one of my favorite projects from a couple of years ago - the three wheeled electric longboard. If, you haven't seen the old version (or would like to read some of my ramblings about why I chose a lot of the components I'll be using here), you can check it out <a href="./electric-tri-board-v1.html">here.</a> </p>
+                <p>Needless to say however, it wasn't the prettiest, most structurally sound, nor the most user-friendly at the time of its making, and two years of sitting it in a hot shed had done it no favors. The old battery packs, which were already on borrowed time considering they were made up of assorted cells from old laptop batteries, were dead past the point of revival (I tried!). Parts of the wiring had been torn apart in the absence of the long lost electronics covering, and the hot glue I had used to hold everything in place had lost its bond (surprising, I know). </p>
+                <p>To be fair, I had built it in the last week before going to school, and I had taken the only method of charging it with me. But now that I was home, I figured I can upgrade it to a better, more permanent system that could actually be used by my little brother after I went back to MIT in the fall.</p>
+                <h3 >Batteries and Power System</h3>
+                <p>The first thing to address was the batteries, which were in shambles to say the least. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tC0GH0u.jpg" alt="">
+                </div>
+
+                <p>I initially didn't want to spend any money on this upgrade, but since nothing I did was able to breath life back into these cells, I decided some new batteries woudl be worth the money, and more reliable and safe in the long run. So I picked up 16 of these 2600mAh Li-Ion cells from Ebay for about $40 (off-brand and cheap, just like I like em'), enough to make a 8S2P battery pack to power the board. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/x1YJf6d.jpg" alt="">
+                </div>
+
+                <p>I found a couple of shallow Tupperware boxes in my shed, and chose them to  use as an enclosure for the electronics. That way, I could screw these to the bottom of the long-board, put all the batteries an electronics inside, and put on the lid for a water and dust tight seal. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aWLiZ7s.jpg" alt="">
+                </div>
+
+                <p>In order to fit everything inside, I chose to use two of these containers, into which half of all the batteries would fit along with all of the supporting electronics. Obviously, the size of the containers was not ideal and required some creative use of space, but I had to work with what I had.</p>
+                <p>Each container will hold a 4S2P battery pack. To put these together, I hot glued the cells to one another to hold them in place and then connected them electrically by soldering on nickel strips. Generally, soldering to these Li-Ion cells is discouraged, because aside from the obvious danger of accidentally shorting the cells, heat from the soldering iron can quickly damage the cells and deteriorate their ability to hold charge. To mitigate this sort of damage, nickel strips are often spot welded, rather than soldered, to the cells. Spot welding allows for a good connection with only a short, localized burst of heat and electric current. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/N5lwdSH.jpg" alt="">
+                </div>
+
+                <p>However, my experience has been that in the absence of one of these very expensive battery spot welders, it is quite possible to solder to these cells if you're very very careful. I first roughed up both the battery contact and the nickel strips with sandpaper to create a better surface for the solder to adhere to. Then with my cheap-o iron on its highest power setting, I quickly feed a little bit of solder and tin the battery terminal and the zinc strip where it will make contact with the battery. After that, its just a matter of laying the nickel strip over the batteries, and adding just enough heat with the soldering iron to melt the solder on both and fuse them together. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eMef8gg.jpg" alt="">
+                </div>
+
+                <p>This method doesn't always produce the prettiest joints (which is why I didn't include any close up pictures of them) but they work perfectly. I went ahead and soldered both battery packs into shapes that fit in the containers and reinforced their shapes with some pieces of wide popsicle sticks.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Sq2Z3wU.jpg" alt="">
+                </div>
+
+                <p>Aside from the use of old, mismatched cells, the biggest reason the old battery pack deteriorated to such an extent was because of the lack of a Battery Management System, or BMS. This job of this circuit is to monitor each series unit of the battery pack and ensure that no cell is charged above its maximum of 4.2V, discharged below its minimum of 3.2V, or has a voltage higher or lower than any of the other cells in the pack. Moreover, it will also monitor the output current of the pack and open the circuit if there's a surge or a short. All of these safety measures- over-discharge protection, over-charge protection, cell voltage balancing, and over-current protection ensure that the battery-pack (and the rider, who will be standing right above the battery pack) will have a long and healthy life. What's also important is that because of the cell balancing, and overcharge protection features, I'll be able to use any old power supply to charge the board rather than a dedicated li-ion balance charger, since I can rely on the BMS to make sure each cell is charged correctly.</p>
+                <p>Since an BMS for a 8S pack is exceedingly rare and expensive for some reason, I ordered these two 4S 40A BMS boards-the outputs of which I could just connect in series- and made the appropriate connections for each battery pack.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kXqNARi.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9QIsphd.jpg" alt="">
+                </div>
+
+                <h3 >Control Electronics</h3>
+                <p>With the batteries completed, I moved on to the control electronics. Just like the old version, the brains of this board is an Arduino, although this time, I switched to an Arduino nano because of space constraints.  To control the speed of the drive motor, the ESC required an analog 0-5V signal. Unfortunately, the Arduino nano doesn't have a true DAC built in and I was uneasy using the pseudo-analog outputs directly, so I opted to wire in a X9C104 digital potentiometer I had laying around between the Arduino and the ESC. </p>
+                <p>The X9C104  is a curious little chip, and if I had the choice, I would have opted to use something like an external I2C DAC instead. The weirdness with this thing is that it acts like an actual potentiometer, and has the capability to step through 100 discrete resistance values form 0 to 100kOhm. Because of this, it cant immediately jump from one value to another and instead requires you to step through all values in between to get where you want to be. Granted, each step is done in less than 2 us so it doesn't make a noticeable difference, but it is an annoying thing to deal with. Moreover, it stores its current resistance values in non-volatile memory so that it recalls its previous state after a power cycle. While I suppose this is good for other variable resistor applications, it is not great for my situation, since I always want the board to be at 0 speed when I power it up. Again, this isn't a big hurdle, but it means I have to step all the way down to 0 in the code before doing anything else. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZG71m26.jpg" alt="">
+                </div>
+
+                <p>In the same container, I fed in a flat grey 6 conductor cable, to power the indicator LEDs and receiver I would add externally. For both the cable and the USB port of the Arduino, I cut little holes in the tupperware using a utility knife. I know this compromises the waterproof nature of the container, but the convenience of being able to access and program the Arduino easily made up for the effort later to seal up the hole.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hhm6zab.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zMasJ3Z.jpg" alt="">
+                </div>
+
+                <p>The grey cable led to the front of the board where I had placed a strip of 6 WS2812B individually addressable LEDs and the 433Mhz reciever. I wasn't too worried about the resilience of the LEDs, but obviously putting the receiver here was just asking for it to get smashed. I know, hang with me for a minute.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Y4w9u1F.jpg" alt="">
+                </div>
+
+                <h3 >Wiring and Mounting</h3>
+                <p>For a power switch, I didn't have anything on hand that could handle the current the system would be puling, so I decided to use the same method I used in the old version of this board. This super simple power switching solution consists of a loop of wire on an XT60 connector that completes the circuit when its plugged in. This also makes a convenient emergency-stop pull cord, since yanking out the connector cuts power to the board. </p>
+                <p>I glued in a female XT60 connector on the side of one of the tupperware containers and made plug by looping some flexible silicon wire on the make connector.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/b5YFmeE.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4c8I0yQ.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jb5p7D6.jpg" alt="">
+                </div>
+
+                <p>On the other container, I added a similar XT60 connector for change input, but used a male connector instead to avoid accidentally plugging anything into the wrong port.</p>
+                <p>From there it was just a matter of wiring together all of the components and attaching the containers to the board. I used solid copper wire to make most of the power connections because it just made everything look cleaner. All the control electronics are placed in the left container, which also contains the charge port and the series connection between the batteries. The other tupperware contains just the power switch.</p>
+                <p>To attach them to the bottom of the longboard, I simply secured them with a couple of screws and washers through the bottom of the containers and into the board itself.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Nh1ZlO7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Gg7u5Fj.jpg" alt="">
+                </div>
+
+                <p>I also added a quick little voltage divider to the charge input/battery voltage port and connected its center to one of the Arduino's analog input pins. This  combination of resistors (26 kOhm and 5 kOhm) drops the 0-34V (maximum) range of the battery down to an appropriate 0-5V that the Arduino can use to keep track of the battery level. This battery level is then displayed using the LEDs I added earlier at the front of the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cyvPhoU.jpg" alt="">
+                </div>
+
+                <h3 >Rider Controller</h3>
+                <p>With most of the board hardware done, I turned my attention to the rider controller, which was in a similar state of disrepair. I had used a Wii Nunchuck as the body for the controller and an Arduino nano and a 433Mhz transmitter to send the joystick values to the board. There was nothing wrong with this configuration so I decided to keep it the same and just re assemble the controller with a new battery solution. Again, if I had the option to start all over, I would remake this controller like the ones in my <a href="./mechanical-pong.html">Mechanical Pong project</a>, which were a generally much cleaner and more efficient implemetation. You can read more about those controllers <a href="mechanical-pong.html">here</a>.</p>
+                <p>In making the last version of this board, I had already limited the joystick to one axis by gluing the X-axis potentiometer in place and I had removed the spring that caused it to recenter. This modification allowed the joystick to only move up and down (to control the speed of the board) and stay wherever I put it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sbCP0cM.jpg" alt="">
+                </div>
+
+                <p>For power, I used my favorite combo of a mini li-po and a USB power bank board. I had a couple of these left over from the Mechanical Pong project, and they're an awesome, space-saving way to add reasonably high battery capacity and rechargeability to a project. The only change I made in this case is to remove the big USB-A output connector from the board and connect directly to its 5V output pads.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pvxtwlq.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/p06fQn9.jpg" alt="">
+                </div>
+
+                <p>Then I just wired the rest together and the controller was complete!</p>
+                <p>Just a side note here. I found out while making the <a href="./mechanical-pong.html">Mechanical Pong controllers</a> that the WII nunchucks actually communicate via an I2C interface. This means all the controls signals (joystick axes, buttons, accelerometer readings) are conveniently put together and delivered by the onboard IC to 3 convenient pins on the nunchcuck's circuit board, ready to be accessed by something like an Arduino. Unfortunately I did not notice this two years ago at the time of building the first version of this controller, so, as you can see in the picture below, the circuit board has already been cut in half in an attempt to save space. Now, instead of just 3 wires for I2C, I have to connect wires individually for the joystick potentiometer and two buttons and read them manually as analog and digital inputs. In applications like this, where space is very limited, every bit of volume matters and its generally important to keep everything as tidy and efficient as possible. Luckily, there was a good bit of headroom in the nunchuck and this wasn't really a big problem.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vcvXSkS.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qBLCPrI.jpg" alt="">
+                </div>
+
+                <p>Awesome! Upload the code to both and its ready to ride, right?</p>
+                <p>Sadly far from it. The board did not work right away as I had hoped, and instead just sat still, quite literally all hot and bothered. Upon closer inspection and reviewing the various circuits (during which I burned up an Arduino and the motor controller by being cavalier with loose wires) I identified a couple of errors in my design that I had overlooked while putting this system together.</p>
+                <h3 >Fixing the F@%# Ups</h3>
+                <p><strong>AKA "Learning Opportunities"</strong></p>
+                <p>The first of these oversights, and by far the easiest to address was on the nunchuck controller. For some reason, the Arduino on the nunchuck would keep periodically resetting every 10 seconds or so. This was at first incredibly perplexing, because at first I thought it had to be due to memory issues in the code. After half a day of tinkering, and after noticing the Arduino wouldn't reset while being powered through USB, I realized the problem was in the power bank board I was using to step up the li-po voltage and power the Arduino, which kept turning off and back on again every 10 seconds. Digging around for datasheets revealed that the IC on board this module (T6845-C) required a current draw of at least 60mA to stay 'awake'. At present the whole nunchuck was only drawing about 30mA, which the board was interpreting as 'nothing connected to the output' and going to sleep mode. I solved this by adding a 100 ohm resistor in parallel with the 5V output of the board, to raise the current draw of the board by 50mA and put it above the sleep threshold.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wMkZZVI.jpg" alt="">
+                </div>
+
+                <p>The second problem was range. Although the FS1000A 433 mHz modules did work to send data from the controller to the board, the range over which this could happen was ridiculously short. At just 6" between the reciever and transmitter, the signal would drop out. This was very frustrating, since the datasheets for these modules, and apparently everyone who has used them online claim an open air transmitting distance of at least 4m without antennae. </p>
+                <p>To try and resolve this, I set out to make and add antennas to the transmitter and receiver pair, hoping that this would add enough range to be usable. I ended up trying every combination of monopole, dipole, and even a neat little coil antenna on the transmitter and receiver that I could make at home, and none of them seemed to do the trick. I did get the best results with the coil antenna on the transmitter and no antenna on the receiver, but the range was only increased by a couple of feet, and the signal would cut out as soon as I put the nunchuck back together. It seemed that although the signal was reasonably strong in open air, It could not penetrate the plastic body of the nunchuck or my hand as I held the controller. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZhXFqO1.jpg" alt="">
+                </div>
+
+                <p>At this point, after nearly a whole day of trying to get these to work, I gave up completeley on these FS1000A modules. I may have just gotten a bad batch but I've realized that whatever performance I could squeeze out of these things was just not worth the time and effort I had to put into them. Don't use these. They suck.</p>
+                <p>Digging around my bin of parts I found a couple of unused nrf24l01+ radio modules. These operate at 2.4GHz  and requre a few more pins since the communicate via SPI. I removed the 433MHz reciever and transmitter from the board and the nunchuck controller and wired these into their place. Borrowing some code from my <a href="./mechanical-pong.html">Mechanical Pong controllers</a> (yep, again. I covered a lot of ground in that project), had them up and running in about 10 minutes. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Qy3vZMY.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KjAfIoB.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/F6HRPpj.jpg" alt="">
+                </div>
+
+                <p>The difference was NIGHT AND DAY. I could send more complex data on the higher bandwidth connection, there was handshaking (since each module could both transmit and receive) to ensure the data was sent and received correctly, but most importantly, the range was spectacular. I could get a clear signal from more than 10 FEET AWAY! As an added bonus, the increased range meant that I could hide the receiver inside one of the tupperware containers instead of on the side of the board where it could get damaged. </p>
+                <p>Moving forward, the  nrf24l01+ will definiteley be my go-to wireless system.</p>
+                <p>The third issue, which was actually a mistake on my part due to poor planning, was in power switching. For some unknown reason, the ESC I was using preferred that the Arduino was turned on, delivering a signal, and providing the 5V to the ESC's logic circuits before motor power was actually applied to the ESC's high side. </p>
+                <p>That's easy enough to solve-I added a switch to the one of the tupperware containers that allowed me to switch on the Arduino before sticking in the main power plug. Sadly, this didn't work either. Upon poking around with a multimeter and retracing all the wiring I found the root of the issue. </p>
+                <p>The problem was that I was switching the negative (or ground) side of the power for both the Arduino and the main board power. While this is ok, what I failed to consider was that all the grounds in the circuit were connected together through the various boards I was using. When I switched on the arduino, it's ground connection was shared with the logic side of the ESC, which in turn was shared with the power ground on the high side of the ESC. This essentially overrided the main plug switch, and supplied power to the ESC's high side through the Arduino. Similarly, when I plugged the main power switch in while leaving the Arduino's switch in the off position, the Arduino would get powered on anyway, since it would get its ground connection through the ESC.</p>
+                <p>The solution was simple in concept, but required a good bit of rewiring. Instead of switching the negative side of the power supply, I would now switch the positive side. This way, all the grounds are shared anyway, and I could independently switch on the power to the Arduino, whose 5V input would be isolated from the main battery through the buck converter,  and whose 5V output to the ESC's logic side will not be shared with its high side.</p>
+                <p>Finally, the last mistake was my choice for the buck converter powering the Arduino. The buck converter is needed to drop the raw 32V from the 8S battery down to a usable 5V to power the Arduino and all the related control electronics. The converter I was using, which you probably saw in a previous photo is the LM317. This IC is whats known as a Adjustable Linear Voltage Regulator, with linear being the key term here. It steps down voltage by resistively dissipating the unneeded power as heat. As you can imagine, heat isn't great for these li-ion batteries , and in stepping down 32V all the way down to 5V, the LM317 produced a LOT of heat. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QGdPLYP.jpg" alt="">
+                </div>
+
+                <p>The solution to this is also pretty simple- replace the LM317 with a swiching regulator. Switching regulators use, as the name suggests, a switching element that, along with an inductor, transforms the input voltage into a different output voltage. This is much more efficient, as you are only drawing the needed amount of power rather than dumping excess power as heat. I picked up a couple of these MP1584EN DC-DC buck converter  modules, which in addition to being really tiny, can supply 3A of current and barely get warm with a 92% conversion efficiency.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/kvl1V9c.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BnptPWh.jpg" alt="">
+                </div>
+
+                <h3 >Final Assembly and Code</h3>
+                <p>Here's the new setup after all the changes. Its hard to see in the picture, but I've redone the power wiring so than i'm now switching the positive side of the battery, I added a switch (lower right) to turn on the Arduino independently, I replaced the LM317 buck converter with the new switching regulator (center), and I've tucked away the nrf24l01+ with the rest of the electronics underneath the ESC.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5c61sEL.jpg?1" alt="">
+                </div>
+
+                <p>As a safetey measure, I also conneted the output of the switching regulator to the VUSB pin on the Arduino, rather than directly to the 5V pin. This is because the VUSB input is actually fused, unlike the 5V pin, and therefore will protect the rest of the circuit in case anything happens with the power supply.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JLffpUj.jpg" alt="">
+                </div>
+
+                <p>I did find a new home for the LM317 as a part of the charger for the board. I've simply added it to the output of a constant current LED driver, and adjusted the voltage output to 33.2V, thus hopefully to charge each cell of the 8S battery to 4.15V. Here, the LM317 actually has a very clear advantage over other buck converters. Since the LM317 IC only deals with the high side of the input and output voltages, it essentially does not have a input voltage limit. It's only constraint is that it can generate at most a 40V difference between its output and its input. This makes it great for stepping down the 42V maximum output of the LED driver to the 33.2V required to charge the batteries- a feat that many other common switching converters would not be able to handle as the input voltage of 42V would be much too high. Plus, the heating I mentioned earlier will not be a big problem in this application, since the module will be exposed to the open air as it is working.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XmmNEp3.jpg" alt="">
+                </div>
+
+                <p>It's not the most beautiful setup for an electric skateboard, but putting on the lids and brushing on a nice coat of matte black acrylic paint cleans up the look from the outside.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pqkuc7V.jpg" alt="">
+                </div>
+
+                <p>As a final little addition, I glued a spare female XT60 connector to the inside of the wheel slot as a way to stow the power switch loop when not in use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xiVSOkt.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/D2ep5O8.jpg" alt="">
+                </div>
+
+                <p>Here's a couple of views from the top, along with my little brother giving it a test ride. The LED strip at the top of the board acts as a very convenient battery indicator  and is perfectly visible in daylight (though I do have to do something to waterproof it).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/G57s6DO.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Abs37aA.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A9Ga11v.jpg" alt="">
+                </div>
+
+                <p>And here's a short video of me accelerating from a complete stop up to the board's full speed, which, for for my weight (about 140lbs), tops out at around 9MPH/13 KPH. It's hard to get a sense for speed from the video but for reference, each of those sidewalk tiles are about 2'x2'. Obviously its a little lacking in power- there being only one motor pushing the board around, coupled with the fact that I am limited to a relatively low voltage (~30V) by the speed controller means the board has a top speed that's not exactly blisteringly fast. Still though, it is a lot faster than walking and definitely a lot of fun to ride.</p>
+                <p>In the video , you can see that the acceleration is actually pretty decent- it's slow enough that that it won't throw you off the board, yet fast enough to feel responsive. However, if you keep an eye on the LED battery indicator, you can see that acceleration puts quite a strain on the batteries and causes the voltage to dip slightly. </p>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/Vst9s_JZxLg" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>This is actually another thing that can be solved by running the motor at a higher voltage. The voltage sag happens because the battery pack, even with its high output parallel configuration, is struggling to supply the massive amount of current drawn by the motor during acceleration. Running  a higher voltage on the other hand will allow the motor to draw less current while supplying the same amount of power. Think along the terms of P=I*V. For a given constant power value (the power required to accelerate me), increasing V means a decrease in I, which means the batteries will have less trouble keeping up. As an added bonus, running brushless motors at higher voltages also increases efficiency and keeps the motor cool, since a smaller current mean less power lost through heat (I^2*R) and increased efficiency means longer ride times between chargings. </p>
+                <p>Unfortunately, as I've lamented before, higher voltage speed controllers don't come cheap :( Perhaps one day I'll be able to scrounge up the $90 to get my hands on a VESC or something of the like, and that will be the day that Version 2 of the Electric Triboard will come into fruition. Until then, I can at least have fun riding around this garbage heap. </p>
+                <p>P.S. I've pasted the code I used for both the board and the transmitter below.</p>
+                <pre><code class="cpp">
+//
+// Electric Triboard code 
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;RF24Network.h&gt;
+#include &lt;RF24.h&gt;
+#include &lt;SPI.h&gt;
+RF24 radio(5,9);               // nRF24L01 (CE,CSN)
+RF24Network network(radio);      // Include the radio in the network
+const uint16_t this_node = 00;   // Address of this node in Octal format ( 04,031, etc)
+const uint16_t node01 = 01;      // Address of the other node in Octal format
+#include &lt;FastLED.h&gt;
+#define vSense A3
+#define vOffset 4.2
+#define NUM_LEDS 6
+#define LED_PIN 8
+#define BRIGHTNESS 200
+CRGB leds[NUM_LEDS];
+#define CS 2
+#define INC 4
+#define UD 3
+#define dirPin 6
+#define enable 7
+int currentspeed = 0;
+int dir = 1;
+int speedVal = 0;
+void setup() {
+    FastLED.addLeds&lt;WS2812B, LED_PIN, GRB&gt;(leds, NUM_LEDS);
+    FastLED.setBrightness( BRIGHTNESS );
+    pinMode(CS, OUTPUT);
+    pinMode(INC, OUTPUT);
+    pinMode(UD, OUTPUT);
+    pinMode(dirPin, OUTPUT);
+    pinMode(enable, OUTPUT);
+    digitalWrite(CS, HIGH);  
+    digitalWrite(INC, HIGH); 
+    digitalWrite(UD, HIGH);
+    digitalWrite(dirPin, dir);
+    digitalWrite(enable, HIGH);
+    digitalWrite(UD, LOW); 
+    digitalWrite(CS, LOW); 
+    for (int i=0; i&lt;100; i++) { 
+        digitalWrite(INC, LOW);
+        delayMicroseconds(1);
+        digitalWrite(INC, HIGH);
+        delayMicroseconds(1);
+    }
+    digitalWrite(CS, HIGH);  
+    digitalWrite(UD, HIGH);
+    currentspeed = 0;
+    SPI.begin();
+    radio.begin();
+    network.begin(90, this_node);  //(channel, node address)
+    radio.setDataRate(RF24_2MBPS);
+    Serial.begin(9600);
+}
+void loop() {
+    digitalWrite(dirPin, dir);
+    digitalWrite(enable, HIGH);
+    int vVal = analogRead(vSense);
+    float dividerVoltage = vVal*(5.0/1023.0);
+    float vBatt = (26.4+4.6)*dividerVoltage/4.6 + vOffset;
+    //Serial.println(vBatt);
+    updateVoltageIndicator(vBatt);
+    network.update();
+    //===== Receiving =====//
+    while ( network.available() ) {     // Is there any incoming data?
+        RF24NetworkHeader header;
+        int incomingData;
+        network.read(header, &amp;incomingData, sizeof(incomingData)); // Read the incoming data
+        speedVal = incomingData;
+        //Serial.println(incomingData);
+    }
+    while (speedVal &gt; currentspeed){
+        digitalWrite(UD, HIGH); 
+        digitalWrite(CS, LOW); 
+        for (int i=0; i&lt;abs(speedVal-currentspeed); i++) { 
+        digitalWrite(INC, LOW);
+        delayMicroseconds(1);
+        digitalWrite(INC, HIGH);
+        delayMicroseconds(1);
+        currentspeed++;
+        }
+    }
+    while (speedVal &lt; currentspeed){
+        digitalWrite(UD, LOW); 
+        digitalWrite(CS, LOW); 
+        for (int i=0; i&lt;abs(speedVal-currentspeed); i++) { 
+        digitalWrite(INC, LOW);
+        delayMicroseconds(1);
+        digitalWrite(INC, HIGH);
+        delayMicroseconds(1);
+        currentspeed--;
+        }
+    }
+    digitalWrite(CS, HIGH);  
+    digitalWrite(UD, HIGH);
+    //Serial.println(speedVal);
+    //Serial.println(currentspeed);
+    //Serial.println("");
+    }
+    void updateVoltageIndicator(float vBatt){
+    int battLevel = map(vBatt, 25.6,33.6,1,NUM_LEDS);
+    Serial.println(battLevel);
+    if (battLevel &lt; 1){
+        for(int i = 0; i &lt; NUM_LEDS; i++) {
+        leds[i] = CRGB::Red;
+        }
+    }
+    else{
+        int battInd = battLevel;
+        for(int i = 0; i &lt; battInd; i++) {
+                if (battInd == 6 or battInd == 5){
+                leds[i] = CRGB::Green;   
+                }
+                else if (battInd == 4 or battInd == 3){
+                leds[i] = CRGB::Orange;   
+                }
+                else if (battInd == 2 or battInd == 1){
+                leds[i] = CRGB::Red;   
+                } 
+        }
+        for(int i = battInd; i &lt; NUM_LEDS; i++) {
+            leds[i] = CRGB::Black;
+        }
+    }
+    FastLED.show();
+}               
+                </code></pre>
+                <pre><code class="cpp">
+//
+// Transmitter code 
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;RF24Network.h&gt;
+#include &lt;RF24.h&gt;
+#include &lt;SPI.h&gt;
+RF24 radio(2, 8);               // nRF24L01 (CE,CSN)
+RF24Network network(radio);      // Include the radio in the network
+const uint16_t this_node = 01;   // Address of our node in Octal format ( 04,031, etc)
+const uint16_t master00 = 00;    // Address of the other node in Octal format
+const unsigned long interval = 10;  //ms  // How often to send data to the other unit
+unsigned long last_sent;            // When did we last send?
+const int jstick_pin = A7;
+const int z_pin = 9;
+const int c_pin = A0;
+const int stdby_LED = 5;
+const int batt_LED = 7;
+const int batt_volt = A3;
+void setup() {
+    SPI.begin();
+    radio.begin();
+    network.begin(90, this_node);  //(channel, node address)
+    radio.setDataRate(RF24_2MBPS);
+    pinMode(stdby_LED, OUTPUT);
+    pinMode(batt_LED, OUTPUT);
+    digitalWrite(stdby_LED, HIGH);
+    pinMode(z_pin, INPUT_PULLUP);
+    pinMode(c_pin, INPUT_PULLUP);
+    Serial.begin(9600); 
+}
+void loop() {
+    int raw_voltage = analogRead(batt_volt);
+    float voltage = raw_voltage * (5.0 / 1023.0);
+    if(voltage &lt; 3.5){
+        digitalWrite(stdby_LED, LOW);
+        digitalWrite(batt_LED, HIGH);  
+    }
+    network.update();
+    //===== Sending =====//
+    unsigned long now = millis();
+    if (now - last_sent &gt;= interval) {   // If it's time to send a data, send it!
+        last_sent = now;
+        int joystickVal = analogRead(jstick_pin);
+        int speedVal = map(joystickVal,0,1023,0,100);
+        if (!digitalRead(c_pin)){
+        speedVal = speedVal+200;
+        }
+        if (!digitalRead(z_pin)){
+        speedVal = speedVal+400;
+        }
+        RF24NetworkHeader header(master00);   // (Address where the data is going)
+        bool ok = network.write(header, &amp;speedVal, sizeof(speedVal)); // Send the data
+        Serial.println(ok);
+    }
+}           
+            </code></pre>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize highlight.js after the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+
+</html> 

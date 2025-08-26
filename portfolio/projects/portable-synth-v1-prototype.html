@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portable Synth V1 Prototype | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/arduino-light.min.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Portable Synth V1 Prototype</h1>
+                <p class="project-subtitle">Let's get this party started</p>
+            </header>
+
+            <section class="project-section">
+                <p>This page focuses on the physical hardware and software development of my first working prototype of this Teensy-based synthesizer. If you want to know more about the specifics of the device I'm developing here and the design process up until now, check out <a href="./portable-synth-concept-&-design.html">Part 1</a> of this project!</p>
+                <h3 >8 August 2020 Update</h3>
+                <p>The PCBs are here! </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/019qlWv.jpg" alt="">
+                </div>
+
+                <p>They're beautiful! I really wasn't expecting the matte black color of the soldermask to look this good, but I was pleasantly surprised.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/DxiVAgP.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Rx62A5Y.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/E9DnDGR.jpg" alt="">
+                </div>
+
+                <p>I'd been worried about the button pads when I was designing them and whether or not the spacing between the fingers was going to be an issue when manufacturing. Well apparently there was no issue and they came out looking fantastic, with no bridging or gaps.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UHtG7eI.jpg" alt="">
+                </div>
+
+                <p>All the board components from Digikey arrived as well, in like 70 different bags.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EmJorfx.jpg" alt="">
+                </div>
+
+                <h4 >Soldering Iron Rant</h4>
+                <p>As a little sidebar, to help with the soldering I also finally bought a new soldering iron. I got myself the TS80P, which is an upgraded version of the very popular TS80 that has support for USB-C Power Delivery and Quick Charge 3.0 (basically meaning higher power). Its a 36W iron, but since the heater is located in the tip itself, it performs better than 60+W irons I've used in the past. Plus, it has a lot of cool features like upgradable firmware, motion sensors, and portability which make it a lot of fun to use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YBd4Ns5.jpg" alt="">
+                </div>
+
+                <p>The body of the iron is all metal, so just out of curiosity, I probed it with my oscilloscope to see if there was anything going on electrically. The oscilloscope is referenced to mains ground, so by leaving the probe ground disconnected, I was making measurements with respect to mains ground. Ideally, there would be nothing, meaning no weird currents that could be transferred into sensitive components while soldering. Much to my surprise (and quite unfortunately), there was actually a lot going on. Specifically, I saw a roughly sinusoidal waveform with a peak-peak voltage of 160V! Was this iron connected directly to mains voltage?</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/443zT3Y.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yLZrYtg.png" alt="">
+                </div>
+
+                <p>Well, not exactly. Down below, you can see that just touching the metal part of the iron with my fingers brings the peak-peak voltage all the way down to 28V. This happens because there isn't really much power backing up that voltage we see above. The tiny load that my body's impedance placed on the circuit was able to almost completely diminish the voltage. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/bS9XDPf.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tAdRtoJ.png" alt="">
+                </div>
+
+                <p>Regardless, the fact that there even is a voltage on the tip isn't good. This isn't really the iron's fault. What's to blame here is the ungrounded USB C adapter that is powering the iron. Although it's an isolating switching supply, somewhere inside the power adapter, mains voltage is being coupled (probably capacitively) to the output. This coupling isn't capable of transferring very much power and that's why the votage drops so much with a small load. </p>
+                <p>However with sensitive components like the ones I was planning on soldering, it doesn't take much to cause damage. High voltages like this, even if they can only supply microamps of current, have the potential to damage these parts. So it was necessary for me to use the included clip to electrically connect the body of the iron directly to mains ground, after which the measured waveform went to zero. Nice!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wdaw3zL.jpg" alt="">
+                </div>
+
+                <h4 >Rant Over -&gt; Back to Soldering</h4>
+                <p>Anyway, I started soldering components to the board starting wiht the most difficult. These Neopixel Nano LEDs measure just 2.4mm x 2.7mm, but what makes them particularly difficult to solder is that their pins are located on the underside.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/GNENxNb.jpg" alt="">
+                </div>
+
+                <p>After messing around a little, I figured out the trick here was to first apply a good amount of flux to the pads, align the LED on top, and use the wetting characteristic of solder to try and wick it in from the sides and onto the pads. The solder only sticks to the pad and the pin directly above it and avoids the soldermasked areas.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aumDo0W.jpg" alt="">
+                </div>
+
+                <p>I followed the same technique with a couple more absolutely tiny components, including this 8 pin level shifter and the 8MHz ceramic resonator. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eegusik.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YYmKxS3.jpg" alt="">
+                </div>
+
+                <p>Aside form those, the rest of the components were fairly straightforward to solder. I chose 0805, or 0.08" x 0.05", packages for all the LEDs (white rectangles in the image below), resistors (black), and capacitors (orange) when designing the board, so, with a little care,  they were all  pretty easy to solder by hand. </p>
+                <p>The following image is the section of the board containing the ATMEGA64 circuit, also known as the bare minimum required for an Arduino compatible microcontroller. The ATMEGA chip gave me some trouble while soldering, but I was able to clean up any bridging solder blobs using some solder wick and a lot of flux.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WBxO2cP.jpg" alt="">
+                </div>
+
+                <h4 >Burning Arduino Bootloader</h4>
+                <p>Of course straight from the factory like this, the chip can't immediately start running Arduino code. In fact, the ATMEGA64 isn't even one of the microcontrollers officially supported by Arduino. Thankfully though, there exists a thrid-party Arduino core built for this and other officially unsupported AVR chips called <a href="https://github.com/MCUdude/MegaCore">MegaCore</a>. This included the bootloader and all the hardware information necessary to allow the Arduino ecosystem to be able to utilize  this chip.</p>
+                <p>Speaking of the bootloader, I had to burn one onto this fresh chip. The bootloader sets 'fuses' inside the chip to manipulate certain hardware characteristics, like oscillator and clock frequency, brown out detection, and programming port. Most importantly, it allows the Arduino IDE to send it programs via USB and writes them to the chip's memory.</p>
+                <p>However, to put a bootloader on this chip, I would have to use a dedicated AVR programmer, like an AVR-ISP (AVR In System Programmer) to communicate with the chip using SPI and write the required information to its memory. When designing the board, I kind of forgot about this and neglected to include a header on the board that would give me access to the SPI pins of the ATMEGA64. As a result, I had to carefully solder thin wires direclty to its pins and other points on the board to give me access to the pins I needed. Since buring the bootloader was ideally a one-time thing, I could remove all of these after programming and would hopefully not have to do this again.</p>
+                <p>These wires were then connected to an an Arduino Uno, which was configured to act as an AVR-ISP. The ATMEGA64 was going to be running at 3.3V during operation, but for this step, I ran everything at 5V logic because the setup was just easier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vN66uLE.jpg" alt="">
+                </div>
+
+                <p> But of course, when I went to flash the bootloader... it didn't work. It wasn't even able to detect that the chip was there, throwing me a "Yikes! Invalid device signature" error message every time.  After painstakingly trying every suggestion I could find online, I got lucky and found the winning combination of changes:</p>
+                <ol>
+                <li>The MOSI and MISO pins used for ISP on the ATMEGA64 are not actually the MOSI and MISO pins but instead the RX0 and TX0 pins respectively. I don't know why this is the case but <a href="https://camo.githubusercontent.com/9407f77bb6316f8ea42b45d72acb6212b8baf726/68747470733a2f2f692e696d6775722e636f6d2f426b4a664957432e706e67">this</a> image from the MegaCore documentation shows this correct configuration. </li>
+                <li>I needed a 1K ohm resistor between the MOSI connecion and the RX0 pin.</li>
+                <li>I had to power the ATMEGA64 off of a separate power supply while programming. I guess the programmer Arduino couldn't supply enough power through its 5V pin to keep the ATMEGA64 awake while programming it, so connecting it directly to 5V from the battery was necessary. Of course, the grounds were kept connected between the programmer and the ATMEGA64.</li>
+                </ol>
+                <p>With those changes, I was able to finally detect the chip and flash the bootloader. Now I could unsolder all those wires and just use an FTDI adapter to easily program the chip through the the serial headers I <em>had </em>included on the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/PrJy7Ce.jpg" alt="">
+                </div>
+
+                <h4 >Physical Modifications</h4>
+                <p>After I had soldered all the surface mounted (SMD) components, next up were the larger thru-hole (THT) parts. Before I could put these on though, I had to make a couple of modifications (mostly because I didn't think things through when designing the board. </p>
+                <p>First was the volume potentiometer that I  soldered directly to the audio board. In order to get it to sit flush with the board, I had to clip off the all the metal and plastic bits extending below the flat bottom of the potentiometer.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/L3ONjUj.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UtM1dKp.jpg" alt="">
+                </div>
+
+                <p>The next change was to the board itself. I masked off the surrounding components and then (as much as it pained me to do this) used a rotary tool to cut two small notches on the top right corner of the board. These allow clearance for the potentiometer and the audio jack on the audio shield.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4A9hOrU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/u2evb6n.jpg" alt="">
+                </div>
+
+                <p>Third, for power, I had  originally intended to power the whole board off of 5V (to power the Teensy and the Neopixels) and then use this switching buck converter to drop that voltage down to 3.3V for the ATMEGA64 and the OLED. Unfortunately, the MP1584EN chip on this buck converter board, turned out to not be reliable at input voltages as low as 5V, even though its rated minimum is 4.5V.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7vTXOcK.jpg" alt="">
+                </div>
+
+                <p>So instead, I decided not to use the buck converter at all and just pipe in 3.3V form the Teensy's onboard regulator. I expected the ATMEGA64 and the OLED to only consume a maximum of 100mA combines, so the Teensy's reguator, which is rated at 250mA, should be capable of handling it. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UG9vcL8.jpg" alt="">
+                </div>
+
+                <p>I used a bit of kapton tape to insulate the solder points and then used a bit of hot glue to stick the USB charging/5V converter board where I had originally planned to solder the buck converter.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A5nvFzP.jpg" alt="">
+                </div>
+
+                <h4 >Building a Battery</h4>
+                <p>To actually supply power to the board, I had planned on using a single cell Lithium Polymer (Li-Po) battery. My source for this was an old, damaged 3-cell Li-Po pack from many years ago. With a nominal single cell voltage of 3.7V, this 3S pack should have a voltage around 12V. However, when I measure it, it only gives me around 7V, which tells me that one of the cells inside the pack is completeley dead. </p>
+                <p>This is good news because now I won't feel too bad about destroying the pack to get the cells for this project.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9tuBtDh.jpg" alt="">
+                </div>
+
+                <p>I separated the two working cells and charged them individually to 4.2V using a dedicated battery charger. It's important that both of the cells are at the same voltage before we connect them up together, sice we don't want one to be trying to charge the other.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xsMKbsq.jpg?1" alt="">
+                </div>
+
+                <p>After they were charged, I soldered them together in parallel using some thin nickel strips I had left over from that <a href="./electric-triboard-v1_1.html">Electric Triboard project</a>. This gave me a 4400mAH battery pack at 3.7V. After securin the cells together with a bit of hot glue and insulating everything with a lot of kapton tape, the battery was ready to go.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KpzCKUj.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/b3MGITO.jpg" alt="">
+                </div>
+
+                <h4 >Uncooperative LEDs</h4>
+                <p>Before continuing assembling the board, I wanted to make sure I had soldered everythign properly and that everything still worked. My main concern was the Neopixel LEDs, whose pins I couldn't even see while soldering. </p>
+                <p>Unfortunately, when I fired up the Teensy and tried to control the LEDs, absolutely nothing happened. After poking around with the oscilloscope, I found the first problem.</p>
+                <p>I had to also connect the Output Enable (OE) pin of the TXS0102 level shifter to a logic high (3.3V) in order to enable its output. Without this connection the chip keeps all of its inputs and outputs in a high impedance state so naturally, I wasn't able to even talk to the LEDs until I manually wired this pin to the 3.3V net.</p>
+                <p>Now the LEDs were able to turn on but they just seemed to be stuck on all white. This was kind of a weird issue because it seemed like all of the LEDs were hooked up correctly and that they were at least kind of responding to commands form the Teensy, but I wasn't able to really change the color or turn them off.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tQmtxqg.jpg" alt="">
+                </div>
+
+                <p>I did a little research on this problem and one of the suggestions was to add a 10k resistor in series with the LED data line. To try this, I used a razor knife to cut the data trace on the back of the board, and then carefully soldered a 10K ohm resistor across it.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KFTN36J.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pFhsEPu.jpg" alt="">
+                </div>
+
+                <p>In addition to that, I also switched from using the FastLED library to using the non-blocking <a href="https://github.com/PaulStoffregen/WS2812Serial">WS2812Serial</a> library which meant I had to switch to a different pin (one of the Serial pins) to control the LEDs. I just jused another bit of hookup wire to temporarily connect the new pin to the input of the level-shifter.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KPVWdX4.jpg" alt="">
+                </div>
+
+                <p>Well, none of that worked and it made no change to the LED situation. It was more obvious at this point that this was a timing/data corruption issue. The LEDs have a very stringent requirement about the timing and content of the data they receive, and obviously, somewhere between the software and the LEDs the signal was being mucked up. </p>
+                <p>I tried a few more things and poked around a little more until I caught this signal coming out of the level-shifter and going into the LEDs.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/I6ttSvW.png" alt="">
+                </div>
+
+                <p>Well that's basically a bunch of nonsense. The signal coming from the Teensy was clean square waves, but after passing through the level-shifter, it was turning into this garbage. What this indicated is that the TXS0102 was just not fast enough to deal with the high-speed data transmission for the LEDs. Its internal MOSFETs were having trouble switching this fast, which was turning the clean square waves coming into its input into a bad sawtooth that the LEDs couldn't really understand.</p>
+                <p>So just to test this, I bypassed the level-shifter altogether and connected the Teensy's data output directly to the LED's data input via a little jumper. Now this shouldn't have worked, since the Teensy can only output 3.3V signals and the LEDs are 5V devices. That's the whole reason I even included the level-shifter in the first place. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/atmAb8R.jpg" alt="">
+                </div>
+
+                <p>But hey, what do ya know, it worked perfectly. I also had to initialize these as WS2812B LEDs instead of Neopixels in the code for some reason, but I was now able to correctly address all of the LEDS and change their colors and brightness without issue. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CBbpIsN.jpg" alt="">
+                </div>
+
+                <h4 >Final Assembly and Cosmetics</h4>
+                <p>After I confirmed all the electronics were functional, the last step was to assemble the frame and all the buttons and whatnot. I started by 3D printing all the parts that made up the face plate, including the keypad, the spacers, and the button holders and used superglue to pre-assemble the major sections.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tj8jacQ.jpg" alt="">
+                </div>
+
+                <p>To color the black keyboard keys, i just used a bit of matte black acrylic paint. This leaves a really deep and fairly durable coating that looked good enough for this prototype board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ln1g3cn.jpg" alt="">
+                </div>
+
+                <p>I also gave all the keys a thin coat of Mod Podge, which is just a type of PVA glue. This gives the keys a deeper black color and also leaves a smooth surface that's more resistant to dirt and grime than the acrylic paint on its own.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/03b99zG.jpg" alt="">
+                </div>
+
+                <p>At the last minute, I also gave the black keys a quick redesign to give them a little more clearance around the border. This is just to make sure the keys don't get caught on a ledge or rub against the side of the frame while being pressed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mzuxaXA.jpg?1" alt="">
+                </div>
+
+                <p>To maintain the look, I printed some white faceplates for the rotary encoder and bolted them on using the included hardware. This just makes them a little nicer-looking and makes them fit in better with the rest of the device.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iXxQAbi.jpg" alt="">
+                </div>
+
+                <p>I checked the alignment of all the button holes width the pads underneath (its perfect!), and then got to bolting everything together. The silicon button went on first, followed by the holders and spaces, and finally topped with the keypad. Everything was bolted together using M3x12 fasteners. Unfortunately I didn't have enough bolts of a single color so I had to get a little creative with the color arrangement :)</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/veerBhH.jpg?1" alt="">
+                </div>
+
+                <p>I really like how it turned out. The fit and finish isn't flawless, but I'd say it ended up pretty darn close to the CAD model. I haven't build a back plate/case for it yet because I'll probably be needing easy access to the back for programming and whatnot. Until then, I guess the battery will just be hanging around on that wire.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o5dMfXk.jpg?1" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HyFa1d2.jpg?1" alt="">
+                </div>
+
+                <p>With the hardware done, it was time to move on to the hard part: writing the firmware for the input processor (ATMEGA64) and some useful audio code for the Teensy. Hopefully I can make good progress on that soon, so check back in a week or so!</p>
+                <h3 >10 August 2020 Update</h3>
+                <h4 >Input Processor Code</h4>
+                <p>I started with writing the code for the ATMEGA64 (the input processor) because it was going to be the lowest-level operation happening on the board, meaning it was a necessary step to get all the hardware and user iputs working. To be clear, this is not to say that it's programmed using a low-level programming language (though it would be pretty cool if I could rewrite all this in Assembly). Fortunately for me, since I had successfully gotten the Arduino bootloader flashed onto the chip, I could code this functionality within the nice and friendly Arduino ecosystem.</p>
+                <p>If you remember, I had already created a version of this code for 7 buttons in the proof of concept build during <a href="./portable-synth-concept-&-design.html">Part 1</a> of this project.  The following code expands the functionality to accomodate the 40 buttons and 3 quadrature encoders on the new board. Check it out below:</p>
+                <pre><code class="cpp">
+//
+// I2C Input Processor
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;Bounce2.h>
+#include &lt;Wire.h>
+//Indicators for new data
+#define LED 13
+#define alert_pin A5
+//Initialize all 40 buttons
+#define NUM_BUTTONS 40
+const uint8_t BUTTON_PINS[NUM_BUTTONS] = {
+2,  3,  8,  9, 10, 11, 12, A6, 
+14, 15, 16, 17, 22, 23, 24, 25, 
+26, 27, 28, 29, 30, 31, 32, 33, 
+34, 35, 36, 37, 38, 39, 40, 42,
+41, 43, 44, A0, A1, A2, A3, A4};
+Bounce * buttons = new Bounce[NUM_BUTTONS];
+//Quadrature Encoder Parameters
+#define NUM_ENC 3
+#define ENCA1 20 //Encoder 1 Pin A
+#define ENCB1 21 //Encoder 1 Pin B
+#define ENCA2 4  //Encoder 2 Pin A
+#define ENCB2 5  //Encoder 2 Pin B
+#define ENCA3 6  //Encoder 3 Pin A
+#define ENCB3 7  //Encoder 3 Pin B
+bool currentState1A;
+bool currentState2A;
+bool currentState3A;
+bool lastState1A;
+bool lastState2A;
+bool lastState3A;
+unsigned long lastclick1 = 0;
+unsigned long lastclick2 = 0;
+unsigned long lastclick3 = 0;
+int8_t counter[NUM_ENC] = {0,0,0};
+//Message length in bytes: 1 bit per button + 2 bits per encoder
+#define NUM_BYTES 6 
+#define NUM_BUTTON_BYTES 5 //Length of button data
+byte buttonStates[NUM_BYTES] = {0,0,0,0,0,0};
+int current_button;
+void setup()
+{
+    /*Encoder pins are connected/disconnected to GND
+    so they need to be pulled high as a default*/ 
+    pinMode(ENCA1,INPUT_PULLUP);
+    pinMode(ENCB1,INPUT_PULLUP);
+    pinMode(ENCA2,INPUT_PULLUP);
+    pinMode(ENCB2,INPUT_PULLUP);
+    pinMode(ENCA3,INPUT_PULLUP);
+    pinMode(ENCB3,INPUT_PULLUP);
+    //Initialize the state of each encoder
+    lastState1A = digitalRead(ENCA1);
+    lastState2A = digitalRead(ENCA2);
+    lastState3A = digitalRead(ENCA3);
+    /*Attach both pins of each encoder to a hardware interrupt to keep track
+    of every change*/
+    attachInterrupt(digitalPinToInterrupt(ENCA1), updateEncoder1, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(ENCB1), updateEncoder1, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(ENCA2), updateEncoder2, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(ENCB2), updateEncoder2, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(ENCA3), updateEncoder3, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(ENCB3), updateEncoder3, CHANGE);
+    //Initialize Indicators and initialize them to low (nothing to report)
+    pinMode(LED, OUTPUT);
+    digitalWrite (LED, LOW);
+    pinMode(alert_pin, OUTPUT);
+    digitalWrite (alert_pin, LOW);
+    /*All pushbuttons are connected/disconnected to GND
+    so they need to be pulled high as a default
+    Each button is also given a 30ms debounce interval to
+    avoid unintentional triggering*/ 
+    for (int i = 0; i &lt; NUM_BUTTONS; i++) {
+        buttons[i].attach( BUTTON_PINS[i] , INPUT_PULLUP); 
+        buttons[i].interval(30);              
+    }
+    //Join I2c bus as a slave with address 8
+    Wire.begin(8);
+    //Every time master device requests data, call requestEvent()                
+    Wire.onRequest(requestEvent); 
+    //Serial print for debugging
+    //Serial.begin(9600);
+}
+void loop()
+{
+/*Iterate over all buttons on the board and update their status in the
+    output message only on a rising/falling edge. This way the message is 
+    only updated when there is new data.
+*/
+for (byte bidx = 0; bidx &lt; NUM_BUTTON_BYTES; bidx++)  {  
+    for (byte i = 0; i &lt; 8; i++)  {
+        current_button = 8*bidx+i;
+        buttons[current_button].update();
+        //If button is pressed...
+        if (buttons[current_button].fell()){
+            //indicate new data
+            digitalWrite(LED, HIGH);
+            digitalWrite(alert_pin, HIGH); 
+            //Flip the corresponding bit to 1 (on)
+            bitSet(buttonStates[bidx],i);
+        }
+        //If button is released...
+        if (buttons[current_button].rose()){
+            //indicate new data
+            digitalWrite(LED, HIGH);
+            digitalWrite(alert_pin, HIGH);
+            //Flip the corresponding bit to 0 (off) 
+            bitClear(buttonStates[bidx],i);
+        }
+    }
+}
+/*Update message with the state of each encoder.
+    Each encoder gets 2 bits to report its status*/
+for (byte e = 0; e &lt; NUM_ENC; e++)  {
+    //If Encoder has been incremented...
+    if (counter[e] > 0){
+        //indicate new data
+        digitalWrite(LED, HIGH);
+        digitalWrite(alert_pin, HIGH);
+        //Flip corresponding bits to 01, or 1 (forward) 
+        bitSet(buttonStates[5], e*2);
+    }
+    //If Encoder has been incremented...
+    else if (counter[e] &lt; 0){
+        digitalWrite(LED, HIGH);
+        digitalWrite(alert_pin, HIGH);
+        //Flip corresponding bits to 10, or 2 (backwards)  
+        bitSet(buttonStates[5], e*2+1);
+    }
+    //If nothing has changed with Encoder...
+    else{
+        //Reset corresponding bits to 00, or 0 
+        bitClear(buttonStates[5], e*2);
+        bitClear(buttonStates[5], e*2+1);
+    }
+}
+delay(1);//delay for sanity
+}
+//Runs on data request from Teensy
+void requestEvent()
+{ 
+    //Indicate data has been read
+    digitalWrite(LED, LOW);
+    digitalWrite(alert_pin, LOW);
+    //Write 6 bytes of data
+    Wire.write(buttonStates,6);
+    //Reset encoder counts
+    memset(counter, 0, sizeof(counter));
+    buttonStates[5] = 0;
+}
+/*Runs on pin-change interrupt for Encoder A
+Increments or decrements counter dependng on direction of rotation
+*/
+void updateEncoder1(){
+    currentState1A = digitalRead(ENCA1);
+    if (currentState1A != lastState1A  &amp;&amp; currentState1A == 1){
+    if (digitalRead(ENCB1) != currentState1A) {
+        counter[0] ++;
+    } else {
+        counter[0] --;
+    } 
+    }
+    lastState1A = currentState1A;
+}
+//Runs on pin-change interrupt for Encoder B
+void updateEncoder2(){
+    currentState2A = digitalRead(ENCA2);
+    if (currentState2A != lastState2A  &amp;&amp; currentState2A == 1){
+    if (digitalRead(ENCB2) != currentState2A) {
+        counter[1] ++;
+    } else {
+        counter[1] --;
+    } 
+    }
+    lastState2A = currentState2A;
+}
+//Runs on pin-change interrupt for Encoder C
+void updateEncoder3(){
+    currentState3A = digitalRead(ENCA3);
+    if (currentState3A != lastState3A  &amp;&amp; currentState3A == 1){
+    if (digitalRead(ENCB3) != currentState3A) {
+        counter[2] ++;
+    } else {
+        counter[2] --;
+    } 
+    }
+    lastState3A = currentState3A;
+}
+                </code></pre>
+                <p>The comments should explain most of the code, but the important takeaway here is that the ATMEGA reads the state of all the buttons and encoders around once a millisecond and composes a 6-byte message to send to the Teensy. I'm using this message size in particular because each of the 40 buttons gets one bit to express one of two states (1-on or 0-off), and and each of the 3 encoders gets two bits to express one of three states (1-forward, 2-backward, or 0-none). This adds up to 46 bits, which fits inside a 6 byte array with two bits left over. Moreover, since each input is assigned a bit (or two) at a particular position in the array, I can know exactly which input is changed by knowing its position in the array. </p>
+                <p>This was the most efficient way I could think of to convey all the necessary information. I wanted to keep the message size as small as possible to minimize the time the Teensy spent trying to receive the message. </p>
+                <p>You might notice in the code that I have an indicator pin to signal to the Teensy when new data is ready. I wasn't able to get this to work super reliably so for the time being, the Teensy just automatically polls for data every 25ms.</p>
+                <p>Speaking of which, here's the receiver and interpreter code that runs on the Teensy:</p>
+                <pre><code class="cpp">
+//
+// Teensy Receiver
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;Wire.h>
+//Initialize receiving array
+byte buttonStates[6] = {0,0,0,0,0,0};
+//Initialize encoder parameters
+const byte numEncoders = 3;
+int encoders[numEncoders] = {0,0,0};
+bool freshData = false;
+void setup()
+{
+//Join I2C bus as Master
+Wire.begin();  
+//Serial for debugging      
+//Serial.begin(9600);
+}
+unsigned long lastTimeReceived= millis();
+void loop()
+{
+/* Request new data every 25ms. 
+    This is more than fast enough to be unnoticeable,
+    but slow enough to let both processors breathe 
+*/
+if (millis()-lastTimeReceived> 25){
+    readButtons();
+    lastTimeReceived= millis();
+}
+//Update the encoder status once per data update
+if (freshData){
+    for (int e = 0; e &lt; numEncoders; e++){
+    byte mask = B00000011; //Create a bit mask
+    mask = mask &lt;&lt; e*2; //Shift it to match current encoder
+    byte enc_val = buttonStates[5] &amp; mask; //Apply the mask
+    enc_val = enc_val >> e*2;  //Shift it back over to the end
+    //Decrement encoder count if left with 10
+    if (enc_val == 2){
+        encoders[e]--;
+    }
+    //Increment encoder count if left with 01
+    else if (enc_val == 1){
+        encoders[e]++;
+    }
+    //Serial.print(encoders[e]);
+    //Serial.print(" ");
+    }
+    //Serial.println();
+    freshData = false;
+}
+}
+void readButtons(){
+    //Request 6 bytes of data from device at address 8   
+    Wire.requestFrom(8, 6);
+    //Write all the data to an array
+    while(Wire.available()) { 
+    buttonStates[0] = Wire.read();
+    buttonStates[1] = Wire.read();
+    buttonStates[2] = Wire.read();
+    buttonStates[3] = Wire.read();
+    buttonStates[4] = Wire.read();
+    buttonStates[5] = Wire.read();
+//      Serial.print(buttonStates[0],BIN);
+//      Serial.print("  ");
+//      Serial.print(buttonStates[1],BIN);
+//      Serial.print("  ");
+//      Serial.print(buttonStates[2],BIN);
+//      Serial.print("  ");
+//      Serial.print(buttonStates[3],BIN); 
+//      Serial.print("  ");
+//      Serial.print(buttonStates[4],BIN);         
+//      Serial.print("  ");
+//      Serial.print(buttonStates[5],BIN); 
+    }
+//    Serial.println();
+freshData = true;   
+}   
+                </code></pre>
+                <p>This is basically the same as before. The Teensy, as the I2C master, requests 6 bytes of data from the ATMEGA64. The first 5 bytes (40 bits) of this message contain the information about the 40 pushbuttons on the board, and can easily be interpreted by using the builtin function bitRead() to get the binary value of each of the bits. </p>
+                <p>The last byte contains the information about the 3 encoders. However, since each encoder reports its status with two bits of data, we have to do a little more work to efficiently extract it. For this I have to use a mask to look at the two corresponding bits for each encoder at the same time. Here's an example of how it works:</p>
+                <pre>Ex Incoming Encoder Data -&gt; <span style="color: #0000ff;">00100110</span><br />Original Mask -&gt; <span style="color: #ff0000;">00000011</span></pre>
+                <pre><strong>For <span style="color: #339966;">Encoder 3:</span></strong><br />Bits of interest: <span style="color: #0000ff;">00<span style="color: #00ff00;">10</span>0110</span></pre>
+                <pre>1. Shift mask by <span style="color: #339966;">2</span>x2: <span style="color: #ff0000;">00000011</span> &lt;&lt; (<span style="color: #339966;">2</span>x2) = <span style="color: #ff0000;">00110000</span><br />2. Apply mask using &amp; (basically bit-by-bit multiplication): <span style="color: #0000ff;">00<span style="color: #00ff00;">10</span>0110</span>&amp;<span style="color: #ff0000;">00110000</span>= 00<span style="color: #00ff00;">10</span>0000<br />3. Shift back by <span style="color: #339966;">2</span>x2: 00<span style="color: #00ff00;">10</span>0000 &gt;&gt; (<span style="color: #339966;">2</span>x2) = 000000<span style="color: #00ff00;">10</span><br />4. Interpret: 000000<span style="color: #00ff00;">10</span> = 2 = <strong>Reverse</strong></pre>
+                <p>As an extra step, I found that adding 100nF capacitors between the encoder outputs and ground reduced contact bounce much better than I could do in software. This allowed me to use the high speed interrupts without having to worry about the encoder counts jumping all over the place unreliably.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/z0FK0yn.jpg" alt="">
+                </div>
+
+                <p> Also, to make it easier to place on my desk, I temporarily used some nylon standoffs to bolt on two of the extra PCBs to act as a base and a provide a place to keep the battery. It's a little thicker than i'd like, so obviously I need to figure out a different enclosure design for the next version. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3pl1DsE.jpg?1" alt="">
+                </div>
+
+                <h3 >16 August 2020 Update</h3>
+                <p>I finally got around to adding some music-making functionality to this thing.</p>
+                <h4 >Menu Navigation and Interaction</h4>
+                <p>The first sort-of-milestone I wanted to reach was figuring out how I can use all the control inputs in conjunction with the OLED display to navigate and adjust settings, parameters, etc. The video below shows the string synthesizer from earlier paired with a navigable menu through which the user can adjust envelope parameters.</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/1_bmlssc-IQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>Granted, this isn't a very complex menu yet, but nailing down these basics will allow me to expand it further when I add more complex features to the device. </p>
+                <p>You can find the code for that in the button below. The folder also contains a text file with the Audio System Design Tool output, if you want to reproduce it there.</p>
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">OLED Menu and Synthesizer Code</a>
+
+                <p>On a more exciting note, I also managed to get wavetable synthesis and sequencing working! </p>
+                <h4 >Wavetable Synthesizer</h4>
+                <p>I didn't actually write most of the wavetable synthesis code- that's pretty much taken straight from the Audio library examples. It uses data from SoundFont (SF2) files and converts them into large sample arrays that are stored on the Teensy. Typically these are stored in the Teensy's high-speed RAM, but I found that space runs out pretty quickly as more samples are added. Instead I've been trying to store all the samples on the slower-but-larger Flash Memory (PROGMEM) instead and I haven't run into any problems yet. This is still not ideal, since so few instruments take up so much space in the Teensy's memory. I need to look into a way to store them in the SD card and only load them to memory when I want to play them.</p>
+                <h4 >Sequencer</h4>
+                <p>The Sequencer on the other hand (and I'm really excited about this one), I obsessively wrote over the course of a couple days and actually managed to produce something useful and fun to play with. Its design is inspired by the Endless Sequencer on the OP-1, except this version has 4 separate sequencers that can be played simultaneously. </p>
+                <p>4 was chosen arbitrarily but I can pretty much have as many as I want providing all of that data can fit on the Teensy's dynamic memory.</p>
+                <p>While all four sequencers can have independent settings, they can also be triggered off of one another to create more intricate, synchronized patterns. Each sequencer, when started manually by the user, waits for a trigger signal to actually start playing and then begins issuing its own trigger signals at the start of each note. That means even if you are a little early pressing the button, the sequence won't actually start until the next note of an already-playing sequencer begins playing. This ensures all of the sequences being played are kept in time. </p>
+                <p>However, the notes of each sequence don't have to happen at the same time. The length of each note is independently adjustable for each sequence and can vary between whole note, half note, quarter note, sixteenth note, and thirty-second notes. This is a function of the tempo (beats per minute or BPM) setting, which can be adjusted and is applied universally to all sequencers.  The selected note length and tempo modify the timer for each sequence that determines when the next note is played.  Both of these settings can be adjusted on the fly. </p>
+                <p> Each of the sequencers can also be assigned a particular instrument, so that multiple instruments can be played by different sequences. The instrument assigned to a particular sequence is fixed to the instrument used to play the first note in that sequence. </p>
+                <p>Finally, each sequence can be independently assigned a 'Hold' marker, which keeps the sequence playing even when its button is not being held.</p>
+                <p>The video demonstrates some of  the cool capabilities of all of this:</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/U5Ci-TUZ0MY" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>Again, I'm obviously no musician, but the video above is an example of how the sequencer lets you take extremely simple note combinations and easily combine them into more complicated beats and patterns.</p>
+                <p>You can find the code for that in the button below. I've also included a bunch of the sample soundfount files so you can switch in a different instrument as needed. </p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Sequencer and Wavetable Synthesis Code</a>
+
+                <p>As a fair warning, this was written pretty hastily and might be convoluted and messy. The main sketch is broken into a bunch of different .ino files (or tabs in the Arduino IDE) which the compiler concatenates into a single program- this is a little bit easier to work with than having one big long file. I added the alphabet prefixes in front of the the files because the Arduino IDE actually concatenates them in alphabetical order for some reason and I needed to make sure things were defined before they were called.</p>
+                <p>I don't really know what I'm doing here, but I'll try to make it more organized and get everything into .h and .cpp files (as soon as I figure out how to do that).</p>
+                <h4 >Rate my setup</h4>
+                <p>Also, after watching those videos you're obviously wondering "Wow how did he film such  professional-looking videos? How can do the same?" Well, worry not- all you need is a bin of rice, a box of Cheez-Its, a wooden sword to tape your phone to, and a black t-shirt for a backdrop and you too can film visually stunning videos just like mine.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cdIQQI2.jpg" alt="">
+                </div>
+
+                <p>The audio from the Teensy just went directly into my computer's stereo line-in and was recorded using Audacity. The next step is to put some kind of record-to-SD Card functionality on the Teensy itself. That's coming soon!</p>
+                <h3 >30 August 2020 Update</h3>
+                <p>Woah it's been a while since my last update.</p>
+                <p>I wired in a microphone and a female audio jack for audio input to the Teensy.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oFX9WCf.jpg" alt="">
+                </div>
+
+                <p>There was quite a lot of noise on the Line-In input of the audio board, and after a lot of time troubleshooting, I came across <a href="http://openaudio.blogspot.com/2017/03/teensy-audio-board-self-noise.html">this </a>article that pointed out that the SGTL5000 audio codec (the chip on the audio board) has a high pass filter for the incoming audio enabled by default. It turns out that this fliter produces a lot of humming/noise on its own for some reason, and disabling it in the program reduced the noise level drastically. </p>
+                <pre><code class="cpp">sgtl5000_1.adcHighPassFilterDisable();</code></pre>
+                <p>There's still noise on the input, but I think this has more to do with the power supply, which may be introducing this noise into the ADC. I'm using a switching regulator to convert the 3.7V from the lipo battery into 5V for the Teensy, but in the next version, I'll have to look into a linear supply or employ some more filtering methods.</p>
+                <h4 >Recording and Sampling</h4>
+                <p>With these in place, I was able to write the code to add some recording functionality to this thing. I works pretty well, but its obviously not as polished as I'd like it. Watch the video below to see everything it can do:</p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/KuPWz8McP5k" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>All the recording and sample playback is done to and from the external SD card. As a result, there are a few reading and and writing issues. The most prominent of these is sampling from an internal recording. Because of how this is set up, a sample bound from an internal recording can't then be used for another recording, since there's no way (as far as I know) to read and write data to the SD card simultaneously. At least for now, I don't know of a good fix for this.</p>
+                <p>Otherwise everyhthing seems to work pretty well. I do wish I could do some sort of pitch shifting to the recorded samples, but from messing around with it a little, I've found that its not a very easy thing to do. I'll have to learn more about buffers, ARM DSP functions, and dynamic memory allocation, and revisit the topic in the future.</p>
+                <p>You can find the code on github here:</p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Recorder Code on Github</a>
+
+                <h4 >Synthesizer</h4>
+                <p>I also got a halfway decent synthesizer engine working, but I have yet to integrate it with the rest of the sequencer/recorder/wavetable stuff. </p>
+                
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/QcZ3WIZ24l4" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>For this particular mode, I learned a lot from the <a href="https://www.youtube.com/watch?v=UJcZxyB5rVc">Notes and Volts youtube series on building a Teensy Synth</a> as well as <a href="https://github.com/otem/teensypolysynth/">otemrellik's polyphonic synthesizer project</a>. I wouldn't have been able to understand how all these oscillators and filters and whatnot work together without those two resources, so I've linked them above and recommend that you go check them out.</p>
+                <p>The following is the block diagram for a single voice. which consists of 3 oscillators - 2 configurable and 1 pink noise generator- that feed through an envelope and a low pass filter. The cutoff frequency of the filter is controlled by an LFO, whose waveshape, amplitude, and frequency can be controlled.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/c9waJqJ.png" alt="">
+                </div>
+
+                <p>8 of these blocks make up the full system shown below.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gkCwByz.png" alt="">
+                </div>
+
+                <p>As usual, the code is below, along with a text file you can import into the Audio System Design Tool:</p>
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Synthesizer Code on Github</a>
+
+                <p>I've got some pretty big hardware updates in the works so stay tuned for that soon.</p>
+                <a href="./portable-synth-hardware-upgrade.html" class="project-button">Check out Part 3!</a>
+
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize highlight.js after the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+
+</html> 

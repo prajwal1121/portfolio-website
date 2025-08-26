@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bigger Arcs with the DRSSTC | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Bigger Arcs with the DRSSTC</h1>
+                <p class="project-subtitle">Chasing megavolts (and showing off my new oscilloscope)</p>
+            </header>
+
+            <section class="project-section">
+                <p>If you're just here to see the sweet singing arcs I probably promised in a link somewhere, <strong>scroll all the way to the bottom of this page! </strong>Otherwise, if you'd like to follow me as I stumble through this power electronics journey, please keep reading!</p>
+                <h3>New Scope!</h3>
+                <p>I want to start of by acknowledging the newest member of my electronics bench- a Rigol DS1054Z 4 Channel DSO! Up until now, the sole members of this exclusive spot on my desk were the soldering iron and the hot glue gun you see to the right, so this new piece of gear was definitely welcome update. </p>
+                <p>I've been meaning to get one of these for years now, and I finally broke down and bought one - justifying the purchase by convincing myself that it would help further my learning about electrical engineering. To further rationalize the purchase, I decided to put it to good use, and start a project that would require its involvement- and what better than a DRSSTC, a project that I had historically had trouble with because of a lack of a good storage oscilloscope.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/74NbQsc.jpg" alt="">
+                </div>
+
+                <p>So this project started in a completeley different direction and about halfway through that I kind of switched lanes and started focusing on what you read in the title. For the sake of documentation, I'll talk a little bit about that failed different direction first before I get into the real focus of this post. If anything, it'll fill in a lot of the details I didn't get to capture when making a DRSSTC the first time around.</p>
+                <h3>Trying to Build a Tiny DRSSTC (just skip this part)</h3>
+                <p>I initially started off wanting to build a much smaller, desktop version of the drsstc. Despite learning my lesson about the importance of planning the last time I built a DRSSTC, I for some reason decided to skip that step, and arbitrarily decided to use this 1/2" PVC tube as the form for my secondary. Now if you're a little familiar with  Tesla coils or electromagnetics in general, you'll probably get the sense that this isn't the greatest idea (I'll get to that in a little bit). </p>
+                <h4>Winding</h4>
+                <p>I used the same 36AWG magnet wire I used to wind the last DRSSTC, and wound it to a length of exactly 5" using little bits of tape along the way to temporarily secure the wire and to keep the coil from accidentally unraveling. Like I've mentioned before, this wire is super thin (around the thickness of human hair) so its pretty difficult to keep everything in line and not break the wire. Since this was a pretty small coil, I opted to wind it by hand using the spool holder for my 3D printer to hold the wire spool and apply a bit of tension.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IL5eK8T.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rTY6Cp7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o4FOap6.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/o0w44Rd.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rx1GwLt.jpg" alt="">
+                </div>
+
+                <h4>Varnishing</h4>
+                <p>Once the coil was complete, I secured both ends with electrical tape and prepped it to receive a polyurethane clear coat. This varnishing is actually a pretty important step, and is not just to make the coil look cool and shiny (though that's definitely a perk). For one ting, the polyurethane secures the windings, makes them more mechanically resilient, and protects them from the environment. More importantly, the polyurethane creates a relatively thick insulating layer around the coil. Since its dielectric strength is greater than that of air, it does a much better job of preventing arcing between turns of the coil itself, especially when the voltage gradient between just a few turns of wire can reach hundreds of volts.</p>
+                <p>To varnish the coil, I cleaned the surface using isopropyl alcohol and wiped on a fairly thick first layer of polyurethane, doing my best to try and get it to seep down in between the winding of the coil. For both cleaning and varnishing operations, I used folded up coffee filters as brushes (I didn't have any real brushes around) because I had read somewhere that they don't leave little bits of lint  like paper towels do. It worked decently, but after the whole ordeal, I would definitely prefer using actual brushes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4P4V2os.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NCrEPqN.jpg" alt="">
+                </div>
+
+                <p>I repeated the process for a total of 5 coats. Before the last layer, I sanded back some of the bumps and surface imperfections with 1000 grit sandpaper and followed with a thin and uniform layer of polyurethane to bring back the shininess and transparency.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BAoUDrU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AbWU037.jpg" alt="">
+                </div>
+
+                <h4>Constructing a Top Load </h4>
+                <p>While the coil was drying, I worked on constructing the top load capacitor. I went with the classic toroid, and after playing around with the JAVATC calculator, decided on a 1.5" minor diameter x 7" major diameter shape to bring the resonant frequency of the coil into the range I wanted. After a quick bit of CAD, I 3D printed this toroid shape in 4 parts (so that it could fit on the bed of my 3D printer). Because I didn't need any mechanical strength from these parts, I used a setting in Cura known as Vase Mode, in which it spiralizes the outer contours of the part and prints only a hollow shell with single layer thick walls. To add just a little bit of rigidity to help with later steps, I set the printer to overextrude by double the normal amount and turned the printing temperature up by about 20 degrees. This, at least in theory would give me 0.8mm thick walls out of the 0.4mm nozzle. </p>
+                <p>The prints were mostly successful, though the printer had a hard time reproducing the top curvature of the toroid without having any infill to support it. This is not big deal. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TkRk3fR.jpg" alt="">
+                </div>
+
+                <p></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/JHeJByp.jpg" alt="">
+                </div>
+
+                <p>To form the actual capacitor, I wrapped each of the segments using o.5" wide strips of aluminum tape, and smoothed everything down using the back of a spoon. After repeating this for all four segments, I superglued the quarters together and sealed the seams with a few more strips of aluminum tape to finish off the toroid. I didn't realize this at the time, but I later found out that this particular brand of aluminum tape was for some reason only conductive from the top but not from the bottom- this meant the toroid was not completely conductive from one point to another like I had hoped.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9J9cFTg.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nJNH1Ab.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vpXYTEo.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yMmV4T6.jpg" alt="">
+                </div>
+
+                <p>To attach this toroid to the secondary coil I wound earlier, I first used a 1.5" hole saw (the minor diameter of the toroid) to cut the ends of a 1/2" pipe to the required rounded profile. This pipe was passed through a T-fitting and was attached to the inner diameter of the toroid. The bottom end of the T-fitting is then affixed to the top of the secondary coil.<br></p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Eyb1SG3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/b3AV9qM.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sE0s3ab.jpg" alt="">
+                </div>
+
+                <h4>Primary Coil</h4>
+                <p>For the primary coil, I printed this cylindrical form at the correct height calculated in JAVATC. It has a narrow section at the bottom into which the bottom of the seconfary coil can press-fit into. To do just that, I wrapped the bottom interfacing part of the secondary coil with a few layers of electrical tape to get a tight fit, and twisted it into the 3D printed form. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/X3EbtwT.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rmh6B1K.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/peROmZ0.jpg" alt="">
+                </div>
+
+                <p>I used a bit of masking tape to mark where to start wrapping and then wound 5 turns of 18 AWG solid core wire around the form to a length of 3". </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/67Cd8QV.jpg" alt="">
+                </div>
+
+                <h4>Tank Capacitor (MMC)</h4>
+                <p>The resonant tank capactitor for the primary coil mas made by connecting 8  roughly identical polycarbonate capacitors in series and parallel. I think these capacitors are made for audio applications, and as such their low voltage rating and dI/dt rating makes them pretty ill suited for this high voltage puled power application. However, it was the only combination of similar capacitors I had that could add up to the capacitance required for the primary tank circuit frequency to match that of the secondary. If you read the text, you can see that this capacitor bank can handle a max of 200V (4 x 50V) which is rather low- so I had to be pretty careful with what voltage was being reached on the primary circuit.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5RPWLPx.jpg" alt="">
+                </div>
+
+                <h4>Why This was Kind of a Dumb Idea</h4>
+                <p>Looking at this after-the-fact, there are a couple of problems with this whole setup. As I promised earlier, lets take a quick look at the math to get an idea of why this coil was gonna suck as bad as it did:</p>
+                <p>The first problem was the resonant frequency. To see why this is affected by the coil coice I made earlier, we have to look at the formula for the inductance of an air core solenoid (which is what this secondary coil is). </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5qt3dTg.png" alt="">
+                </div>
+
+                <p>The important variables to look at here are A (the cross sectional area of the coil) and l (the length of the coil). The reason that many tesla coils you see have short and fat secondary coils is to maximise this A/l ratio and thus increase the inductance L of the secondary coil. By making my coil just 1/2" in diameter and 5" long, I had accidentally chosen a ratio of A/l that would result in a very low inductance for my secondary coil. So, if we take a look at the LC resonant frequency equation:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7XzY2Mp.png" alt="">
+                </div>
+
+                <p>Its plain to see that a very low inductance L combined with a very low capacitance C (because the topload is also relatively small) results in a crazy high resonant frequency. In my case, this ended up being around 980Mhz (most DRSSTCs tend to be sub-300kHz!) Technically, the UD2.7 driver I am using to run the tesla coil can support running a coil at up to 1 MHZ, but my other electronics, especially the gate drive transformer and the IGBTs that made up the half-bridge feeding the primary were not happy with this speed. </p>
+                <p>In the scope shot below measuring the Gate-Emitter voltage of one of the IGBTs, you can see completely rounded gate drive waveforms and long sloped edges (instead of a clean, sharp square wave) that would always keep the IGBTs in the forbidden linear region. This happens because by nature, IGBTs have a small amount of capacitance on their gate. At low switching frequencies, the gate driver and the gate drive transformer have no problem sourcing and sinking charge into this internal capacitor to turn on and off the transistor. However, as the frequency increases, the rate that charge has to be pushed and pulled out of the gate of the IGBT increases as well, to a point where the current (the flow of charge past a given point per unit time) required is too great to be effectively supplied by the supporting electronics.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EMAk6Qg.png" alt="">
+                </div>
+
+                <p>Unfortunately, neither connecting the outputs of the driver in parallel, nor reducing (and removing altoghether) the damping resistor could fix the issue.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zGJxMVx.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/K6QsZHu.jpg" alt="">
+                </div>
+
+                <h3>If It Ain't Broke...</h3>
+                <p>At this point, I didn't really want to rebuild the half bridge and the gate drive transformer to accommodate the high frequency switching of this new coil so I decided to abandon that little coil and instead turn my attention back towards this big guy. </p>
+                <p>The last time I had it working, around two years ago, the arc output of this was less than impressive (embarrassing almost) for a DRSSTC of its size. So, I figured, now that I had an oscilloscope to play around with, I could put my efforts towards getting the biggest arcs I could out of this instead of wasting time with the tiny garbage coil from earlier.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/M3OGxKz.jpg" alt="">
+                </div>
+
+                <h3>Getting Things Back in Shape</h3>
+                <p>Now it had been sitting in my attic for nearly two years so it was a little worse for wear and there was a little bit of housekeeping that needed to be done before I could fire everything up. For one thing, the heat had melted some of the taped connections I had made, so I went through and replaced every joint with proper heat shrink insulation. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TzDtd2d.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nonv27V.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CRtseHm.jpg" alt="">
+                </div>
+
+                <p>The next little issue was that a lot of the thru-hole solder connections had mysteriously come loose. This one was particularly bad, and had ripped the solder pad right off the board. Fortunately, there was still a pad left on the top side of the copper, so I just pulled the pins up a little and soldered to that. I also went through and refreshed the solder connections on the other thru hole components on the board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5ZFGjXP.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Z3uT3FA.jpg" alt="">
+                </div>
+
+                <h3>Tuning Behavior of Primary Tank Circuit</h3>
+                <p>After cleaning and powering up the driver, I used an arduino to generate a 200kHz square wave with a 50% duty cycle and plugged the signal into the feedback pins of the driver. To the outputs, I attached the same gate drive transformer and half bridge from before. In the following scope shot, I am again probing the Gate-Emitter voltage of one of the IGBTs and this time we are getting a much nicer looking gate drive signal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HV3vIAQ.png" alt="">
+                </div>
+
+                <p>The signal is a nice square wave with sharp edges, but we can see some small spikes at the tops and bottoms of the transitions. These are a result of removing the gate damping resistor earlier. Installing a 15 Ohm resistor between the gate and emitter pins of the IGBTs solves this problem and reduces the spikes to give a much more ideal square wave drive signal.</p>
+                <p>Thhe choice of damping resistor is a little finicky  and really does require an oscilloscope in order to observe the waveform and choose the value correctly. Too high damping resistance will round over the gate drive waveform (as the gate gets charged more slowly) and too low of a resistance causes large swiching spike and ringing. The waveform below is ideal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uxCJHP1.png" alt="">
+                </div>
+
+                <p>Hovever, if I connect the primary coil and probe the collecter-emitter voltage (the one that's being dumped into the coil) of one of the IGBTs I can see some worryingly large spikes when the IGBT switches, some even as large as 40V. You can see in the measurement values that Vpeak-peak reaches 60 volts, even though I'm only supplying 12V to the bus! </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Drq4AGg.png" alt="">
+                </div>
+
+                <p>My initial thought was that this could be due to stray inductance caused by poor layout of my half bridge. But after determining that wasn't the problem, I continued looking and learned that these switching spikes actually have to do with the collector-emitter capacitance at low voltages. Looking at the capacitance characteristics from the datasheet of these IGBTs, we can see that Coes, the capacitance at the collector-emitter junction drops off very quickly as we increase the voltage. Since I only had 12V between the collector and emitter, the large capacitance was storing and dumping energy which showed up as these spikes. In normal operation however, I will be running the coil at 170V (or 340V with the doubler) on the bus. At that point, the capacitance will be so low that the spikes will only be a very tiny percentage of the bus voltage.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wRvkChH.png" alt="">
+                </div>
+
+                <p>In order to know what the primary coil was up to, it wasn't just enough to measure the collector emitter voltage of one of the IGBTS- I now had to measure the current running through the primary as well.</p>
+                <p>This can be done in a number of ways, but since I didn't have a real current probe and didn't really feel like winding another feedback transformer, I went with the poor man's approach and just connected the probe ground wire to its tip in a loop and passed a primary coil lead through it. Obviously, with just a loose, single loop like this, the signal I got on the oscilloscope was a bit noisy and and quite small in amplitude, but because of the large currents running through the primary, the signal was more than good enough to be usable.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/XPnU8t8.jpg" alt="">
+                </div>
+
+                <p>The following scope shots show how the current in the resonant primary circuit (yellow waveform) grows with time. The blue waveform is the corresponding collecter-emitter voltage of one side of the bridge and is the voltage that is feeding the oscillations. You can see that letting the bridge feed the primary circuit for a longer period of time corresponds to the primary coil ringing up to a higher current. </p>
+                <p>This also shows that if we let the half-bridge run continuously, the current in the primary coil would just grow larger and larger until something exploded. This is why the interrupter is necessary- it limits the on-time of the bridge so that it only feeds the coil for tens of microseconds at a time, preventing the current from growing uncontrollably.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/G5PegEP.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dbF0W64.png" alt="">
+                </div>
+
+                <p>As you probably already realized, the yellow waveform you see in these shots (which I'm measuring with the current loop above) is not actually showing the current in the coil. Instead, what we see on the scope is the <em>voltage induced in the loop </em>by the changing current running through the primary, which means the waveform we are seeing is actually the <em>derivative</em> of the current in the primary coil. Using the integral function of the scope we can plot the actual current in the primary as the purple waveform, which, as you'd expect from a sinusoidal wave, looks the same as the yellow waveform but with a 90 degree phase shift (btw how cool is it that the scope can do that?!)</p>
+                <p>Comparing the purple current waveform with the blue collector-emitter voltage of the IGBTs, I can adjust the phase-lead on the driver board until it looks like the IGBTs are switching exactly when the current in the primary is zero. With this, we get a very efficient, low switching loss type of power switching known as zero-current switching or ZCS.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vtL6lWV.png" alt="">
+                </div>
+
+                <h3>Measuring Actual Resonant Frequency of Secondary</h3>
+                <p>After verifying that all the waveforms on the coil side are correct, it's now tine to tune the primary coil to resonate at the correct frequency. To do this, I started by trying to measure the actual resonant frequency of the secondary coil. JavaTC had calculated that the resonant frequency of the secondary should be somewhere around 200kHz, but I wanted to find the actual real life value because it was most likely going to be different.  </p>
+                <p>On my first attempt, I just connected the oscilloscope probe to the top load and the ground wire to the bottom of of the secondary, mostly expecting to see nothing. However, I was surprised to see these spikes occurring at a frequency of around 120Hz. This just so happened to be exactly twice the frequency of mains power (60Hz).</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ad0JMq6.png" alt="">
+                </div>
+
+                <p>Zooming into one of the spikes, I found a beautiful oscillating ramp down waveform characteristic of an LC resonator. It appeared that the mains current that was flowing in the walls around me was 'ringing' the secondary tank circuit every time it swung up and down (therefore at twice it's frequency). Cool!</p>
+
+                <div class="wp-block-image .wp-block-image .aligncenter&gt;figcaption { text-align: center !important; }">
+                <figure class="aligncenter">
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ysUi60b.png" alt="">
+                </div>
+                </figure>
+                </div>
+
+                <p>I measured the frequency of this oscillation using cursors and found that it was around 131kHz! However, after tuning my primary coil to this frequency, I couldn't get any sort of breakout. Somehow, this method gave me an incorrect resonant frequency value, and as a result, I had to try and find it a different way,</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/10MxBmX.png" alt="">
+                </div>
+
+                <p>I decided to give the signal generator route a try. Since I didn't have an actual signal generator, I used an arduino to output a square wave of a given frequency and used a RC lowpass filter to smooth that over into a sine wave. This filtered wave is then fed into the bottom of the secondary coil and the top is left unconnected. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BoTE0CU.jpg" alt="">
+                </div>
+
+                <p>I connected a regular non-shielded wire to the oscilloscope probe to act as an antenna. This way, I could know when I had hit the resonant frequency of the secondary when I get the maximum amplitude signal on this antenna.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Au5v8Ru.jpg" alt="">
+                </div>
+
+                <p>Using the calculated frequency as a guideline, I programmed the Arduino to make a sweep of frequencies from 130kHz all the way up to 250kHz. I then connected one probe to the pre-filtered output of the Arduino to measure the frequency and watched for the amplitude of the signal picked up on the antenna reached its maximum and cake back down. I was able to gradually refine the range until I found the resonant frequency to be around 174kHz.</p>
+                <h3>Matching the Primary Resonance</h3>
+                <p>Using this value, I added a couple of turn of wire around the primary to bring its frequency up to just a little bit below 174kHz. The reason for this detuning is because the resonant frequency of the secondary will actually drop as it produces arcs, since the arcs act as long wires. Detuning the coil a little bit ensures that the coils will be in resonance while the arcs are being produced.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fNgk6th.png" alt="">
+                </div>
+
+                <h3>Upgrading Current Transfromers</h3>
+                <p>With tuning done, I turned my focus to the other problem I was running into: the Over Current Detection safety feature of the UD2.7 was always being triggered. The culprit was the OCD transformer that was responsible for monitoring the current through the primary coil.  I had modified it earlier to a 100:1 ratio to suit that smaller coil I abandoned, but now that I was working with a much bigger coil and much bigger currents, I had to scale up the current transformers accordingly. So, I changed the 10 windings per core to 25 windings per core to produce a 625:1 transformer that would produce the correct level signal. I did the same upgrade for the feedback transformer as well. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/tiur1Ya.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aTmyQUL.jpg" alt="">
+                </div>
+
+                <h3>Building an Input Voltage Doubler</h3>
+                <p>The last thing to upgrade was the bridge rectifier. I wasn't originally intending on doing this, but after nearly blowing it up by accidentally shortinc a pair of clippers across the capacitor bank, I decided a better layout was necessary anyway.  </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lhi9ziw.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vhf3Ky3.jpg" alt="">
+                </div>
+
+                <p>I took it apart and rearranged it into a voltage doubler circuit, using the two sets of diodes in the bridge rectifier module in parallel. This should increase the 170V I was getting before into 340V to power the primary coil, hopefully producing a lot of extra power. This is a little lacking in power especially because the smoothing capacitor is a single 200uF 400V capacitor, but I have already ordered more capacitors and plan on installing them soon. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jwu0za7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Wr4Zmri.jpg" alt="">
+                </div>
+
+                <p>For added isolation, I drilled holes in the protoboard on which the circuit was assembled in order to prevent any chance of arcing between the traces. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HNFCWvZ.jpg" alt="">
+                </div>
+
+                <h3>Making Sparks! (but not too well)</h3>
+                <p>Here's a video of the coil running with all the changes made up until now already in place. You can already see that it is capable of producing much longer arcs, and I bet that its mostly thanks to the new voltage doubler. </p>
+                <p>You can also see a lot of arcing from the middle of the secondary to the strike ring. This was obviously not a good thing- too much arcing from the wrong place on the coil could permanently damage the windings or melt the coil form!</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/w8v3CGXkcPg" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <h3>Improving Insulation of the Secondary Coil</h3>
+                <p>The first step to solving this was to increase the insulation on the secondary.  I could do this easily by dust applying a few more coats of polyurethane to the coil form. This time, since I was working with a much bigger coil, I wanted to set up some sort of way to rotate the coil so I could varnish it evenly and without drips. </p>
+                <p>To do that, I coupled a 1/2" threaded rod to a DC gear motor using some hot glue and some heat shrink tubing (it didn't have to last very long). I then secured the coil to the  rod using a couple of MDF end caps and bolts on either side. The other end of the rod was just stuck inside a pipe to hold it in place laterally while it spun.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pON8urL.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EkbLDl7.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/cSmAOKX.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/D9EGpxl.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7p2EM1d.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zfz4EK8.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Drbm3mJ.jpg" alt="">
+                </div>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/pmNsEWy73qI" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>I sanded the coil with 1000 grit sandpaper once before starting in order to get the polyurethane to stick, and once before the last layer to remove any debris that may have gotten stuck in the varnish. I gave it a total of 6 extra coats. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dM34DLR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Nl1qnlb.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CH8qwEJ.jpg" alt="">
+                </div>
+
+                <h3>Adjusting Coupling/Tuning</h3>
+                <p>The other change I made was to physically lower the primary coil by about 0.6 in and tune it a little bit lower than before. This reduces the coupling between the coils and makes it so that it takes a slightly longer time for voltage to build up n the secondary coil. I also lowered the strike ring by about an inch to make it a little harder for the secondary to try and arc there.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0USOcsL.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vvfbyIQ.jpg" alt="">
+                </div>
+
+                <h3>Final Setup</h3>
+                <p>Finally, to direct where I want the arcs to go, I taped on a pointy copper wire to the top load. As you will see in the pictures and videos below, the arcs will prefer to break out of this point rather than any of than any of the more rounded parts of the toroid.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1faXVm1.jpg" alt="">
+                </div>
+
+                <p>The following are a few glamour shots of the finished coil and all of its supporting electronics. You can see the voltage doubler circuit on the bottom right feeding the bridge, as well as the interrupter controller on the bottom left, connected to the UD2.7 via a long fiber optic cable. You can also notice the two cascaded feedback transformers from earlier with one lead of the primary coil threaded through them.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/phm5Ul9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/06wyi31.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5IRrDag.jpg" alt="">
+                </div>
+
+                <h3>Sick Arcs</h3>
+                <p>Here's a couple of shots of the arcs produced by the coil- and already I can say they are significantly bigger than what the coil was able to produce before. The aluminum ladder is connected directly to the RF ground via a wire taped to one of its steps and is placed a little more than 2 feet (610mm) away from the breakout point. If we multiply this by the dielectric strength of air (3kV/mm) , we can estimate that the arc in the picture below is on the order of 1.8 Megavolts! </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/W8udo2z.jpg" alt="">
+                </div>
+
+                <p>In this second picture (credit to my little brother for capturing it at the right moment) you can also see an arc going directly from somewhere around the top of the coil going straight down to the strike ring. This is actually originating from the wire that connects the toroidal top load to the high voltage end of the secondary coil and a little bit of extra insulation or rerouting this wire should help fix that. If you look closely in the videos below, you can notice a nearly constant corona discharge from this point as well as a few more of these ground strikes.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HVz35MF.jpg" alt="">
+                </div>
+
+                <p>The following videos feature the DRSSTC playing some classic melodies. When producing arcs of this size, the coil is actually almost deafeningly loud, so I have to be a little mindful about how long I leave it on for, especially since I'm doing this in a residential neighborhood. </p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/Ai6DNiuJ7ic" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/R79r4rF85Ug" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/9bW_mEORIz0" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/P1FtZ5I9F_o" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>By the end of these music tests, I could really smell that distinctive hot silicon and epoxy smell coming from the coil. Felling around, I found that most of the heat was coming from the IGBTs. Playing music is generally bit tougher on the driver electronics  because the pulse lengths tends to be much longer and allow the coil to ring up to higher currents- so the heat is understandable. However, I will also have to make sure to check the phase lead to ensure that I am actually achieving zero cross switching, that is, that the IGBTs are actually switching only when the current in the primary coil momentarily goes to zero.</p>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

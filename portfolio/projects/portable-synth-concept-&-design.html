@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portable Synth Concept & Design | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/arduino-light.min.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Portable Synth Concept & Design</h1>
+                <p class="project-subtitle">(Eventually) Open Source!</p>
+            </header>
+
+            <section class="project-section">
+                <p>This project will be a little different than the other ones on this site, because I expect this to be an ongoing, experiment-driven exploration rather than a more directed build like I usually do. On this page, I'll keep track of the progress of the development of this device from an idea all the way to a (hopefully) completed product and lay out the the mistakes, the revisions, and the things I learned along the way. </p>
+                <h3 >19 July, 2020</h3>
+                <h4 >Some Background</h4>
+                <p>The idea behind this project is by no means original. In fact, the goal of this project is to straight up copy the concept behind <a href="https://teenage.engineering/products/op-1">Teenage Engineering's OP-1</a>, a hardware Digital Audio Workstation (DAW) with a synthesizer, sampler, sequencer, and 4-track recorder that lets you make music on the go. This thing has won a number of awards since it came out and rightfully so- its a masterpiece of design, engineering, and music all beautifully fit into a sleek, do-it-all package. Its powerful hardware and software give it a pretty limitless music-creation capability, and perhaps most importantly, it looks pretty darn sweet. I recommend checking out YouTube channels like <a href="https://www.youtube.com/channel/UChnxLLvzviaR5NeKOevB8iQ">Red Means Recording</a> to see what it's capable of. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/I5s0oyq.jpg" alt="">
+                </div>
+
+                <p>Of course, this large feature set comes with an equally large price tag: <a href="https://www.amazon.com/Teenage-Engineering-002-AS-001-OP-1-Synthesizer/dp/B00CXSJUZS">$1300</a>. I've been obsessed with Teenage Engineering and the OP-1 ever since it came out but there was no way I could justify spending this much money on it, especially since I don't even play music. </p>
+                <p>Teenage Engineering has another line of products called the <a href="https://teenage.engineering/products/po">Pocket Operator</a>, which only cost $50-$100. These devices have a more limited features than the OP1, but still offered really powerful capabilities like sequencers and sampler. Morever, the Pocket Operator devices are highly sound-specific, meaning one kind of PO has a very limited number of sounds it can work with. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dgd2EuB.jpg" alt="">
+                </div>
+
+                <h4 ><strong>Overall Project Goal</strong></h4>
+                <p>What I really wanted was something in between the OP-1 and the Pocket Operator- a device that would give me an experience similar to the OP-1 but with the ultra-minimalist hardware (and price tag) of the Pocket Operator. I know it'll be impossible to completely replicate the OP-1 at a cheaper price and at this point it's pretty ridiculous for  me to think I can even achieve the performance of a Pocket Operator, but hey, this whole thing is a learning opportunity.</p>
+                <p>There are certainly devices like that already on the market, and in fact there is already an ongoing open-source project called <a href="https://github.com/OTTO-project/OTTO">OTTO</a> which aims to do exactly what I am talking about here. However, I thought it would be fun to try and develop my own version of a portable synthesizer where I design and fabricate the hardware and software (almost) completely from scratch so that I can get a practical understanding of how exactly one of these things works.</p>
+                <h4 >(Temporary) Requirements </h4>
+                <p>I know little to nothing about synthesizers, electronic music, or even just music for that matter so I don't really even understand what the teenage Engineering Devices are capable of. As a result, the requirements I list below are bound to change as I learn more about the hardware and software required. </p>
+                <p>Regardless, the following are a list of requirements to work towards based on the overall goal above. The device...</p>
+                
+                <strong>Software</strong>
+                <ul>
+                    <li>Should have configurable synthesizer(s) (not really sure what this means yet)</li>
+                    <li>Should be able to sample, record, and modify audio from a microphone or from another audio device</li>
+                    <li>Should be able to record, edit, and playback sequences created on the device</li>
+                    <li>Should have preset instrument/sound library</li>
+                    <li>Should be capable of polyphony and the ability to record multiple instruments/sounds on tracks</li>
+                    <li>Should be able to record to multiple tracks</li>
+                    <li>Should have pattern sequencing capability for any sound  </li>
+                    <li>Should be able to export a finished track as a MIDI or WAV file</li>
+                </ul>
+                <strong>Hardware</strong>
+                <ul>
+                    <li>Should run on a hobby-level micro-controller (no FPGA, ASIC, etc) </li>
+                    <li>Should have both digital inputs (buttons and keys) for playing  sounds as well as analog inputs (knobs, sliders, pressure sensors) for pitch bend, note velocity, etc.</li>
+                    <li>Should be battery powered for a reasonable length of time and rechargeable</li>
+                    <li>Should have audio-in via microphone or 3.5mm audio jack</li>
+                    <li>Should have audio out via in-built speaker or 3.5mm audio jack and the option to switch between the two</li>
+                    <li>Should give access for reprogramming/adding sound files</li>
+                    <li>Should have a keyboard style layout like the OP-1 that spans at least two octaves</li>
+                    <li>Should have a display and a intuitive UI to navigate, change settings, and access function of the device</li>
+                </ul>
+                <p>Let's get started and see where this take us!</p>
+                <h3 >22 July, 2020 Update</h3>
+                <p>I decided to start with the part I'm most familiar with: hardware. The hardware for this device isn't too complex at first glance, but as usual, the devil's in the details. After a bit of research I came up with an initial plan for the hardware which is summarized in the diagram I drew below.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/NtbmNhf.jpg?1" alt="">
+                </div>
+
+                <p>Lets talk about it.</p>
+                <h4 >The Brain</h4>
+                <p>The most important section of the diagram is right at the center: a <a href="https://www.pjrc.com/store/teensy40.html">PJRC Teensy 4.0 micro controller</a>. This acts as the brains of the operation and provides the horsepower to run all the real-time audio processing required for the device.</p>
+                <p>I chose the Teensy over the many other micro controller options for a couple of reasons:</p>
+                <ul>
+                    <li>The Teensy 4 is equipped with a 600Mhz(!) ARM Cortex-M7 that can carry out two instructions per clock cycle (sometimes), which puts it far above any Arduino board or even the popular ESP32 in terms of processing power. The extra processing power means less latency and more powerful processing options, like real-time fft.</li>
+                    <li>Unlike the Raspberry Pi and other SBCs, the Teensy doesn't have to run an operating system, meaning programs are carried out closer to real time. </li>
+                    <li>The Teensy is compatible with the Arduino ecosystem, supports C++, and has extremely extensive documentation and example code that lets you easily use it to its full capability</li>
+                    <li>The Teensy has native SD card support, so no extra hardware is required to add storage to the device.</li>
+                    <li>The PJRC Teensy Audio Library has a graphical design tool that lets you put together and generate code for complex and powerful audio systems. That should be pretty useful here.</li>
+                </ul>
+                <h4 >Audio Input/Output Section</h4>
+                <p>The actual audio input/output is for now handled by the<a href="https://www.pjrc.com/store/teensy3_audio.html"> Teensy Audio Adapter</a>, also from PJRC. This is more of a prototyping tool, and will be replaced by discrete ICs and components once I figure out what specifically I need from this section.</p>
+                <p>The Teensy Audio Adapter is based on the <a href="https://www.pjrc.com/teensy/SGTL5000.pdf">SGTL5000 stereo codec and headphone amp IC.</a> This takes digital processed audio data from the Teensy and turns it into actual sound, which can be outputted through the on-board 3.5mm jack. It also features a microphone input (which i forgot to draw) and external volume controls. </p>
+                <h4 >User Inputs</h4>
+                <p>As you can probably see from the digram, I'm, planning to have a LOT of user control inputs on this thing. Lets add them up in terms of physical hardware:</p>
+                <ul>
+                    <li>36 to 44 buttons (Digital: binary)</li>
+                    <li>24 pressure sensitive resistors (Analog: sampled at 8 bits)</li>
+                    <li>1 rotary encoder (Digital: quadrature)</li>
+                    <li>2 potentiometers (Analog: sampled at 8 bits)</li>
+                </ul>
+                <p>Since the Teensy only has 44 DIO pins, and most of them are being used for other things anyway, it can't be monitoring all of these inputs as well. So I decided to offload the handling of the inputs to a separate microcontroller: the ATMEGA2650 (or ATMEGA 640). The ATMEGA2650/640 is the same IC that powers the Arduino Mega, and with 86 DIO pins, it will have no trouble reading all of these inputs. Its sole job is to keep track of what is going on with all the buttons and knobs on the device and report it to the Teensy via an I2C line.</p>
+                <p>Unfortunately the ATMEGA doesn't have enough analog inputs to be able to read all 24 pressure sensitive resistors. For these, I delegate the task to a couple of external 8 channel 8-Bit ADCs, each of which monitors 8 of the pressure sensors and reports the values to the ATMEGA via I2C.</p>
+                <h4 >Display</h4>
+                <p>A display is required on the device so the user can navigate the various menus/options/capabilities and see the effect of certain adjustments. For now, The display is a cheap 0.96" monochrome OLED display that communicates with the Teensy via I2C. This will be upgraded if I feel like I need more space or more colors to display what I need to.</p>
+                <h4 >Power Section</h4>
+                <p>The top left of the diagram shows the power supply section of the device. This is by far the most trivial part, so I won't go into too much detail about it now. Basically, a large li-po battery is used to supply power to the entire device and an off-the shelf charge controller is used to charge and keep the battery safe.</p>
+                <h3 >29 July 2020 Update</h3>
+                <h4 >Figuring Out the Keypad</h4>
+                <p>I decided to just jump in and start with building the user inputs, since having some way to interact with the device would be really useful for testing other parts of the system later on.</p>
+                <p>I really liked the rounded and segmented keypad design of the OP-1, and I especially liked how the white and black keys were sized to still resemble the ratios of traditional piano keys while maintaining the aesthetic of a modern digital instrument. A lot of other MIDI keyboards and digital synthesizers seem to either go with just the classic piano keys or a full set of those rounded rectangular buttons, and I'm not really a fan of how either of those look. So, naturally, I decided to try and mimic the keypad of the OP-1. </p>
+                <p>However, before starting on designing the keys, I had to find a specific electrical switch to use and then shape the size and stroke of the key-caps around that.</p>
+                <p>My first thought was to just use the common clicky push-buttons that most people are familiar with. Because having a low profile was key (pun intended), I was particularly looking for push-buttons in a Surface Mounted (SMD) package rather than the through-hole kind. I had no real reference for how any of the buttons felt, sounded, or looked, so instead of trying to find individual ones on Digikey based on datasheet values, I bought a kit of assorted SMD buttons from Amazon.com so I could play around with them and see which one(s) I liked best.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/O8PyVmq.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ae49Bay.jpg" alt="">
+                </div>
+
+                <p>To quickly test the sound and feel of each button, I designed and 3D printed these very simple cantilevered 'keys' that I could place on top of each of the buttons to actuate them. I made two at slightly different heights to accommodate the various sizes of buttons in the kit.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gp7MbCv.jpg" alt="">
+                </div>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/9XaZjQnvkk8" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <p>I wasn't too happy with how any of them felt, but I did feel like these flat metal ones were a little better than the rest. To get a better idea of how a full keyboard would feel, I expanded the cantilever design from above a seven-key strip in the style of the OP-1 buttons. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Gg29c9e.jpg" alt="">
+                </div>
+
+                <p>After playing around with this setup for a few minutes, I came to the conclusion that this cantilever-style actuation was not going to work for me. I felt like there was a lot of unnecessary flexibility and bounciness in these keys, and I wanted something that was better contrained to move only in the desired up and down axis. </p>
+                <p>I messed around with a couple of different concepts on Fusion 360 but ultimately settled on this:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7IBW1Nw.jpg" alt="">
+                </div>
+
+                <p>This design involves four flexure springs attached to each corner of the key. Just looking at it, you might think that this particular spring configuration is much better suited to allow forward and backward movement rather than up and down. This is not necessarily the case. </p>
+                <p>Because the spring sections are so thin in the z direction, the small horizontal offset between the two ends of the spring allows them to twist and act as torsion springs when the button is pushed down. This allows for small up-and-down movement (enough to actuate the button), but resists movement in any of the other axes. This quality makes this a a type of structure known as an <strong>ortho-planar spring</strong>, since it is restricted to movement in the direction orthogonal to it's plane.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/F1OLaCJ.png" alt="">
+                </div>
+
+                <p>Of course, because of the springs, the key itself would have a finite actuation force. To reduce or lower this force, I could just increase or decrease the offset between the two ends of the spring. </p>
+                <p>I was pretty pleased with how this button felt, so I went a step further and added more keys with the same mechanism to form a half of the keyboard. I affixed all  the buttons temporarily with Kapton tape to a 3D printed back-plate and sandwiched everything together with a bit of hot glue. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CN9gUQk.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/EyB5KGK.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QXVm0bE.jpg" alt="">
+                </div>
+
+                <p>And... </p>
+                <p>I hated it. I spent about a day with this mock-keyboard just clicking it on different surfaces, with multiple fingers, with two hands, etc. to try and figure out whether or not it would be a good fit. </p>
+                <p>It was not a good fit.</p>
+                <figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-4-3 wp-has-aspect-ratio wp-embed-aspect-16-9">
+                <div class="wp-block-embed__wrapper">
+
+                https://youtu.be/aNcQE6jB-P0
+
+                </div>
+                </figure>
+                <p>For one thing, all the buttons took way too much force -around 290g- to actuate, and that's <em>without </em>the added force from the flexure keys. This doesn't seem like a lot on paper, but its definitely too high for comfortable playing on a musical instrument like this.</p>
+                <p> Second, they were just too loud. I know I should have expected this when I chose to use cheap mechanical switches, but I really didn't think it would be this bad. The clicking was seriously distracting (not just to me but the people around me as well) and managed to find its way through any pair of headphones I wore. Having such loud keys on the final device would really get in the way of any kind of music creation and so this was just not an option. </p>
+                <p>So, it was back to the drawing board. After a little bit of research I found out about silicone push-buttons. These are the types of soft buttons you usually see on TV remotes, land line phones, some calculators, and most importantly, a lot of musical instruments. This is because they are highly configurable, have a low actuation force, and are almost completely quiet while still providing a tactile feel.</p>
+                <p>Unfortunately, I couldn't take advantage of most of those features because  silicone push-button are usually custom made as a whole pad for specific applications. Since these are usually manufactured in the scale of tens of thousands, there wasn't really an option for me to get my specific keypad made. Luckily for me, I found a singular Ebay seller (who just so happened to be in the US!) with listings for various sizes of nondescript single silicone buttons. I picked up 40 medium-looking buttons for around $10 and received them a few days later.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/8XPaEky.jpg" alt="">
+                </div>
+
+                <p>You can probably see that these look nothing like the buttons I was using earlier. That's because, technically these are only half of what make up the actual button. As you can see, the bottom of the button's plunger has a black, conductive pad attached to it. This is called a 'pill' and is what makes an electrical connection when it touches down on the traces of a circuit board.</p>
+                <p>To simulate these traces while prototyping, I two parallel pieces of copper tape placed very close to each other but not making contact. when the button is pushed, the conductive pill makes contact with both pieces of tape and allows current to flow from one to the other. This isn't a perfect interaction, since the pill actually has a resistance of around 100 Ohms across it and because the contact of the pill to the tape pieces is not always predictable. However, for testing purposes, this works well enough to let the microcontroller know that a button has been pressed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sQTf6G2.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/M7C5hll.jpg" alt="">
+                </div>
+
+                <p>I designed and printed a little 'cage' to hold all the buttons in the right place and made sure that the switches were working as they should by wiring everything up to a microcontroller. I connected one strip of tape in each pair to Ground, and the other to a Digital Input with an internal pull-up resistor. Since the 100 Ohm resistance of the button pill is quite a bit smaller than the 20kOhm pull-up resistor, it is able to pull the digital pin low when the button is actuated, signaling the microcontroller to take an action.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jqb6IBp.jpg" alt="">
+                </div>
+
+                <p>To make the keycaps for these, I used the same oblong shape as before but now with a shallow hole in the bottom that the silicon button could fit into. </p>
+                <p>After many frustrating minutes trying to attach the keycaps to the buttons, I realized I couldn't actually glue anything to the tops of these buttons because they were made of silicone, and <em>nothing sticks to silicone.</em> I experimented with a couple of different adhesives and ended up using a little bit of silicone caulk between the button and the cap, which seemed to do the best job of keeping everything together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2OqkuE9.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/y6j8bdb.jpg" alt="">
+                </div>
+
+                <p>I repeated this for all 12 keys in the half-keyboard and ended up with this, which admittedly does look kind of nice... at first. Here's a short video of me mushing the buttons so you can get an idea of how it feels. </p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/LCP9xOIytb0" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+                
+                <p>Hmm do you see what I see? The keycaps were only attached to the silicon buttons, which are by nature very flexible and bendy. This makes the keycaps also bendy and floppy- not ideal. This is an especially big problem with the longer keys, where the leverage causes the the button to bend/tilt  but not actually make contact with the copper. </p>
+                <p>Obviously I wasn't a fan of what was going on here. I had to find a way to rigid-ize each of the buttons and restrain them to moving only up and down  without tilting in any direction. This was a lot easier said than done. I went through numerous different structures, braces, flexures, etc. but found nothing that behaved the way I wanted to. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/FwExfI4.jpg" alt="">
+                </div>
+
+                <p>I sort of came close when I tried a mechanical-keyboard-style plunger switch. The idea was to have hole in the base and a rigid plunger that would fit snugly inside and prevent anything other than axial motion. Unfortunately, these types of close tolerance fits and smooth motion were not really possible with 3D printed parts (at least not with my 3D printer), and there was still plenty of wobble that I couldn't eliminate. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1i5A0wT.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4GGgTlU.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uoStIMN.jpg" alt="">
+                </div>
+
+                <p>After hours of trying and failing with different button structures, I found myself back at the cantilever buttons from all the way in the beginning of this keyboard journey. I made a few modifications in Fusion to accommodate for the new silicone buttons, and printed it out.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/F6cVvCp.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/TOps6cO.jpg" alt="">
+                </div>
+
+                <p>I came full circle right back to the cantilevered keys and this setup actually worked better than anything else I had tried so far. The keys are (mostly) limited to the single degree of freedom and the keypresses are very solid and responsive. I don't know why I didn't try this earlier but I'm happy that I finally ended up here- I satisfied enough with how this design of keyboard feels that I can keep moving with the project.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/_rr2eug4BQ0" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>There are a couple of drawbacks to this design. The first is that because of the long lever arms required for the keys, the keyboard is much taller, meaning the final device has to be larger as well. This is obvoisly not great for keeping the device compact, but thats a sacrifice I'm willing to make if it means I can have better-feeling keys.</p>
+                <p>The second, probably more serious problem is that because the keys are pushing on the silicone buttons at an angle, the bottom pills of the buttons are not making good, flat contact with the copper. To show what I mean, I've put a piece of  clear acrylic below the keypad to see where the pill is touching down when the key is pressed. Its a little hard to see in the picture, so I've highlighted the contact area in red.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yXxnk3h.jpg" alt="">
+                </div>
+
+                <p>What this shows is that only a small portion of the button is actually making contact with the copper, which can lead to unreliability or just non-detection. The fix this, I just have to make sure that at the bottom of its travel, the key is pushing the button straight down and not at a slight angle.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/y2fCbMp.jpg" alt="">
+                </div>
+
+                <p>From the travel length of the button and the length of the key, I can find the angle at which the key is pressing on the button: 2.78 degrees. So, if I place a 2.78 degree wedge at the bottom of each key (dotted line), I can counteract that and make sure the button is being pressed flat at the bottom.</p>
+                <p>Here are what the little wedges look like once glued onto the bottom of the keys:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/hp3JW1O.jpg" alt="">
+                </div>
+
+                <p>And here's the contact area, which is clearly a lot bigger than before. Awesome!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dpsQfS5.jpg" alt="">
+                </div>
+
+                <p>With this done, I can move on to the next phase of prototyping: the electronics.</p>
+                <h3 >30 July 2020 Update</h3>
+                <p>Ok so I 100% satisfied with the keyboard yet. I did like the look and feel of this cantilever keyboard, but I didn't feel good about moving on before exploring a couple more options. Particularly, I wanted to look at some more designs that were a bit more space efficient,</p>
+                <p>First up were these diamond shaped springs I designed to sit directly between a key and a silicone button. Since this was going to be glued to both the key and the base, the idea was that it would restrict motion to only the up-and-down axis. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/1N6RiZh.jpg" alt="">
+                </div>
+
+                <p>I tried a couple of differenat variants of this with different heights and spring arm widths/thicknesses but none of them were really as springy as I had hoped. I found out pretty quickly that PLA actually doesn't do a very good job with elastic bending applications, and tends to plasticly deform every chance it gets.</p>
+                <p>Moving on from this, I jumped on thingiverse to look for inspiration for other types of 3D-printable ortho-planar springs. I came across this design design for a <a href="https://www.thingiverse.com/thing:3822890">Parametric 3D Printable Mechanical Switch</a> by user "riskable" that seemed pretty intriguing. It was a three piece assembly designed to replicate common keyboard mechanical switches. What I was most interested in was the spiral ortho-planar spring and the D-shaped captive button plunger. So I imported it into Fusion360, made some modifications, and printed a bunch of them out.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/F6C7JOm.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dC3521K.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0KzzGY2.jpg" alt="">
+                </div>
+
+                <p>The witches were placed above the silicone buttons and the keycaps were glued to the top of each button plunger to complete the key assembly.</p>
+                <p>To be honest, it was actually pretty nice. Compared to my plunger design from earlier, this was a lot less susceptible to key-wobble and the buttons were actually even quieter than before. Plus, since the buttons were being pushed straight down, I didn't have to worry about button contact area.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/9LJkKDMoyr0" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p>But ultimately, I decided to pass on this design as well. It may be difficult to see in the video but the friction between all the moving parts of the switches made the keys feel not so responsive. They were a little slow to go down and too slow to come up, which would definitely be distracting when playing music on this thing. </p>
+                <p>More importantly, it was way too tall. From the bottom of the base to the top of the keycaps, this keyboard was almost 1" tall! This kinda went against the portability requirement I had stressed since the very beginning, and so there was no way I could have these in the final device.</p>
+                <p>So the best keyboard variant so far is still the cantilever design. </p>
+                <p>If you remember from the requirements, I had also mentioned that I wanted the keys to be pressure sensitive. To try and accomplish this I bought a sheet of Velostat, a thin, flexible polymer material that changes it's conductivity with pressure. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ECIVJmu.jpg" alt="">
+                </div>
+
+                <p>The idea was that the Velostat would be placed between two copper contacts so that when it was pressed, the pressure could be measut as the Shang in resistance between the two contacts. When I initially planned to use clicky pushbuttons, I could have placed the Velostat stack directly under the buttons and above the circuit board. However, I just couldn't figure out a good way to integrate this with the Silicone buttons, since they would need to make direct contact with the circuit board to work. For now, I think I'm just going to skip this functionality.  </p>
+                <p>Now that I feel like I have exhausted all other keyboard options, I feel a lot better about finalizing the cantilever keyboard and finally moving on to the rest of the prototyping. </p>
+                <p>Lets do that.</p>
+                <h3 >31 July 2020 Update</h3>
+                <p>Now that I had somewhat finalized the keyboard design, the next major step was to design and send out for a PCB that would make up the electrical system from the design drawing above. Before I could do this though, I had to first make sure that the main circuit elements would function as I had intended.</p>
+                <h4 >Breadboard Prototyping</h4>
+                <p>To find out, I created a quick proof-of-concept setup to, well, prove the underlying concepts being my idea for the electronics. I used a Teensy 4.1 board, the Teensy Audio Shield, an electret condenser microphone, and a small 128x64 monochromatic OLED screen.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/onMrPVf.jpg" alt="">
+                </div>
+
+                <p>I wired the components  up on a breadboard, and hooked up one of the old keypads directly to the digital inputs on the Teensy. This initial setup was just to make sure all the important bits of hardware were working and talking to one another properly before adding any unnecessary points of complexity.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/egnphJD.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Nb3YGz0.jpg" alt="">
+                </div>
+
+                <p>And indeed everything is working as it should. As a side note, I know the OLED is pretty tiny, but because of the high contrast (compared to something like an LCD of the same size), it's actually pretty easy to see small words or details.</p>
+                <p>Anyway, after running through a few Audio Library tutorials and familiarizing myself with the tools, I switch the keyboard over to the silicone buttons and confirmed that the Teensy could read the button presses.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Jqb6IBp.jpg" alt="">
+                </div>
+
+                <p>For the last test, I set up a spare Arduino Uno between the keypad and the Teensy. This is to act as a stand-in for the ATMEGA Input Processor I descriped in the design overview earlier. The UNO's job here is to read the buttons and transmit the button state information to the Teensy over I2C. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/H6ac88Y.jpg" alt="">
+                </div>
+
+                <h4 >A Little Bit of Code</h4>
+                <p>Here's the code running on the Arduino Uno:</p>
+                <pre><code class="cpp">
+//
+// Arduino Input Processor Code 
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;Bounce2.h>
+#include &lt;Wire.h>
+int LED = 13;
+#define NUM_BUTTONS 7
+const uint8_t BUTTON_PINS[NUM_BUTTONS] = {2, 3, 4, 5, 6, 7, 8};
+Bounce * buttons = new Bounce[NUM_BUTTONS];
+byte buttonStates;
+void setup()
+{
+    pinMode(LED, OUTPUT);
+    digitalWrite (LED, LOW);
+    for (int i = 0; i &lt; NUM_BUTTONS; i++) {
+        buttons[i].attach( BUTTON_PINS[i] , INPUT_PULLUP  ); 
+        buttons[i].interval(25);              
+    }
+    Wire.begin(8);                // join i2c bus with address #8
+    Wire.onRequest(requestEvent); // register event
+    Serial.begin(9600);
+}
+void loop()
+{
+for (int i = 0; i &lt; NUM_BUTTONS; i++)  {
+    buttons[i].update();
+    if (buttons[i].fell()){
+    digitalWrite(LED, HIGH);
+    bitWrite(buttonStates,i,1);
+    //Serial.println(buttonStates,BIN);
+    }
+    if (buttons[i].rose()){
+    digitalWrite(LED, HIGH);
+    bitWrite(buttonStates,i,0);
+    //Serial.println(buttonStates,BIN);
+    }
+}
+}
+void requestEvent()
+{
+    digitalWrite(LED, LOW);  
+    Wire.write(buttonStates);
+}
+                </code></pre>
+                <p>The sketch uses the Bounce library to monitor the activity of all the connected buttons. When it detects a rise or fall on a digital pin (press or release of a button) it changes the bit at a corresponding location in a numeric variable to indicate wheter that button is currently pressed (1) or not pressed (0). Currently, for testing, there are only 7 buttons so all this data can fit into a single byte, 'buttonStates'.</p>
+                <p> For example, say button #0 is pressed. The program will then change the bit at location zero (i.e the least significant bit) of 'buttonStates' from a 0 to a 1. Thus 'buttonStates' will now have a value of 00000001 in binary (or 1 in DEC).</p>
+                <p>Now imagine button #4 is also pressed along with button #0. Now the program will also change the bit at location four from a 0 to 1. Thus 'buttonStates' will now have a value of 00010001 in binary (or 17 in DEC).</p>
+                <p>This is pretty easily scalable to a large number of buttons and is space efficient so that it won't slow down the I2C data transfer. </p>
+                <p>If you'll notice, I'm also turning digitalPin(13) HIGH whenever there's a change in buttonStates, and turning it off once the I2C data has been sent over to the Teensy. This is not only to act as a visual indicator but also as a signal for the Teensy to let it know when new data is availible and should be read.</p>
+                <p>For the test, the Teensy is running a fairly simple string synthesizer I created with the help of PJRC's Audio System Design Tool. Here's a screenshot of how the various nodes and patches fit together:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/iTLHRda.png" alt="">
+                </div>
+
+                <p>And here's what the code looks like:</p>
+                <pre><code class="cpp">
+// String Synth
+// Written by Prajwal Tumkur Mahesh
+//
+#include &lt;Audio.h>
+#include &lt;SPI.h>
+#include &lt;SD.h>
+#include &lt;SerialFlash.h>
+#include &lt;Bounce.h>
+#include &lt;SPI.h>
+#include &lt;Wire.h>
+#include &lt;Adafruit_GFX.h>
+#include &lt;Adafruit_SSD1306.h>
+#define OLED_RESET -1 
+Adafruit_SSD1306 display(128, 64, &amp;Wire, OLED_RESET);
+// GUItool: begin automatically generated code
+AudioSynthKarplusStrong  string2;        
+AudioSynthKarplusStrong  string3;        
+AudioSynthKarplusStrong  string7;        
+AudioSynthKarplusStrong  string5;        
+AudioSynthKarplusStrong  string1;        
+AudioSynthKarplusStrong  string4;        
+AudioSynthKarplusStrong  string6;        
+AudioEffectEnvelope      envelope6; 
+AudioEffectEnvelope      envelope7;
+AudioEffectEnvelope      envelope2;
+AudioEffectEnvelope      envelope4;
+AudioEffectEnvelope      envelope1;      
+AudioEffectEnvelope      envelope3; 
+AudioEffectEnvelope      envelope5; 
+AudioMixer4              mixer1;         
+AudioMixer4              mixer2;         
+AudioMixer4              mixer3;         
+AudioOutputI2S           i2s1;           
+AudioAnalyzePeak         peak1;          
+AudioConnection          patchCord1(string2, envelope2);
+AudioConnection          patchCord2(string3, envelope3);
+AudioConnection          patchCord3(string7, envelope7);
+AudioConnection          patchCord4(string5, envelope5);
+AudioConnection          patchCord5(string1, envelope1);
+AudioConnection          patchCord6(string4, envelope4);
+AudioConnection          patchCord7(string6, envelope6);
+AudioConnection          patchCord8(envelope6, 0, mixer2, 1);
+AudioConnection          patchCord9(envelope7, 0, mixer2, 2);
+AudioConnection          patchCord10(envelope2, 0, mixer1, 1);
+AudioConnection          patchCord11(envelope4, 0, mixer1, 3);
+AudioConnection          patchCord12(envelope1, 0, mixer1, 0);
+AudioConnection          patchCord13(envelope3, 0, mixer1, 2);
+AudioConnection          patchCord14(envelope5, 0, mixer2, 0);
+AudioConnection          patchCord15(mixer1, 0, mixer3, 0);
+AudioConnection          patchCord16(mixer2, 0, mixer3, 1);
+AudioConnection          patchCord17(mixer3, peak1);
+AudioConnection          patchCord18(mixer3, 0, i2s1, 0);
+AudioConnection          patchCord19(mixer3, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     
+// GUItool: end automatically generated code
+AudioEffectEnvelope *envs[7] = {&amp;envelope1, &amp;envelope2, &amp;envelope3, &amp;envelope4, &amp;envelope5, &amp;envelope6, &amp;envelope7};
+AudioSynthKarplusStrong *strs[7] = {&amp;string1, &amp;string2, &amp;string3, &amp;string4, &amp;string5, &amp;string6, &amp;string7};
+float keys[7] = {27.50*3,30.87*3,32.70*3,36.71*3,41.20*3,43.65*3,49.00*3};
+bool keystate[7] = {0,0,0,0,0,0,0};
+int numButtons = 7;
+byte buttonStates = 0;
+void setup() {
+    //attachInterrupt(34, pin_ISR, RISING);
+    Wire.begin();             
+    Serial.begin(115200);
+    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+    display.clearDisplay();
+    display.setTextSize(3);      
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(20, 25);     
+    display.println(F("SYNTH"));
+    display.drawRect(15, 20, 96, 30, SSD1306_WHITE);
+    display.display();
+    AudioMemory(18);
+    sgtl5000_1.enable();
+    sgtl5000_1.volume(1.0);
+    for (int i=0; i&lt;7; i++) {
+        envs[i]->attack(90.2);
+        envs[i]->hold(0);
+        envs[i]->decay(31.4);
+        envs[i]->sustain(0.6);
+        envs[i]->release(440.5);
+}
+AudioInterrupts();
+display.clearDisplay();
+}
+unsigned long last_time = millis();
+void loop() {
+    if (millis()-last_time > 50){
+    pin_ISR();
+    }
+    for (int i = 0; i &lt; numButtons; i++){
+    if (bitRead(buttonStates, i)){
+        if (!keystate[i]){
+        AudioNoInterrupts();
+        strs[i]->noteOn(keys[i],0.1);
+        envs[i]->noteOn();
+        AudioInterrupts();
+        keystate[i] = 1;
+        }
+    }
+    else{
+        if (keystate[i]){
+        AudioNoInterrupts();
+        envs[i]->noteOff();
+        AudioInterrupts();
+        keystate[i] = 0;
+        }
+    }
+    }
+    if (peak1.available()){
+        float pk = peak1.read();
+        pk=map(pk,0.01,0.1,0,128);
+        display.clearDisplay();
+        display.fillRect(0, 30, pk, 10, SSD1306_WHITE);
+        display.display();
+    }
+}
+void pin_ISR(){
+    Wire.requestFrom(8, 1);
+    while(Wire.available()) { 
+    Serial.print("read: ");
+    buttonStates = Wire.read();   
+    Serial.print(buttonStates,BIN);        
+    }
+    Serial.println();
+}
+                </code></pre>
+                <p>Here, I am receiving the byte of button data, 'buttonStates' from the slave Arduino over I2C. As I mentioned before, the data received from the slave Arduino contains information about the binary states of several buttons.  </p>
+                <p>Originally, this receiving of this data was done inside a pin Interrupt Service Routine, pin_ISR (connected to the LED digital output of the slave Arduino), so that the Teensy didn't have to keep polling the Arduino when there is no new data. This ISR triggered on the rising edge of the 'LED' signal from the Arduino, upon which the Teensy stopped (interrupts) everything it was doing and called the function pin_ISR(). This function requests and reads data from the Arduino which caused the Arduino to pull its 'LED' pin back down and reset for the next button change. </p>
+                <p>Unfortunately, this interrupt was messing with a lot of the functions of the audio library, so until I can figure out a way around it, I've commented out the interrupt and resorted to just polling the Arduino every 50ms.</p>
+                <p>Once the  data is received by the Teensy, I am using that button information to control the  string synthesizer. Basically, if a button is pressed, (i.e. a 1 bit), I turn the corresponding string and envelope on, and once the button is release (i.e. a 0 bit) the corresponding envelope is turned off. Since I've designed it with seven separate 'String' nodes, this synthesizer can play all seven notes notes at the same time, for 7-note polyphony. </p>
+                <p>Here's a little video showing this setup in action, along with the stream of button data received by the Teensy.</p>
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/CwJrX_Bj6tQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <h3 >2 August 2020 Update</h3>
+                <p>With the breadboard proof of concept out of the way, I could start taking some bigger strides towards the first physical prototype.</p>
+                <h4 >Front Panel Design</h4>
+                <p>The first step was to layout the dimensions of the device. I only had a very vague vision of what I wanted the device to do and how I wanted the user to interact with it, but from the design and proof-of-concept stages, I was pretty sure about the components I intended to use. </p>
+                <p>So, I hopped back on Fusion 360 and played around with a bunch of different layouts until I found one that felt visually and functionally adequate. All of the layouts were of course based on the cantilever-style keyboard from earlier, and all of them included the Teensy, Audio Shield, and OLED Display, but the number/ type/ location of additional control surfaces and peripherals was left up to experimentation.</p>
+                <p>Eventually I landed on this. Naturally, since I was using the OP1 as my inspiration, it bears a certain degree of similarity. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4dKgwnY.png" alt="">
+                </div>
+
+                <p>As a summary, this layout features the standard 24-key 2 Octave keyboard, 13 general purpose buttons (which I can assign after I make progress on the software) and three digital encoder knobs with pushbuttons. All the way to the left, I've included a vertical strip of 10 RGB LEDS, which I can use as a VU meter or just as general purpose indicators.</p>
+                <p> The framing as well as all the buttons are intended to be 3D printed, and I've included plenty of holes for everything to bolt together. I don't know if bolts are going to ruin the aesthetic of the device, but nevertheless the clamping action is necessary to keep all the silicon buttons in place. As I learned earlier, no form of glue really sticks to these silicone buttons, so I'll have to rely on good old fashioned mechanical pressure to keep them in place.</p>
+                <h4 >Board Schematics</h4>
+                <p>Once I had a good understanding of all the control inputs and peripherals I wanted to include, the next step was incorporating everything in an electrical schematic. I opened Eagle, prepared myself for a hardcore EDA sesh, and started designing,</p>
+                <p>A couple of hours later, here's what I ended up with. The following picture is the complete schematic of the board. There's kind of a lot going on, so let's look at the important parts individually.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ncL1hiM.png" alt="">
+                </div>
+
+                <p>First up is the input processor ATMEGA chip. I actually ended up going with the ATMEGA64L instead of the ATMEGA2650 or ATMEGA640 that i mentioned earlier in the design section. This is for a couple of reasons: 1. Its about $5 cheaper, but more importantly, 2. Since I only have the 37 buttons and three quadrature encoders, the ATMEGA64  has just enough DIO pins to accommodate all of them.  Perhaps in another revision, if I choose to add more buttons and whatnot, I can upgrade to the larger chips. For now, the ATMEGA64 will do just fine.</p>
+                <p>With the help of Atmel's datasheet and a few resources like <a href="https://www.arduino.cc/en/main/standalone">the official Building an Arduino on a Breadboard article</a> as well as FuzzyStudio's Instructable <a href="https://www.instructables.com/id/DIY-Bare-Minimum-Arduino-Mega-2560/">DIY Bare Minimum Arduino Mega 2560</a>, I connected up the ATMEGA64 IC with the necessary external components required for it to operate. There are a few particulars to note here.</p>
+                <p>Because I'm running most of the system, including the ATMEGA, on 3.3V, I've chosen an 8MHZ ceramic resonator for the IC instead of the typical 16MHZ you see on most 5V Arduino boards. This is because the lower voltage means a lower stable clock speed for the chip. Also for stability at low voltage, I've gone with the ATMEGA64L (<strong>L</strong>ow voltage) variant of the ATMEGA64, which is specifically rated for operation from voltages as low as 1.8V up to the standard 5V.</p>
+                <p>For programming, I've skipped the typical USB-to-serial controller present on most Arduino boards with a USB connector and replaced that interface with a simple FTDI header. Since the Arduino isn't going to be programmed often, I can just omit the USB port and controller and save a bit of money and board space.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/9wC8IZr.png" alt="">
+                </div>
+
+                <p>Next up is the control inputs. This is a fairly simple section and just consists of 37 buttons and 3 quadrature encoders wired between the Arduino's DIO pins and Ground. Because I had a single analog pin left over on the Arduino, I broke it out to a 3 pin header just in case I felt like adding some kind of analog knob or slider later down the road.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uJBsA25.png" alt="">
+                </div>
+
+                <p>The third section is the LED strip I mentioned earlier. For the actual LED hardware, I'm using 10 of Adafruit's Neopixel Nano 2427 individually addressable LEDs. These are pretty tiny at just 2.4mmx2.7mm and they span a vertical distance of about 90mm. I chose the tiny versions in particular because I wanted them to be a little understated and not too flashy and distracting. I just hope I'll be able to solder them :)</p>
+                <p>Each LED actually runs on 5V and is paired with a small bypass capacitor. SInce these LED's use 5V logic, I would need a voltage level shifter before trying to control them wiht the Teensy, which is a 3.3V device. For this purpose, I am using a TXS0102 bidirectional voltage translator to (as the name suggests) translate the Teensy's control signal from 3.3V to the 5V that the LED's require. This is that little box on the right.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Fn2P4zl.png" alt="">
+                </div>
+
+                <h4 >Board Layout</h4>
+                <p>With the schematics done, I switched to the board view and began placing the components and routing their connections. I used the Fusion 360 panel layout from earlier to precisely place all of the components, button pads, and mounting holes at the exact right spots, and spent a couple of hours connecting everything together as neatly as I could. I did my best to make the tracks and vias look as visually pleasing as possible but it gets a little chatic near the center of the board around the ATMEGA chip, where the connection density is very high.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BFV0h7S.png" alt="">
+                </div>
+
+                <p>As a quick aside, I designed these button pads myself based on the size of the silicone buttons I had and what little information I could find online.  I have no idea if they're going to work, but to give them the best chance, I oriented the pads (vertically or horizontally) based on how and where I thought the button pills were going to touch down as the keys were pressed.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ptdnp5K.png" alt="">
+                </div>
+
+                <p>The next two pictures are just a rendering of the top and bottom of the board. Obviously the colors are a little iffy, but you can get an idea of what the board will look like once it's manufactured. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AauS5eP.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/yFzGUtL.png" alt="">
+                </div>
+
+                <h4 >Forkin' Over the Dough</h4>
+                <p>I finalized the board design, generated the CAM data, and uploaded it to <a href="https://jlcpcb.com/">JLCPCB</a>, my preferred prototype (and final I guess) PCB manufacturer. The full board size is 91mmx289mm, which matches the dimensions determined by my Fusion360 model from ealier. I went with the matte black solder mask (because how cool are black PCB's) and a regular HASL coating. For the final version of the board, I intend to go with the ENIG (Electroless Nickel Immersion Gold) coating mostly because it will make the button pads very flat and resistant to corrosion, but also because I really dig the black and gold color scheme on the PCBs. Unfortunately thats going to add like another $20 to the price so for this prototype version, I'll just go with regular old lead.</p>
+                <p>Speaking of price, how crazy is it that they'll send me 5 of these boards for only $12? How do they make money on this? </p>
+                <p>Anyway, after $20 DHL shipping from China and a $5 coupon, the JLCPCB total came out to $27.33.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vA0GjfL.png" alt="">
+                </div>
+
+                <p>Next, I ordered all of the discrete board components on Digikey. As you can see, the priciest thing here is the ATMEGA chip, which costs about $8 (I really hope I don't break it). I also grabbed a couple extra of the smaller resistors and capacitors in case I loose any while soldering later. </p>
+                <p>With shipping and tax, the Digikey order came out to $32.76.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4b2Vt5C.png" alt="">
+                </div>
+
+                <p>So adding all of this together, along with the cost of the Teensy, the Audio Shield, the OLED, and the silicone buttons, the total cost for this prototype comes out to <strong>$127.16</strong></p>
+                <p>Oof. That's kind of a lot, but honestly its not too bad for the early stages of a project like this. Hopefully I can use this prototype and grow the project to a  place where its intrinsic value more than makes up for this initial monetary cost. </p>
+                <p>Or at least that's what I keep telling myself.</p>
+                <p>If you're curious, or you want to follow along, or you just want to use some part of my design for a different project, the Digikey Bill of materials (BOM), all of the Eagle project files, board CAM files can be found at the Google Drive link  button below. </p>
+
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Synth V1 Hardware Files on Github</a>
+
+                <p>If you do use or modify any of the files, I'd love to know what you create with them! If you feel like sharing, hit me up via the contact page- I'd really appreciate it.</p>
+                <p>Anyway, with all the orders submitted, its just a matter of waiting about a week until all the parts start rolling in. I'll probably make the fabrication and software a separate page, so look out for that in the the near future!</p>
+
+                <a href="./portable-synth-v1-prototype.html" class="project-button">Check out Part 2!</a>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize highlight.js after the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+
+</html> 

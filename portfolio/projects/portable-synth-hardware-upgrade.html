@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portable Synth Hardware Upgrade | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Portable Synth Hardware Upgrade</h1>
+                <p class="project-subtitle">Funky fresh tech</p>
+            </header>
+
+            <section class="project-section">
+                <h3>20 October 2020 Update</h3>
+                <p>So it's been a while...</p>
+                <p>I got a little busy with school for a couple of months but my schedule has lightened up a little so I'm hoping I can jump right back in. The functional prototype from the last two parts served its purpose in helping me develop the software a little and debug problems, so now I'm thinking its time for another iteration on the hardware.</p>
+                <p>There's a lot of improvements I've been looking forward to making, including a more unique layout design, a better feeling  keyboard,  upgrades to the electronics, and more. </p>
+                <p>Lets start with the electronics.</p>
+                <h4>A New Power Supply </h4>
+                <p>In the prototype version of this device, I've been using a cheapo off the shelf power-bank circuit board (based on the HT4928S) to charge the device battery and and boost its voltage to the 5V needed by the rest of the components. This worked ok, but there were 2 big problems with doing it this way,</p>
+                <ol><li>The charging was slow. The power-bank board realistically had a maximum charge current  of 800mA. With a big ol' 4000maH battery on the device, it took more than 4 hours to charge the thing, which kinda sucks. This was made worse by the fact that there was no option to use the device and charge it at the same time</li><li>The  boost converter actually did ok in terms of current output (max around 1.2A) but its switching frequency was low enough that it was creating very noticeable noise in the audio signal, especially audio that was recorded through the microphone/line-in.</li></ol>
+                <p>To try and solve both of these issues, I decided to just try and a custom power supply. This way, I can get all the functionality I want without having to really compromise for premade solutions.</p>
+                <p>Here's what I have so far:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eqzHzGv.png" alt="">
+                </div>
+
+                <p>The datasheets of all the ICs I used are linked below, in case you want to follow along:</p>
+                <ul><li><a href="https://www.diodes.com/assets/Datasheets/ds31757.pdf">DMG9926 Dual N-Channel Mosfet</a></li><li><a href="https://cdn.sparkfun.com/assets/learn_tutorials/6/9/5/PAM2401.pdf">PAM2401 Boost Converter</a></li><li><a href="https://www.mouser.com/datasheet/2/308/NCP163_D-1101311.pdf">NCP163 LDO</a></li><li><a href="https://datasheets.maximintegrated.com/en/ds/MAX6775-MAX6781.pdf">MAX6775 Battery Monitor</a></li><li><a href="http://ww1.microchip.com/downloads/en/DeviceDoc/20002183E.pdf">MCP73113 LiPo Charger Controller</a></li></ul>
+                <p>Lets walk through it (mostly just so I don't forget how it works in a couple weeks).</p>
+                <h5>Power Switcher</h5>
+                <p>(Dropping in from the future to say this power switcher did not work and was left out entirely. Apparently I forgot how mosfets worked when I thought this up lol)</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/36KDXN3.png" alt="">
+                </div>
+
+                <p>First thing to note is the USB port and the DMG9926 dual N-Channel IC next to it. (In theory,) When a USB cable is plugged in, VUSB gets pulled to 5V and charges the gates of both of the MOSFETs in the DMG9926. As a result, MOSFET 1 allows current to flow from its Drain 1 to its Source 1, thereby connecting the device's power input (+5V) directly to USB power. MOSFET 2 also conducts, and pulls the ENable pin down to GrouND. When the USB is unplugged, both MOSFETs stop conducting. Device power is disconnected from USB power and EN returns to its default state.</p>
+                <p>Why is this important? Lets see what this EN signal actually does.</p>
+                <h5>Boost Converter</h5>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/oljCIAs.png" alt="">
+                </div>
+
+                <p>Take a look at the PAM2401 IC and its surrounding components. The PAM2401 is a 1.0MHz step-up dc-dc converter, and it is responsible for stepping up the 3.3V-4.2v from the li-po battery to a stable 5V for the other electronics to use. The datasheet isn't super clear on the maximum current output, but I know it can do at least 1A at 5V so that's good enough. The circuit for this one is copied almost exactly from one of <a href="https://www.sparkfun.com/products/14411">Sparkfun's lipo charger boards, linked here</a>. </p>
+                <p>There is one minor tweak, however. If you look closely, you can see that the enable signal from earlier feeds into one of the pins on this chip. This basically acts  an on/off for the step-up converter- when EN is high (which it is by default thanks to the pullup resistor R2 connecting it to battery voltage) the converter is active and boosting battery voltage to the necessary 5V. However, when EN gets pulled low (to Ground), for example when the USB is inserted and the DMG9926 connects EN directly to GND, the converter shuts off. We want the USB to be the primary power supply when it is plugged in, and automatically shutting off the converter keeps it from trying to competing with the USB power. When the USB is removed, EN returns to a high state and the converter resumes its duty.</p>
+                <h5>LDO </h5>
+                <p>Now the PAM2401 operates at 1MHz, and has a very low output ripple. Whatever noise is present is further reduced as it passes through the linear regulator on the Teensy, which drops the voltage down to 3.3V.  However, many devices will be sharing this 3.3V bus, so any noise injected into it by those components will find its way into our audio. In order to make absolutely sure we're delivering the cleanest possible power to our ADC, we'll be giving the  SGTL5000 its own separate power supply.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ZFVW4dM.png" alt="">
+                </div>
+
+                <p>This is done with a NCP163 LDO regulator, which linearly drops the 5V from the boost converter down to 3.3V for the codec IC. This LDO is specifically designed to have a very high power supply rejection ratio (PSRR) which makes it great at rejecting any small amount of noise that may be coming from the switching power supply. Take a look at the PSRR graph from the datasheet, which shows how much of the input ripple is attenuated at different frequencies.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KtAumPB.png" alt="">
+                </div>
+
+                <p>Since the SGTL5000 will be drawing at most around 7mA, this puts us somewhere between the the red and green curves. At the 1Mhz switching rate, this chart tells us we should expect somewhere around 55dB attenuation ratio. This means the amount of noise at the output will be approximately 562 times smaller than the noise at the input. I can live with that!</p>
+                <p>An interesting thing to note in this graph is that the noise rejection gets generally worse as the frequency increases. This seems to be the case with most linear regulators, but unlike others which experience almost complete dropoff by 1Mhz, the attenuation response for this one is relatively flat, and we get pretty good noise rejection even at the higher frequencies.  This, combined with the low price is the reason I chose this particular component. </p>
+                <h5>Battery Under-voltage Protection</h5>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6GQoNRB.png" alt="">
+                </div>
+
+                <p>Just below the boost converter is the MAX6775, everyone's favorite Low-Power, 1%-Accurate Battery Monitors in µDFN and SC70 Packages. This is actually a super simple device, but its important for keeping our device battery healthy. All it does is watch the battery voltage level and output a low signal when it falls below a particular value. The threshold level with some hysteresis is set by 2 external resistors. I've set the threshold value to 2.8V, which is way too low remind me to change that later. The output is connected to the EN pin from earlier. If we're using the device and the battery voltage drops below that threshold, the MAX6775 pulls EN low and shuts off the boost converter, preventing any more power being drained from the battery.</p>
+                <h5>Battery Charger</h5>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/xOD6Xpl.png" alt="">
+                </div>
+
+                <p>The last part of the power supply is the MCP73113 in the bottom left. This is the charge controller for the battery and is responsible for feeding USB power into the battery to charge it. The maximum charge current it can handle is only 1.1A, which is not a huge improvement but it was all I could find. I'll have to keep looking for an IC that handle more power and is also hand-solderable (that means no tiny VQFNs!).</p>
+                <h4>Audio Codec</h4>
+                <p>I recreated the Teensy Audio Shield in Eagle using the <a href="https://www.pjrc.com/store/teensy3_audio.html">schematic on the PJRC website.</a> There's nothing special I'm adding to this, but doing this allows me to build the audio stuff directly onto the device PCB without having to accommodate the actual awkwardly sized audio shield onto my board. All credit to the design definitely goes to PJRC, who were kind enough to make the schematics and everything available to the public. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/AUvGwa7.png" alt="">
+                </div>
+
+                <h4>FM Radio</h4>
+                <p>Wouldn't it be cool if this thing could sample from the radio? Maybe not, but my reasoning is that having a radio will let you put together sample kits and mess around when you you don't have an external device on hand to record a signal from. </p>
+                <p>I'll just make this an optional part.</p>
+                <p>I'll be using the barebones SI4703 breakout board from Sparkfun<a href="https://www.sparkfun.com/products/11083">, which can be found here.</a> This is one of those rare cases where the breakout board with all the supporting components is actually cheaper than buying the SI4703 chip by itself. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HzgxTdM.jpg" alt="">
+                </div>
+
+                <p>The board has left and right audio out, which I can just feed into the SGTL5000 codec's line-level input. A cool thing about the SI4703 is that it also reads Radio Data Service (RDS) and Radio Broadcast Data Service (RBDS) information, meaning we'll be able to get the station ID and song name to display.  The antenna for receiving the radio signals will either be the headphones cable itself (a popular solution), or maybe a long trace running around the board. I'll have to play around with that to see which option gets the best signal and avoids polluting the audio signal with noise.</p>
+                <h3>22 October 2020 Update</h3>
+                <h4>Bigger (Color) Display</h4>
+                <p>Quick update. I still have work to do drawing up the rest of the schematic, but I got my new display in the mail today and I had to try it out. </p>
+                <p>I've  been trying to stay away from LCDs, especially because most of the cheap ones have really ugly backlight bleed that ruins the look. So, for the moment I'm sticking with OLED displays for the sharpness and contrast but that obviously doesn't leave me with a lot of options. All of the OLED displays I can find (that can communicate to microcontrollers via SPI/I2C) have pretty low resolutions compared to their LCD counterparts, meaning I have 128x128 pixels or lower to work with. My current forerunner is this Waveshare 1.5" RGB OLED display, which is cheap enough at $20 for me to justify using.</p>
+                <p>You can get more details ate the Waveshare info page, linked below:</p>
+                <ul><li><a href="https://www.diodes.com/assets/Datasheets/ds31757.pdf">Waveshare SSD1351 Color OLED Display</a></li></ul>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lRDECrv.jpg" alt="">
+                </div>
+
+                <p>At 1.5" it's a bit bigger than the old display (0.96") and it's got twice the number of pixels (albeit a lower density). Plus, with the fact that it's RGB, hopefully I can use this to make some prettier graphics and UI. That's a little bit further down the road though.</p>
+                <p>One thing to note is that this is an SPI display, not I2C like the old one. The speed increase that comes with that is needed because we're sending way more data (RGB pixel values) per frame to the new one. The Teensy 4.1 fortunately has a second hardware SPI bus easily accessible, SPI1, and that's what I'll be using to control the display.</p>
+                <p>The driver IC for this display is the SSD1351. Adafruit has a nice library for this, but it works a little differently than the SSD1306 library I was using for the old display. One of the biggest differences for me (aside from the addition of color control) is that the library for the SSD1351 is not buffered. With the SSD1306 display, I could use clearDisplay() at the beginning of a refresh period, update all the data in the screen buffer, and the screen would update to the new data only when I commanded it to display(). With the new one, the screen data is sent out and updated continuously without a buffer, and clearing the clearing the display on every refresh period by making the screen black just makes the whole thing flicker between black and the displayed image. This is not really a big deal, I'll just have to change the way I do graphics in order to only update and clear the parts of the screen I need to change, instead of the whole thing at once.</p>
+                <h3>23 October 2020 Update</h3>
+                <h4>Improving Display Capability</h4>
+                <p>I discovered that that teensyduino actually comes with a SSD1351 library  that has a buffered implementation. This is way faster than the adafruit library and lets me do some really smooth animations, so I'm pretty happy.</p>
+                <p>I did have to convert the library to use the Teensy 4.1's SPI1 instead of the defaults SPI0. It wasn't super obvious right away how to do this, so I'll make sure to include the updated library header file (ssd1351.h) on the Github once I upload all the code. </p>
+                <p>An issue that came up was SPI clock speed. If I hadn't already made it clear, the Teensy 4.x is really fast, so the bottleneck for display update speed is actually the speed at which the processed data can be sent from the Teensy to the display. As a result, the faster we can get our SPI bus to go, the faster we'll be able to run the display. The library made a big deal of limiting the SPI clock speed to 18Mhz or 15Mhz, because apparently the display wouldn't respond above that. I messed around with this a little bit and found that my display actually worked with clock speeds up to 59Mhz (albeit with some minor glitches at high data rates) beyond which I was met with a blank screen. The highest I could go with no noticeable glitches was 39Mhz. </p>
+                <p>In the video below, you can see some the very brief color glitching that happens with the high 59Mhz clock speed. I'm running one of the example sketches that come with the library.</p>
+
+                <div class="project-video">
+                    <iframe src="https://www.youtube.com/embed/9l9qOcWZD8Y" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+
+                <p>Check out the SPI timing requirements from the SSD1351 datasheet: </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/e2aqdxL.png" alt="">
+                </div>
+
+                <p>These values are kind of ridiculous and don't seem to agree with the results I'm seeing with my board. For example, the minimum period of the SPI clock t_cycle, as required by the datasheet, is 220ns. At 59Mhz, I was successfully operating  at a clock period of 16.9 ns, which is more than 10 times faster than the rated amount! Note that my clock speed is also faster than the rated chip select hold time, and very close to the data write hold time.  I'm not sure why the datasheet is under-speced by such a degree but at least we can be glad that the given values are under rather than over reported. </p>
+                <p>You might be wondering whether the Teensy can even do SPI at 59Mhz, and that's a good question. The answer is kind of. Take a look at the waveform on the SCK (SPI Serial Clock) pin of the Teensy with the display attached.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VRA8NHB.png" alt="">
+                </div>
+                
+                <p>Ignore the frequency reading on the bottom left for now- my oscilloscope is software locked to 50Mhz (that is until the warranty runs out and I can illegally unlock it). If you just look at the waveform, it looks pretty horrendously rounded over, so I’m surprised it was even working as well as it was. The concern is whether the clock remains at a logic high or a logic low log enough for the system to detect it. As the clock waveform becomes more slanted and more rounded over, it begins to spend most of its cycle period in the rising or falling state rather than a definite high or low state. This is likely why the display would stop responding completely with clock speeds <em>above</em> 59Mhz. </p>
+                <p>Without the display connected, the waveform is much more square, with faster rise and fall times. I guess I’m pushing the limits of the hardware SPI on the Teensy, but it also looks like some impedance either &nbsp;from the long jumper wires I'm using to connect the display, or something on the display module itself is really loading the signal. Once I put the display on the final PCB and route it with short traces and a groundplane we will probably see a marginal improvement on the shape of this waveform. </p>
+                <h3>29 October 2020 Update</h3>
+                <h4>New Layout</h4>
+                <p>Here's what I got so far for the new layout. I think it's gonna look pretty cool once its put together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/7ubChAe.png" alt="">
+                </div>
+
+                <p>There's a couple of new features. In the bottom left, I've included a little two axis PSP thumbstick. I felt bad about not having any analog inputs on this thing for things like pitch bend or aftertouch, so this was my way of making up for it. My hope is to use this for pitch bend, modulation, or maybe even use it for panning the audio between channels. Speaking of which, the thumbstick is flanked on either side by 5 addressable RGB LEDs, to use as left and right channel level meters. If you remember, I used to just have 10 on the on the far left of the device, but I think this configuration will be both more visible, and more useful.</p>
+                <p>There are a lot more LEDs overall in this design, cause who doesn't like more blinky lights? Each of the 4 control encoders has a separate LED for indication, and the volume knob on the top right is partially encircled by 10 LEDs that act as a bar graph volume indicator. </p>
+                <p>Probably the biggest change from the last version is the buttons, and you'll notice there are far more buttons here than before. I decided to give these Gateron Low Profile mechanical switches a try this time around, and aside from the improvement to tactile feel, they free up a lot more room on the board because I no longer have to use the cantilever design to support the keys.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/O9LMY0F.jpg" alt="">
+                </div>
+
+                <p>These things are ridiculously cheap - each box of 12 switches costs just $4! The only disadvantage is that they ship from china I think, and it does take a few weeks to arrive. I ended up ordering 4 boxes for 48 switches total, 47 of which will be used by the proposed layout above.</p>
+                <p>These red ones are quiet (linear) travel, have a relatively low actuation force of 45 grams, and a travel distance of just 4mm. These three parameters were really important for me while deciding what switches to use for this device. If you remember my whole keyboard journey from Part 1, you'd know I tried a lot of different ways to make sure the keys weren't too difficult to press, too slow to actuate, and didn't make distracting clicky noises when moving around the keyboard quickly. I'm glad to have discovered these switches because they seem to solve a lot of the issues I was trying to solve. Moreover, while they are a little bulkier (and unfortunately more thru-hole) than the previous silicone buttons I was using, they are far more reliable. A big problem with the silicone buttons was that sometimes if you pressed too lightly, the input would not be registered or would be intermittently registered. The new mechanical switches on the other hand, use copper contacts that are pretty foolproof.</p>
+                <p>They're honestly not even that much bulkier than my previous solution. You can see that the height of one of these switches is pretty close to the current thickness of the device. With the keycaps attached, it'll be at most 5mm thicker than this, and I think that's reasonable. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/suTlIHM.jpg" alt="">
+                </div>
+
+                <p>They are thru-hole components though, which is not ideal because its gonna take up a lot of the room on the bottom of the board that I could have used for the there electronics. So it's gonna be a tight fit once I actually start laying this thing out.</p>
+                <p>You can find these switches at the link below:</p>
+                <ul><li><a href="https://www.diodes.com/assets/Datasheets/ds31757.pdf">Gateron Low Profile Mechanical Switches</a></li></ul>
+                <h3>30 October 2020 Update</h3>
+                <h4>Inputs</h4>
+                <p>Now that I know what kind and how many of each control inputs I want to have on the device, I can move on to laying out the schematic for that section.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HHWz0bR.png" alt="">
+                </div>
+
+                <h5>Button Matrix</h5>
+                <p>In the lower half of the image, you can see the grid of 47 buttons we'll be using. These are single multiplexed, a commonly used scheme that lets us read an n x n amount of buttons with just 2n pins of our microcontroller. In my case, I've created a 7 x 7 grid (with 2 missing) so I can read 47 buttons with just 14 pins. I didn't do this in the last version of this board but that's mainly because that one had far fewer buttons. With the increased number of inputs on this board, multiplexing becomes a necessity because pins don't come cheap, and if we wanted a microcontroller to directly read the 47 buttons, it would get expensive.</p>
+                <p>In each switch footprint, I've also left a place for a little SMD diode, which is required for preventing crosstalk.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zzdwvsP.png" alt="">
+                </div>
+
+                <h5> Input Processor</h5>
+                <p>Probably the most important part of this section is what I'm calling the input processor. This is a microcontroller whose job is to read every single digital user input on the board and deliver it to the Teensy in a nice, readable way. This way, I can offload the time-consuming tasks of scanning through inputs and listening for encoder pulses and also avoid eating up all the available pins on the Teensy just to read the inputs. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/dWPnjzs.png" alt="">
+                </div>
+
+                <p>Last time I used the ATMEGA64L, mainly because it had a lot of digital pins which I could use to read all of the buttons. It was kind of expensive though, at nearly $8 per chip, and it was pretty confusing to get set up the first time. </p>
+                <p>This time I'm going with a chip that's a little more accessible and much more capable: the (relatively) brand spanking new  ATMEGA4809, better known as the chip on the new Arduino Nano Every board. Aside from being quite inexpensive at less than $2 per chip, one of the biggest reasons behind my choosing this particular chip was that it's capable of external interrupts on every one of its pins. External interrupts are primarily useful for reading the encoders, and since there are 4 quadrature encoders on this board, I need a total of 8 interrupt capable pins to monitor them. The ATMEGA64 only had 6 free interrupt capable pins, so I wouldn't have been able to add that fourth encoder had I stayed with that microcontroller.</p>
+                <p>I'm using the 48 pin version of the ATMEGA4809 here and you can see it has more than enough pins to do everything I need it to. One thing to note is that Atmel ditched the ISP programming for this chip. Instead, the bootloader and the program can be flash onto the chip using a protocol that's a little less pin-hungry known as UPDI (Unified Programming and Debug Interface) which uses just 3 pins for programming. We'll see how well I can make this work once I get the finished boards.</p>
+                <p>You can find the datasheet for this chip at the link below</p>
+                <ul><li><a href="https://www.diodes.com/assets/Datasheets/ds31757.pdf">ATMEGA4809</a></li></ul>
+                <h4>Teensy + Blinky Lights</h4>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/nT5LlLu.png" alt="">
+                </div>
+
+                <p>In the very wide picture above, you'll see the Teensy along with a lot of different LEDs. Starting from the left, we have the volume control potentiometer and the LM314 IC that will generate an LED bar graph showing the volume level. To the right of that is the header for the radio module, the Teensy 4.1 itself, with all of its various ins and outs, followed by the OLED display header, and the 4 LEDs that correspond to each of the 4 encoders. All the way on the right are the 10 neopixel nano LEDs that will make up the little level meter on either side of the joystick.</p>
+                <p>Speaking of which, you'll maybe notice that the joystick is nowhere to be found in these schematics. That's because I haven't been able to find a lot of dimensions and footprint information on the particular PSP style thumbstick I intend to use. I've placed an order for one, and I'll update the schematic and PCB once I can make the measurements myself.</p>
+                <p>Again, datasheets are below:</p>
+                <ul><li><a href="https://www.ti.com/lit/ds/symlink/lm3914.pdf">LM3914 LED Bar Graph Driver</a></li><li><a href="https://cdn-shop.adafruit.com/product-files/3484/3484_Datasheet.pdf">Neopixel Nano Addressable LEDs</a></li></ul>
+                <h4>Bringing it All Together</h4>
+                <p>With all the individual bits and pieces done, we can now put everything together and start working on the final board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/She0WlT.png" alt="">
+                </div>
+
+                <p>Not too shabby, if I do say so myself. Now, using the CAD model as a reference, I have to start laying out where everything is going to go on the PCB, and routing all the connections between the individual components.</p>
+                <p>This might take a while... </p>
+                <h3>4 November 2020 Update</h3>
+                <h4>PCB Layout</h4>
+                <p>And... done! Behold the finished PCB layout in all its painstakingly manually routed glory.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/aJK405N.png" alt="">
+                </div>
+
+                <p>I did make a couple of changes to the schematic from earlier while I was doing the layout, mainly to make things more convenient for routing now or soldering later on. There were also a few connections I had to change. As usual, I'll upload all the board files to Github once I finalize them.</p>
+                <p>Here are a couple renderings of the top and bottom of the board. I tried to limit the amount of silkscreen text on the top side of the board, because a lot of it it will be visible once everything is put together. This unfortunately means there's a couple of  LEDs and resistors with no silkscreened component designators- guess I'll just have to remember not to mix them up.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SXPWJT5.png" alt="">
+                </div>
+
+                <p>Obviously most of the action is happening on the right side of the board. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/RbCDRYq.png" alt="">
+                </div>
+
+                <p>One  thing to note is the integration of the antenna for the FM radio module. It might be kind of hard to see but if you look to the yellow outline in the picture below, you might be able to make out the place where the sparkfun radio module solders in and then a long winding blue trace at the bottom of the board. This was my attempt to bake the FM receiver antenna right into the board instead of having to use an external wire. The total length of this long blue trace is around 75 cm, which is roughly the quarter wavelength required for the FM band. I don't know anything about RF so I have no idea if this is gonna work, especially because I'm coiling the antenna back and forth instead of having it in a straight line. In case it performs poorly, I've also included a cuttable jumper that'll allow me to easily disconnect the board antenna and just solder in a long piece of wire.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WzDpTfW.png" alt="">
+                </div>
+
+                <p>Of course, here is the board with the ground planes poured. Notice I left a neat little cutout in the ground plane right above the antenna, to avoid accidentally building a faraday cage around it. Again, I don't really understand how antennas work but it just seemed like the right thing to do.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/x8QEMV7.png" alt="">
+                </div>
+
+                <h4>Back to CAD</h4>
+                <p>A cool feature in Eagle is that it lets us push the PCB design right into Fusion 360. Here, as a sanity check, I can see how the PCB I just finished designing fits together with the layout I had from earlier. </p>
+                <p>Et viola!</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fPn7vsO.png" alt="">
+                </div>
+
+                <p> Looks like everything is in the right place! </p>
+                <p>Another thing this lets me check is any possible mechanical interferences that result from the way the PCB is laid out. One thing that jumps out at me right away is the SD card holder on the Teensy board.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eErFTic.png" alt="">
+                </div>
+
+                <p>Uh oh, looks like the Teeny being right next to that button is gonna prevent  the user from being able to easily insert or remove the  micro SD card. This is not a huge problem. I don't really want to move things around on the board, because that would mean redoing a lot of the routing, so I think I'll just try to replace the sd card reader on the Teensy with one of these hinged versions.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/UX5vy3X.jpg" alt="">
+                </div>
+
+                <p>This way you'd be able to just load it in from the top. It's not the most elegant fix, but I'm ready to be be done with this.</p>
+                <h3>6 November 2020</h3>
+                <p>The orders are in!</p>
+                <p>But at what cost do all these new features come at? Lets do a quick calculation, shall we? </p>
+                <p>The BOM cost from digikey came out to $53.57. This is a bit more than twice as much as the last version, but it hasn't really been optimized yet. I'm sure I can bring that number down by a few dollars if I really try.</p>
+                <p>I ordered the PCBs from JLCPCB, which cost me $13.50 for 5 boards, or $2.70 per board.</p>
+                <p>In addition to those, I also bought</p>
+                <ul><li>A new Teensy 4.1 and 2 PSRAM chips from PJRC - $29.25</li><li>The waveshare OLED display from Amazon - $21.99</li><li>48 low profile mechanical switches from Keychron- $16</li></ul>
+                <p>Adding all that up, the total cost for one of these V2 boards comes out to.... </p>
+                <h4>$<strong>123.51!</strong> </h4>
+                <p>(that might vary)</p>
+                <p>How cool is that? It's actually a little cheaper than the last version! Of course, this doesn't take into account the time you'd spend assembling it and 3D printing the keys and the enclosure.</p>
+                <p>As usual, you'll be able to find all the Eagle board files, PCB cam files for sending to your favorite PCB manufacturer, and the CAD models on the github.</p>
+                <p>I don't want to upload all these files just yet, in case there's something that's not designed correctly. I still need to assemble and test everything but once I do, you should be able to see a link down below.</p>
+                <p>Edit: The files are on Github! You'll be able to find that at the button below.</p>
+                <a href="https://github.com/prajwal1121/Portable-Synth" class="project-button">Board Files on Github</a>
+                <br>
+                <a href="./portable-synth-v2.html" class="project-button">Check out Part 4!</a>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 

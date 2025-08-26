@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Knife | Prajwal Mahesh</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <a href="../index.html">Prajwal Mahesh</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../index.html">home</a></li>
+            <li><a href="../projects.html">projects</a></li>
+            <li><a href="../about.html">about</a></li>
+            <li><a href="../contact.html">contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-projectpage">
+        <article class="project-content">
+            <header class="project-header">
+                <h1>Kitchen Knife</h1>
+                <p class="project-subtitle">Can't have enough</p>
+            </header>
+
+            <section class="project-section">
+                <p>I got the knife making itch again. On a whim, I went ahead and bought some 1/8" thick O1 tool steel bar stock from McMaster.</p>
+                <h2 >Design</h2>
+                <p>I've made some knives before (<a href="./hidden-tang-clip-point-knife.html" target="_blank" rel="noreferrer noopener">check out this page</a>) using just hand tools. They've turned out alright, but the complexity had been limited by what I could achieve with hand saws and files. Now that I'm on campus though, with access to big CNC machine tools, I think I can try for some more interesting geometries.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/IcB6dzI.png" alt="">
+                </div>
+
+                <p>The above is a design I adapted from The Cooking Guild's <a href="https://www.thecookingguild.com/products/onyx-special-edition-hanta" target="_blank" rel="noreferrer noopener">Onyx Hanta</a>. I didn't know if this was a particularly useful shape for the kitchen, but at the very least it would be a cool looking blade. The profile of the blade and handle is similar to the Hanta, but the bevel geometry and overall composition is adapted to suit the materials and resources I had on hand.</p>
+                <p>First up, I shortened the actual length of the steel used. Instead of a full tang spanning the entire length of the handle, I cut it off around 2/3 of the total length. The remainder of the length up to the hilt is made up by a stainless steel spacer piece. This is because the kiln I am using for heat treating is quite small, and I wouldn't be able to fit a piece of steel that stretched the full length of the knife. This shorter tang doesn't compromise the strength or durability of the knife and still has enough area to hold everything securely together.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gGRjJ4V.png" alt="">
+                </div>
+
+                <p>Second, I made this into a single-bevel knife. This means that unlike most western knives, where both sides of the knife taper symmetrically towards the cutting edge, only one side would taper while the other remained flat. This is more common in Japanese chefs knives, but I just chose it here so that I wouldn't have to flip the knife over to machine the other side.</p>
+                <p>Third, instead of a flat grind for the bevel, I chose to do an S-grind on top of primary hollow grind. A primary hollow grind refers to the overall curved shape of the bevel, this part here:</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/zdlrvln.png" alt="">
+                </div>
+
+                <p>The s-grind is the additional smaller hollow put through the center. Theoretically, air can slip through this gap and prevent food from sticking to the knife as it cuts.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/p87iXWA.png" alt="">
+                </div>
+
+                <p>You don't see either of these on most knives and that's because they tend to be more difficult to manufacture at scale or even make by hand. I'm getting impractical and weird with the shapes here, and I can do that because this is a one off part. The 3D profiles of this bevel will be cut by a robot very accurately but also very slowly.</p>
+                <p>The secondary bevel is a steeper bevel that goes right up to the edge of the knife and it is what actually forms the sharp cutting edge off the knife. For ease of manufacturing now and for ease of sharpening later, this is ground in on top of  the primary bevel. This won't be machined, and Ill form this part by hand using sharpening stones.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2wQpyzh.png" alt="">
+                </div>
+
+                <p>The end of the knife here is really thin and I was a little bit concerned while laying this out in CAD. The primary bevel tapers down to around 0.3mm here near the edge and while this makes it easier to form that secondary bevel, I was worried that this might just roll over while cutting. </p>
+                <p>Either way, this would be a good way to find out.</p>
+                <p>This particular blade was going to use a little under half the tool steel I had bought. This was going to be a practice run for two other, more practical knives. My main goal for this knife build was to test out fixture and machining processes, and see how resilient or practical the single bevel s-grind geometry is. </p>
+                <h2 >Fabrication</h2>
+                <p>Time to cut some metal. </p>
+                <p>All the parts of this knife were designed and laid out so that they could be cut out in a single setup on the CNC mill. Even so, this tool steel is not a trivial material to chew through and some preperations and precautions are in order to make sure everything goes smoothly.</p>
+                <h3 >Fixturing</h3>
+                <p>One of the most important steps to making sure the machining goes well is to make sure the part is held in place securely. Since I would be machining the top surface and entire side profile of the steel, I couldn't hold it directly in the machine vice.</p>
+                <p>Instead, I needed a fixture plate that could be mounted in the vice and would rigidly hold my stock material while it was machined on all sides. To make this, I set up a large plate of aluminum in the vice and used a face mill to bring the top surface parallel to the mill table.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2ID5MeJ.jpg" alt="">
+                </div>
+
+                <p>Using some superglue, I stick my knife steel down on this freshly machined surface. Instead of gluing directly, I used this trick I learned on Youtube where both pieces of metal are first covered in masking tape before glue is applied between them. This gives a joint that's much easier to separate and clean up when this is done.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/rpPeJjo.jpg" alt="">
+                </div>
+
+                <p>Obviously superglue will not hold onto this part throughout the entire machining process, especially with coolant spraying all over it. However, it will hold long enough for us to drill and tap some holes for fasteners. The locations for these fixturing screws are laid out in CAM so that we can know where they end up relative to the knife profile.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qQtb45o.png" alt="">
+                </div>
+
+                <p>These holes are drilled and tapped for 1/4-20 machine screws. These will rigidly clamp the stock to the fixture plate and keep it from moving during any of the machining steps. I used the holes in the handle portion of the knife and added several additional fasteners above the spine of the knife. In retrospect, I should have added some screws to clamp down the bottom as well because there was some deflection in this area while cutting the bevel geometry.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ET4TOxF.jpg" alt="">
+                </div>
+
+                <h3 >Machining</h3>
+                <p>The next steps after fixturing was to create the 3D contours of the bevel geometry. This was done using a 3/8" ball nosed endmill.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/89LSlqr.png" alt="">
+                </div>
+
+                <p>The process begins with some coarse roughing cuts followed by finishing toolpaths that use fine stepovers to bring the blade to it's final shape.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/6b6Nt8z.jpg" alt="">
+                </div>
+
+                <p>This went mostly well except for some very aggressive plunge movements that I didn't catch in the simulation. These ball nosed cutters don't do well when trying to cut straight down into material, so I ended up burning one cutter. I adjusted the toolpaths to be much more conservative and finished the rest of the operation without problems.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/5e71OO6.jpg" alt="">
+                </div>
+
+                <p>Last up was the outside profile. This was pretty straightforward and it separated the finished knife blank from the parent stock material with a few passes at increasing depth.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3oCKx2Y.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ErCGyOv.jpg" alt="">
+                </div>
+
+                <p>Here it is removed from the fixture plate and cleaned off. I may have used too coarse of a stepover in the finishing passes—this in conjunction with some minor deflection left visible tool marks on the bevel I needed to remove.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WTRHI8G.jpg" alt="">
+                </div>
+
+                <p>I did a little bit of sanding on the bevel and on the outer profile to remove any tool marks, chatter, and interpolation edges I could find. I was hoping I could get it perfect right off the machine, but this postprocessing wasn't all that much work either.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/20CQr2w.jpg" alt="">
+                </div>
+
+                <p>This is the result after sanding. The surface looks a lot more consistent and we can see the geometry of the bevel highlighted by the reflections of the light.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/h5zqS7W.jpg" alt="">
+                </div>
+
+                <h3 >Heat Treating</h3>
+                <p>So far, this steel has been in its annealed state. It's soft and easy to cut or deform. To be able to use this knife as a tool with a sharp, long lasting edge, I need to increase its hardness and wear resistance. This is where heat treating comes in. </p>
+                <p>O1 tool steel—what this blade is cut from—is so called because it's an oil hardening steel. By heating it to a critical temperature (in this case 1500F) and quenching it in oil to cool it quickly, we alter the crystal structure of the steel and the locations of the dissolved carbon atoms. This process will make the blade hard but also very brittle and prone to breakage. I can then temper the blade by heating it to a lower temperature (400F) for several hours to sacrifice some hardness and regain some toughness.</p>
+                <p>I had found a little electric furnace that someone had thrown out earlier this year and I had restored it to functioning order. It's quite small and has a maximum temperature of 2200F, so I've just been using it for low-fire ceramic clay up until now. Lucky for me, it's temperature range was also perfect for heat treating this tool steel. </p>
+                <p>I bent a little wire stand to support the knife inside the kiln.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/3SXCvbG.jpg" alt="">
+                </div>
+
+                <p>I also set up this little container full of used cooking oil to dunk the knife in when it came out of the furnace.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/uUPwUII.jpg" alt="">
+                </div>
+
+                <p>Before quenching the knife, I heated up some scrap pieces of steel and tossed them in the oil to preheat it. This lowers the viscosity of the oil and allows it to pull heat away from the blade more evenly and effectively.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fhymzPg.jpg" alt="">
+                </div>
+
+                <p>The process was quick and I didn't manage to get any pictures during the actual quenching, but here is what it looked like out of the oil. The oxidation and scaling was minimal, mostly down near the handle. The pattern that was left on the blade from the oxidation and polymerized oil was actually pretty rad. I was initially planning on sanding this off and having a shiny metal finish, but I couldn't bring myself to remove this after I saw it.</p>
+                <p>This finish was pretty durable, so I decided to keep it for the time being.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/vAnFFuM.jpg" alt="">
+                </div>
+
+                <p>Sadly, during the quenching there was considerable warping of the blade. This was not unexpected—as a single bevel knife, the blade is very asymmetric and the unbalanced forces from rapid cooling during quenching pulled the blade around. </p>
+                <p>I thought I might have to start over at this point but there was some hope of restoring this. I carried on and did a few tempering cycles inside my oven at 400F. I was partially hoping that this also would help relieve some residual stresses and straighten things out. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sAwRUYr.jpg" alt="">
+                </div>
+
+                <p>That didn't totally fix the problem on its own, so it was time to take some more drastic measures. I set up some dowels in a vice and tried to incrementally bend the deformed areas back to the right shape.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Rwped8I.jpg" alt="">
+                </div>
+
+                <p>It took some serious deflection, but I did manage to successfully straighten everything out. I didn't see any cracks or any sort of damage from the bending so I think I'm in the clear.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/OFQk3CC.jpg" alt="">
+                </div>
+
+                <p>I'm very glad this worked—I wasn't looking forward to sitting in front of the mill for another few hours machining everything all over again.</p>
+                <h3 >Handle Stock Preparation</h3>
+                <p>I went to Rockler to find some interesting wood to make the handle out of. The most figured, visually appealing pieces I could find were these small sections of zebrawood (top) and bocote (bottom).  They weren't totally ideal because these pieces were only 1/8" thick, but I had to get them because they were cool looking. Obviously this was a little too thin for the handle.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/lBHJcOL.jpg" alt="">
+                </div>
+
+                <p>I figured an easy way to increase the thickness would be to laminate them with another material. Sometimes knifemakers do this with fiberglass board, but I chose stainless steel because I thought it would look neat where the wood tapered down to reveal the metal underneath. Moreover, having a stain-resistant, non-porous material where the handle meets the blade would make it a lot easier to clean.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/I4gIriq.png" alt="">
+                </div>
+
+                <p>The bocote was a little too orange for my taste so I decided to stick with the zebrawood. I laser cut some templates and used them to outline the areas of the wood I wanted to use.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/KihHQH0.jpg" alt="">
+                </div>
+
+                <p>Once these were roughly cut out, I wanted to try and stabilize them with resin. The zebrawood was a little soft and susceptible to dents and scratches, so I was hoping that infiltrating them with resin would make them a little tougher.</p>
+                <p>I'm poor and I didn't want to buy actual stabilizing resin (that cactus juice is expensive!) for this small one-off piece so I tried to make a substitute using a long cure time epoxy and some acetone to thin it out.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/mpGRNZy.jpg" alt="">
+                </div>
+
+                <p>The wood pieces were submerged in the mixture, weighed down, and left in a vacuum chamber to suck out as much air as possible. When the air was allowed back in the atmospheric pressure would theoretically push the thinned epoxy resin into the wood to fill open pores.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/A6HDodd.jpg" alt="">
+                </div>
+
+                <p>The epoxy was still quite viscous, so I wasn't totally convinced it would be able to make it inside even these thin pieces. I checked a cross section of a test piece under a microscope and it seems to have worked. You can see that all of these open pores in the wood are filled with the translucent white epoxy.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2Gbkm6A.jpg" alt="">
+                </div>
+
+                <p>I removed the pieces from the vacuum chamber, positioned them on the stainless steel piece, and clamped everything up while the epoxy cured.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0CWfT9l.jpg" alt="">
+                </div>
+
+                <h3 >Fabricating Knife Hardware</h3>
+                <p>While waiting for the epoxy to harden, the hilt piece is machined out of anther piece of 1/8" stainless steel plate.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/wdLcRoj.png" alt="">
+                </div>
+
+                <p>I used the same method as earlier to locate and attach the stock to a fixture plate using some 1/4-20 screws. The simple 2D profile and was cut with a 1/4" flat endmill. It may have been quicker to do this with a waterjet or laser cutter but those would require more handwork and post processing anyway.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gcDyvcv.jpg" alt="">
+                </div>
+
+                <p>To make the decorative pins that pass through the handle of the knife, I cut short sections of 1/4" stainless steel tubing and filled them with epoxy. I dyed the epoxy heavily with carbon black for a flat, opaque coloring.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/v2HMGVD.jpg" alt="">
+                </div>
+
+                <h3 >Machining the Handle</h3>
+                <p>Once all the epoxy in the handle stock had cured and hardened up, it was ready to be machined.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/2XLSEUZ.jpg" alt="">
+                </div>
+
+                <p>A drill pattern is first used to position the holes in both handle pieces. Like before, these holes also serve to accept 1/4-20 screws that clamp the stock to the fixture plate underneath for the next machining operations.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sCLlRLx.png" alt="">
+                </div>
+
+                <p>After fixturing, I first use a 1/8" flat endmill to cut most of the outside profile. This clears away a lot of the excess material so that the ball nosed endmills can work more effectively in later steps. For efficiency, I use two toolpaths to cut the wood and stainless steel sections, because I can move the endmill a lot faster through the wood than the metal.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/H0GWEJA.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/QJ6m6s9.jpg" alt="">
+                </div>
+
+                <p>The rough contouring is up next, and this is done with a flat 3/8" endmill. This won't leave a very nice finish, but it will be able to remove the bulk of the material faster than the ball nosed endmill.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/Cf3V1r4.png" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/LjjT3GL.jpg" alt="">
+                </div>
+
+                <p>Finally, a 3/8" ball nosed endmill is used to remove the last bit of material and leave a nice finish on both materials</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/0ShRBj4.png" alt="">
+                </div>
+
+                <p>We can see the ball mill at work on the right hand side, smoothing out the rough faces left by the previous operation.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/BFjg4rM.jpg" alt="">
+                </div>
+
+                <h2 >Assembly</h2>
+                <p>After many many hours of machining, all parts are made.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/eQY73FD.jpg" alt="">
+                </div>
+
+                <p>I roughed up all mating surfaces and applied a layer of epoxy  to all pieces</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SqD668R.jpg" alt="">
+                </div>
+
+                <p>With some finagling, I got everything lined up and pushed the pins through their designated holes using a press. All the holes were sized for a light press fit with the pins, so once these were in, the friction held everything in place without the need for clamping.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/YUL9H1r.jpg" alt="">
+                </div>
+
+                <h2 >Hand Finishing</h2>
+                <p>I don't know how it happened, but I did get a small amount of misalignment with the handle scales. I was hoping I wouldn't have to do this but it looked like I needed to do some handwork to shave things down and reshape a little.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/SV7YRQq.jpg" alt="">
+                </div>
+
+                <p>The belt sander made quick work of the top. I removed just enough material to make everything line back up.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/sD2oeBn.jpg" alt="">
+                </div>
+
+                <p>For the concave underside, I had to use a file and some elbow grease. The tang of the blade was actually too hard for this file to cut it, so I had to use an abrasive wheel on a dremel to bring that part in flush. </p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/HbvUWCh.jpg" alt="">
+                </div>
+
+                <p>Once everything matched up and looked the way I wanted, I used sandpaper wrapped around a mandrel to clean up the file marks and pretty up the sides of the handle</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/4vAF8SZ.jpg" alt="">
+                </div>
+
+                <p>The wood also got some sanding to make the surfaces smooth and consistent with one another. I made sure to mask off the metal to avoid scratches and gave special attention to the angled portions so I could maintain a clean edge.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gNVeMzp.jpg" alt="">
+                </div>
+
+                <p>I also filled the gap between the tool steel tang and stainless steel hilt piece with epoxy dyed black to match the handle pins. When designing this gap, I intentionally made it larger than it needed to be because I wanted it to look like a conscious design choice rather than an accident. This is here to make that transition look purposeful.</p>
+                <p>This gets sanded flush to the handle edge after the epoxy finishes curing.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WDowgcR.jpg" alt="">
+                </div>
+
+                <p>The wood got a clear, wipe-on, epoxy finish. This will make the scales harder, more resilient to physical damage, and less vulnerable to soaking up cooking juices.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/fhnOkve.jpg" alt="">
+                </div>
+
+                <h2 >Complete</h2>
+                <p>All done! I put the secondary bevel on using my worksharp guided sharpening stones and the knife was ready to start cutting.</p>
+                <p>Enjoy this gallery of the finished product.</p>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/pXX8wH1.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/ExK3Zv3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/qZCq1qR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/CdFrk9O.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/WBllaB3.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/gCUp1PR.jpg" alt="">
+                </div>
+
+                <div class="project-image">
+                    <img src="https://i.imgur.com/VBEPkG0.jpg" alt="">
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Copyright 2025 Prajwal Mahesh</p>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+</body>
+
+</html> 
