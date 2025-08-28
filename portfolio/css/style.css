@@ -496,7 +496,7 @@ footer {
         top: 10vw;
         left: 0;
         right: 0;
-        bottom: 10vw;
+        bottom: 0;
         background-color: white;
         flex-direction: column;
         align-items: center;
@@ -553,25 +553,50 @@ footer {
 
     .project-header h1 {
         font-size: 2em;
+        text-align: left;
+        margin: 0 0 5vw 0;
     }
     
     .project-section h2 {
         font-size: 1.5em;
+        text-align: left;
+        margin: 0 0 5vw 0;
     }
-    
+
+    .project-section h3 {
+        font-size: 1.2em;
+        text-align: left;
+        margin: 0 0 5vw 0;
+    }
+
+    .project-section h4 {
+        font-size: 1.1em;
+        text-align: left;
+        margin: 0 0 5vw 0;
+    }
+
+    .project-section h5 {
+        font-size: 1em;
+        text-align: left;
+        margin: 0 0 5vw 0;
+    }
+
     .project-section p {
         font-size: 1em;
         text-align: left;
+        margin: 0 0 5vw 0;
     }
     
     .project-section ul {
         font-size: 1em;
         padding-left: 5vw;
+        margin: 0 0 5vw 0;
     }
-    
-    /* Hide hover image on mobile */
-    #hover-image-container {
-        display: none;
+
+    .project-section ol {
+        font-size: 1em;
+        padding-left: 5vw;
+        margin: 0 0 5vw 0;
     }
     
     /* Bottom navigation adjustments */
@@ -608,6 +633,31 @@ footer {
         max-width: 95vw;
         margin-top: 20px;
     }
+
+    #hover-image-container {
+        top: 6.5%;
+    }
+
+    #hover-image-container img {
+        max-height: 26vh;
+    }
+
+    .main-intro h3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-intro h3 br + span {
+        font-size: 0.8em;
+        color:rgb(150, 150, 150);
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
 }
 
 /* Extra small devices (phones, 480px and down) */
@@ -627,10 +677,15 @@ footer {
     }
     
     #hover-image-container {
-        top: 20%;
+        top: 6.5%;
     }
     
     #hover-image-container img {
-        max-height: 40vh;
+        max-height: 26vh;
     }
 }
+
+body.no-scroll {
+    overflow: hidden;
+}
+

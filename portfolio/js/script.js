@@ -41,17 +41,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Hamburger menu functionality
     if (hamburgerMenu && navLinks) {
+        const body = document.body;
+        const navLinksItems = navLinks.querySelectorAll('a');
+        
         hamburgerMenu.addEventListener('click', function() {
             hamburgerMenu.classList.toggle('active');
             navLinks.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+            if (hamburgerMenu.classList.contains('active')) {
+                window.scrollTo(0, 0);
+            }
         });
         
         // Close menu when clicking on a link
-        const navLinksItems = navLinks.querySelectorAll('a');
         navLinksItems.forEach(link => {
             link.addEventListener('click', function() {
                 hamburgerMenu.classList.remove('active');
                 navLinks.classList.remove('active');
+                body.classList.remove('no-scroll');
             });
         });
         
@@ -60,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!hamburgerMenu.contains(event.target) && !navLinks.contains(event.target)) {
                 hamburgerMenu.classList.remove('active');
                 navLinks.classList.remove('active');
+                body.classList.remove('no-scroll');
             }
         });
     }
